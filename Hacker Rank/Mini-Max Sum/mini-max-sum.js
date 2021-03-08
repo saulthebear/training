@@ -24,8 +24,10 @@ function readLine() {
 
 // Complete the miniMaxSum function below.
 function miniMaxSum(arr) {
-
-
+    arr.sort();
+    let min = arr.slice(0, arr.length - 1).reduce((a,b) => a+b, 0);
+    let max = arr.slice(1, arr.length).reduce((a,b) => a+b, 0);
+    console.log(min + ' ' + max);
 }
 
 function main() {
