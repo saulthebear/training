@@ -6,23 +6,23 @@
 // Test.assertEquals(duplicateEncode("(( @"),"))((");
 
 // Refactored to use Mocha & Chai
-const chai = require("chai");
+const chai = require('chai');
 const assert = chai.assert;
 chai.config.truncateThreshold=0;
 
-const solution = require('./solution.js')
+const solution = require('./solution.js');
 
-describe("Duplicate Encoder", function(){
-    it('should succeed with no duplicates', function() {
-        assert.equal(solution.duplicateEncode("din"), "(((");
-    });
-    it('should succeed with duplicates', function() {
-        assert.equal(solution.duplicateEncode("recede"), "()()()");
-    });
-    it('should ignore case', function() {
-        assert.equal(solution.duplicateEncode("Success"), ")())())");
-    });
-    it('should work with non-alphabetic characters', function() {
-        assert.equal(solution.duplicateEncode("(( @"), "))((");
-    });
+describe('Duplicate Encoder', function() {
+  it('should succeed with no duplicates', function() {
+    assert.equal(solution.duplicateEncode('din'), '(((');
+  });
+  it('should succeed with duplicates', function() {
+    assert.equal(solution.duplicateEncode('recede'), '()()()');
+  });
+  it('should ignore case', function() {
+    assert.equal(solution.duplicateEncode('Success'), ')())())');
+  });
+  it('should work with non-alphabetic characters', function() {
+    assert.equal(solution.duplicateEncode('(( @'), '))((');
+  });
 });

@@ -9,17 +9,17 @@ let inputString = '';
 let currentLine = 0;
 
 process.stdin.on('data', function(inputStdin) {
-    inputString += inputStdin;
+  inputString += inputStdin;
 });
 
 process.stdin.on('end', function() {
-    inputString = inputString.split('\n');
+  inputString = inputString.split('\n');
 
-    main();
+  main();
 });
 
 function readLine() {
-    return inputString[currentLine++];
+  return inputString[currentLine++];
 }
 
 /*
@@ -30,32 +30,34 @@ function readLine() {
  */
 
 function birthdayCakeCandles(candles) {
-    // Write your code here
-    console.log(candles);
-    let max_height = 0;
-    let count = 0;
-    for(let i = 0; i < candles.length; i++) {
-        if(candles[i] > max_height) {
-            max_height = candles[i];
-            count = 1;
-        } else if (candles[i] === max_height) {
-            count++;
-        }
+  // Write your code here
+  // TODO
+  console.log(candles);
+  let maxHeight = 0;
+  let count = 0;
+  for (let i = 0; i < candles.length; i++) {
+    if (candles[i] > maxHeight) {
+      maxHeight = candles[i];
+      count = 1;
+    } else if (candles[i] === maxHeight) {
+      count++;
     }
-    
-    return count;
+  }
+
+  return count;
 }
 
 function main() {
-    const ws = fs.createWriteStream(process.env.OUTPUT_PATH);
+  const ws = fs.createWriteStream(process.env.OUTPUT_PATH);
 
-    const candlesCount = parseInt(readLine().trim(), 10);
+  const candlesCount = parseInt(readLine().trim(), 10);
 
-    const candles = readLine().replace(/\s+$/g, '').split(' ').map(candlesTemp => parseInt(candlesTemp, 10));
+  const candles = readLine().replace(/\s+$/g, '').split(' ')
+      .map((candlesTemp) => parseInt(candlesTemp, 10));
 
-    const result = birthdayCakeCandles(candles);
+  const result = birthdayCakeCandles(candles);
 
-    ws.write(result + '\n');
+  ws.write(result + '\n');
 
-    ws.end();
+  ws.end();
 }
