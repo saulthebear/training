@@ -1,36 +1,36 @@
-/* eslint-disable require-jsdoc */
-import {Tree} from './Tree';
 import {Cell} from './Cell';
+import {Tree} from './Tree';
+import {Action} from './Action';
 
 export class Game {
-  private _cells: Cell[] = [];
-  private _trees: Tree[] = [];
+  day: number;
+  round: number;
+  nutrients: number;
+  cells: Cell[];
+  possibleActions: Action[];
+  trees: Tree[];
+  mySun: number;
+  myScore: number;
+  opponentSun: number;
+  opponentScore: number;
+  opponentIsWaiting: boolean;
 
-  public get cells(): Cell[] {
-    return this._cells;
-  }
-  public set cells(value: Cell[]) {
-    this._cells = value;
-  }
-
-  public get trees(): Tree[] {
-    return this._trees;
-  }
-  public set trees(value: Tree[]) {
-    this._trees = value;
-  }
-
-  function completeTrees(trees: Tree[]) {
-    console.error(`There are ${trees.length} trees to process`);
-    let completed = false;
-    for (let i = 0; i < trees.length; i++) {
-      const tree = trees[i];
-      if (tree.isMine) {
-        console.log(COMPLETE + ' ' + tree.cellIndex);
-        completed = true;
-      }
-    }
-    if (!completed) console.log(WAIT);
+  constructor() {
+    this.day = 0;
+    this.round = 0;
+    this.nutrients = 0;
+    this.cells = [];
+    this.possibleActions = [];
+    this.trees = [];
+    this.mySun = 0;
+    this.myScore = 0;
+    this.opponentSun = 0;
+    this.opponentScore = 0;
+    this.opponentIsWaiting = false;
   }
 
+  getNextAction() {
+    // TODO: write your algorithm here
+    return this.possibleActions[0];
+  }
 }
