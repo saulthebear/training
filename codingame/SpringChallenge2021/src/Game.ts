@@ -1,6 +1,6 @@
 import {Cell} from './Cell';
 import {Tree} from './Tree';
-import {Action, COMPLETE} from './Action';
+import {Action, COMPLETE, WAIT, GROW} from './Action';
 
 export class Game {
   day: number;
@@ -35,8 +35,27 @@ export class Game {
     for (let i = 0; i < this.trees.length; i++) {
       const tree = this.trees[i];
       if (tree.isMine) {
-        return new Action(COMPLETE, tree.cellIndex);
+        // eslint-disable-next-line max-len
+        console.error(`I have a tree at ${tree.cellIndex} of size ${tree.size}. Dormant? ${tree.isDormant}`);
+        // return new Action(COMPLETE, tree.cellIndex);
+        if (tree.isDormant) continue;
+
+        // TODO: Check if enough sun points
+        if (tree.size < 3) return new Action(GROW, tree.cellIndex);
+        else return new Action(COMPLETE, tree.cellIndex);
+        // return new Action(WAIT);
       }
     }
+  }
+
+  getNumSizeTrees() {
+    const sumSizes = [0, 0, 0, 0];
+
+    for (let i = 0; i < this.trees.length; i++) {
+      const tree = this.trees[i];
+      if (tree.isMine) sumSizes[tree.size] += 1;
+    }
+
+    return sumSizes;
   }
 }

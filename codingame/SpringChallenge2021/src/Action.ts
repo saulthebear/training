@@ -1,3 +1,5 @@
+import {Tree} from './Tree';
+
 export const WAIT = 'WAIT';
 export const SEED = 'SEED';
 export const GROW = 'GROW';
@@ -24,6 +26,7 @@ export class Action {
     }
     return new Action(parts[0], parseInt(parts[1]));
   }
+
   toString() {
     if (this.type === WAIT) {
       return WAIT;
@@ -32,5 +35,19 @@ export class Action {
       return `${SEED} ${this.sourceCellIdx} ${this.targetCellIdx}`;
     }
     return `${this.type} ${this.targetCellIdx}`;
+  }
+
+  static calculateGrowCost(tree: Tree, treeSizes: number[]) {
+    switch (tree.size) {
+      case 0: {
+        return 1 + treeSizes[1];
+      }
+      case 1: {
+        return 3 + treeSizes[2];
+      }
+      case 2: {
+        return 7 + treeSizes[3];
+      }
+    }
   }
 }
