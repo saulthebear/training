@@ -52,6 +52,8 @@ while (true) {
     game.trees.push(
         new Tree(cellIndex, size, isMine, isDormant),
     );
+    // Set cell as not free
+    Cell.getCell(cellIndex, game.cells).isFree = false;
   }
   game.possibleActions = [];
   const numberOfPossibleAction = parseInt(readline());

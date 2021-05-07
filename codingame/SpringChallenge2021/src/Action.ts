@@ -16,7 +16,7 @@ export class Action {
     this.sourceCellIdx = sourceCellIdx;
   }
 
-  static parse(line: string) {
+  static parse(line: string): Action {
     const parts = line.split(' ');
     if (parts[0] === WAIT) {
       return new Action(WAIT);
@@ -27,7 +27,7 @@ export class Action {
     return new Action(parts[0], parseInt(parts[1]));
   }
 
-  toString() {
+  toString(): string {
     if (this.type === WAIT) {
       return WAIT;
     }
@@ -37,7 +37,7 @@ export class Action {
     return `${this.type} ${this.targetCellIdx}`;
   }
 
-  static calculateGrowCost(tree: Tree, treeSizes: number[]) {
+  static getGrowCost(tree: Tree, treeSizes: number[]): number {
     switch (tree.size) {
       case 0: {
         return 1 + treeSizes[1];
@@ -47,6 +47,33 @@ export class Action {
       }
       case 2: {
         return 7 + treeSizes[3];
+      }
+    }
+  }
+
+  /**
+   * Get the sun cost of an action
+   * @param {Action} action
+   * @param {number[]} treeSizes Array of number of each size tree I own
+   * @param {Tree} tree The tree to grow or complete
+   * @return {number} The sun cost of the action
+   */
+  static getActionCost(
+      action: Action | string, treeSizes?: number[], tree?: Tree): number {
+    let type = action;
+    if (action instanceof Action) type = action.type;
+    switch (type) {
+      case SEED: {
+        return treeSizes[0];
+      }
+      case GROW: {
+        return this.getGrowCost(tree, treeSizes);
+      }
+      case COMPLETE: {
+        return 4;
+      }
+      case WAIT: {
+        return 0;
       }
     }
   }
