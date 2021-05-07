@@ -1,7 +1,7 @@
-const WAIT = 'WAIT';
-const SEED = 'SEED';
-const GROW = 'GROW';
-const COMPLETE = 'COMPLETE';
+export const WAIT = 'WAIT';
+export const SEED = 'SEED';
+export const GROW = 'GROW';
+export const COMPLETE = 'COMPLETE';
 
 export class Action {
   type: string;

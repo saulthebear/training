@@ -1,6 +1,6 @@
 import {Cell} from './Cell';
 import {Tree} from './Tree';
-import {Action} from './Action';
+import {Action, COMPLETE} from './Action';
 
 export class Game {
   day: number;
@@ -31,6 +31,12 @@ export class Game {
 
   getNextAction() {
     // TODO: write your algorithm here
-    return this.possibleActions[0];
+    // return this.possibleActions[0];
+    for (let i = 0; i < this.trees.length; i++) {
+      const tree = this.trees[i];
+      if (tree.isMine) {
+        return new Action(COMPLETE, tree.cellIndex);
+      }
+    }
   }
 }
