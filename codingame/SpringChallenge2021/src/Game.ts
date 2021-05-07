@@ -37,6 +37,18 @@ export class Game {
       if (tree.isMine) {
         if (tree.isDormant) continue;
 
+        const completeAction = this.tryCompleteTree(tree);
+        if (completeAction) {
+          console.error(`Returning COMPLETE Action`);
+          return completeAction;
+        }
+
+        const growAction = this.tryGrow(tree);
+        if (growAction) {
+          console.error(`Returning GROW Action`);
+          return growAction;
+        }
+
         if (tree.size > 0) {
           console.error(`Trying to seed from tree at ${tree.cellIndex}`);
           const seedAction = this.trySeedNeighbour(tree);
@@ -44,17 +56,6 @@ export class Game {
             console.error(`Returning SEED Action`);
             return seedAction;
           }
-        }
-
-        const completeAction = this.tryCompleteTree(tree);
-        if (completeAction) {
-          console.error(`Returning COMPLETE Action`);
-          return completeAction;
-        }
-        const growAction = this.tryGrow(tree);
-        if (growAction) {
-          console.error(`Returning GROW Action`);
-          return growAction;
         }
       }
     }
@@ -83,7 +84,6 @@ export class Game {
     return null;
   }
 
-  // TODO: implement
   trySeedNeighbour(parent: Tree): Action | null {
     const isAffordable = this.mySun >
       Action.getActionCost(SEED, this.getNumSizeTrees(), parent);
