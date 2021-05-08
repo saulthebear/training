@@ -1,6 +1,7 @@
 import {Cell} from './Cell';
 import {Tree} from './Tree';
 import {Action, COMPLETE, WAIT, GROW, SEED} from './Action';
+import * as Utils from './Utils';
 
 export class Game {
   day: number;
@@ -15,6 +16,8 @@ export class Game {
   opponentScore: number;
   opponentIsWaiting: boolean;
 
+  level3Trees: Utils.ExtendSet<Tree>;
+
   constructor() {
     this.day = 0;
     this.round = 0;
@@ -27,6 +30,7 @@ export class Game {
     this.opponentSun = 0;
     this.opponentScore = 0;
     this.opponentIsWaiting = false;
+    this.level3Trees = new Utils.ExtendSet();
   }
 
   getNextAction(): Action {
@@ -41,63 +45,34 @@ export class Game {
     //   return cellBRichness - cellARichness;
     // });
 
-    // GROW
-    for (let i = 0; i < this.trees.length; i++) {
-      const tree = this.trees[i];
-      if (tree.isMine && !tree.isDormant) {
-        const growAction = this.tryGrow(tree);
-        if (growAction) {
-          console.error(`Returning GROW Action`);
-          return growAction;
-        }
-      }
-    }
-
-    // COMPLETE
-    for (let i = 0; i < this.trees.length; i++) {
-      const tree = this.trees[i];
-      if (tree.isMine && !tree.isDormant) {
-        const completeAction = this.tryCompleteTree(tree);
-        if (completeAction) {
-          console.error(`Returning COMPLETE Action`);
-          return completeAction;
-        }
-      }
-    }
-
-    // SEED
-    for (let i = 0; i < this.trees.length; i++) {
-      const tree = this.trees[i];
-      if (tree.isMine && !tree.isDormant) {
-        if (tree.size > 0) {
-          console.error(`Trying to seed from tree at ${tree.cellIndex}`);
-          // const plantableCells = tree.getPlantableCells(this.cells);
-          // console.error(`Plantable cells outside: ${plantableCells}`);
-          const seedAction = this.trySeed(tree);
-          if (seedAction) {
-            console.error('Returning SEED Action');
-            return seedAction;
-          }
-        }
-      }
-    }
-
+    // // GROW
     // for (let i = 0; i < this.trees.length; i++) {
     //   const tree = this.trees[i];
-
     //   if (tree.isMine && !tree.isDormant) {
     //     const growAction = this.tryGrow(tree);
     //     if (growAction) {
     //       console.error(`Returning GROW Action`);
     //       return growAction;
     //     }
+    //   }
+    // }
 
+    // // COMPLETE
+    // for (let i = 0; i < this.trees.length; i++) {
+    //   const tree = this.trees[i];
+    //   if (tree.isMine && !tree.isDormant) {
     //     const completeAction = this.tryCompleteTree(tree);
     //     if (completeAction) {
     //       console.error(`Returning COMPLETE Action`);
     //       return completeAction;
     //     }
+    //   }
+    // }
 
+    // // SEED
+    // for (let i = 0; i < this.trees.length; i++) {
+    //   const tree = this.trees[i];
+    //   if (tree.isMine && !tree.isDormant) {
     //     if (tree.size > 0) {
     //       console.error(`Trying to seed from tree at ${tree.cellIndex}`);
     //       // const plantableCells = tree.getPlantableCells(this.cells);
@@ -110,6 +85,35 @@ export class Game {
     //     }
     //   }
     // }
+
+    for (let i = 0; i < this.trees.length; i++) {
+      const tree = this.trees[i];
+
+      if (tree.isMine && !tree.isDormant) {
+        const growAction = this.tryGrow(tree);
+        if (growAction) {
+          console.error(`Returning GROW Action`);
+          return growAction;
+        }
+
+        const completeAction = this.tryCompleteTree(tree);
+        if (completeAction) {
+          console.error(`Returning COMPLETE Action`);
+          return completeAction;
+        }
+
+        if (tree.size > 0) {
+          console.error(`Trying to seed from tree at ${tree.cellIndex}`);
+          // const plantableCells = tree.getPlantableCells(this.cells);
+          // console.error(`Plantable cells outside: ${plantableCells}`);
+          const seedAction = this.trySeed(tree);
+          if (seedAction) {
+            console.error('Returning SEED Action');
+            return seedAction;
+          }
+        }
+      }
+    }
     console.error(`Returning WAIT Action`);
     return new Action(WAIT);
   }
@@ -117,7 +121,10 @@ export class Game {
   tryCompleteTree(tree: Tree): Action {
     console.error(`Trying to complete ${tree.cellIndex}`);
     const completeAction = new Action(COMPLETE, tree.cellIndex);
-    const isAffordable = this.mySun >= Action.getActionCost(completeAction);
+    // const isAffordable = this.mySun >= Action.getActionCost(completeAction);
+    const cost = Action.getActionCost(completeAction);
+    const isAffordable = this.isAffordable(cost);
+
     if (tree.size > 2 && !tree.isDormant && isAffordable) {
       const cell = Cell.getCell(tree.cellIndex, this.cells);
       cell.isFree = true;
@@ -135,7 +142,7 @@ export class Game {
     console.error(`Trying to grow ${tree.cellIndex}`);
     const growAction = new Action(GROW, tree.cellIndex);
     const cost = Action.getActionCost(growAction, this.getNumSizeTrees(), tree);
-    const isAffordable = this.mySun >= cost;
+    const isAffordable = this.isAffordable(cost);
     if (tree.size < 3 && !tree.isDormant && isAffordable) {
       return growAction;
     }
@@ -169,8 +176,9 @@ export class Game {
   // }
 
   trySeed(parent: Tree): Action | null {
-    const isAffordable = this.mySun >
-      Action.getActionCost(SEED, this.getNumSizeTrees(), parent);
+    const cost = Action.getActionCost(SEED, this.getNumSizeTrees(), parent);
+    const isAffordable = this.isAffordable(cost);
+      
     if (!isAffordable) {
       console.error('Unable to seed: Not enough sun.');
       return null;
@@ -211,5 +219,14 @@ export class Game {
     }
 
     return sumSizes;
+  }
+
+  getReservedSunAmmount(): number {
+    // Enough to commplete all level 3 trees
+    return 4 * this.getNumSizeTrees()[3];
+  }
+
+  isAffordable(cost: number): boolean {
+    return this.mySun >= cost;
   }
 }
