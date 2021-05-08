@@ -34,6 +34,7 @@ export class Game {
     // return this.possibleActions[0];
     for (let i = 0; i < this.trees.length; i++) {
       const tree = this.trees[i];
+
       if (tree.isMine) {
         if (tree.isDormant) continue;
 
@@ -50,8 +51,11 @@ export class Game {
         }
 
         if (tree.size > 0) {
+          this.trySeed(tree);
           console.error(`Trying to seed from tree at ${tree.cellIndex}`);
-          const seedAction = this.trySeedNeighbour(tree);
+          const plantableCells = tree.getPlantableCells(this.cells);
+          console.error(`Plantable cells: ${plantableCells}`);
+          const seedAction = this.trySeed(tree);
           if (seedAction) {
             console.error(`Returning SEED Action`);
             return seedAction;
@@ -84,25 +88,47 @@ export class Game {
     return null;
   }
 
-  trySeedNeighbour(parent: Tree): Action | null {
+  // trySeedNeighbour(parent: Tree): Action | null {
+  //   const isAffordable = this.mySun >
+  //     Action.getActionCost(SEED, this.getNumSizeTrees(), parent);
+  //   if (!isAffordable) return;
+
+  //   const parentCell: Cell = Cell.getCell(parent.cellIndex, this.cells);
+
+  //   // console.error(`Neighbours: ${parentCell.neighbors}`);
+
+  //   for (const neighbour of parentCell.neighbors) {
+  //     if (neighbour == -1) continue; // Out of bounds
+  //     const neighbourCell = Cell.getCell(neighbour, this.cells);
+  //     if (!neighbourCell.isFree) continue; // Occupied
+  //     if (neighbourCell.richness == 0) continue; // Richness too low
+  //     console.error(`Seeding ${neighbour} from ${parent.cellIndex}`);
+  //     neighbourCell.isFree = false;
+  //     return new Action(SEED, neighbour, parent.cellIndex);
+  //   }
+  //   return null;
+  // }
+
+  trySeed(parent: Tree): Action | null {
     const isAffordable = this.mySun >
       Action.getActionCost(SEED, this.getNumSizeTrees(), parent);
-    if (!isAffordable) return;
+    if (!isAffordable) return null;
 
-    const parentCell: Cell = Cell.getCell(parent.cellIndex, this.cells);
+    const plantableCells: Cell[] = Array.from(
+        parent.getPlantableCells(this.cells));
 
-    console.error(`Neighbours: ${parentCell.neighbors}`);
+    if (plantableCells.length == 0) return null;
 
-    for (const neighbour of parentCell.neighbors) {
-      if (neighbour == -1) continue; // Out of bounds
-      const neighbourCell = Cell.getCell(neighbour, this.cells);
-      if (!neighbourCell.isFree) continue; // Occupied
-      if (neighbourCell.richness == 0) continue; // Richness too low
-      console.error(`Seeding ${neighbour} from ${parent.cellIndex}`);
-      neighbourCell.isFree = false;
-      return new Action(SEED, neighbour, parent.cellIndex);
-    }
-    return null;
+    plantableCells.sort((cell1, cell2) => {
+      const richDiff = cell2.richness - cell1.richness;
+      if (richDiff == 0) return cell1.index - cell2.index;
+      return richDiff;
+    });
+
+    const chosenCell = plantableCells[0];
+    console.error(`trySeed(${parent.cellIndex}) => ${chosenCell.index}`);
+    chosenCell.isFree = false;
+    return new Action(SEED, chosenCell.index, parent.cellIndex);
   }
 
   /**

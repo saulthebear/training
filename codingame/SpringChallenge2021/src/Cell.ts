@@ -9,9 +9,26 @@ export class Cell {
     this.neighbors = neighbors;
   }
 
-  static getCell(index: number, cells: Cell[]): Cell {
-    for (let i = 0; i < cells.length; i++) {
-      if (cells[i].index == index) return cells[i];
+  isPlantable(): boolean {
+    return (this.richness > 0 && this.isFree);
+  }
+
+  public toString(): string {
+    return `Cell ${this.index}`;
+  }
+
+  static getCell(index: number, board: Cell[]): Cell {
+    for (let i = 0; i < board.length; i++) {
+      if (board[i].index == index) return board[i];
     }
+  }
+
+  static getNeighbors(cell: Cell | number, board: Cell[]): Cell[] {
+    // If cell is index (number) convert it to a Cell
+    if (!(cell instanceof Cell)) cell = Cell.getCell(cell, board);
+
+    return cell.neighbors
+        .filter((idx) => idx != -1)
+        .map((idx): Cell => Cell.getCell(idx, board));
   }
 }
