@@ -1,24 +1,15 @@
 def consonant_cancel(sentence)
-  new_sentence_arr = []
-  sentence.split(' ').each do |word|
-     new_sentence_arr << consonant_cancel_word(word)
-  end
-  return new_sentence_arr.join(' ')
+  words = sentence.split(' ')
+  new_words = words.map { |word| consonant_cancel_word(word) }
+  return new_words.join(' ')
 end
 
 def consonant_cancel_word(word)
   vowels = 'aeiou'
-  word_arr = word.split('')
-  new_word_arr = []
-  vowel_found = false
 
-  word_arr.each do |char|
-    vowel_found = true if vowels.include?(char)
-    new_word_arr << char if vowel_found
+  word.each_char.with_index do |char, i|
+    return word[i..-1] if vowels.include?(char)
   end
-
-  return new_word_arr.join('')
-
 end
 
 puts consonant_cancel("down the rabbit hole") #=> "own e abbit ole"
