@@ -20,7 +20,6 @@ def coprime?(num_1, num_2)
 
 end
 
-
 p coprime?(25, 12)    # => true
 p coprime?(7, 11)     # => true
 p coprime?(30, 9)     # => false
