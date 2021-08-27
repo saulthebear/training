@@ -4,20 +4,8 @@
 # 1 is the only number that divides both 25 and 12.
 
 def coprime?(num_1, num_2)
-  max = num_1 > num_2 ? num_1 : num_2
-  min = num_1 > num_2 ? num_2 : num_1
-  factor_found = false
-  i = 2
-  while i < max
-    if num_1 % i == 0 && num_2 % i == 0
-      factor_found = true
-      break
-    end
-    i += 1
-  end
-
-  !factor_found
-
+  min = [num_1, num_2].min
+  (2..min).none? { |el| (num_1 % el).zero? && (num_2 % el).zero? }
 end
 
 p coprime?(25, 12)    # => true
