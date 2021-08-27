@@ -4,11 +4,8 @@
 
 def only_vowels?(str)
   vowels = "aeiou"
-  consonant = false
-  str.each_char do |char|
-    consonant = vowels.index(char) ? false : true
-  end
-  !consonant
+  chars = str.split('')
+  chars.all? { |c| !!vowels.index(c) }
 end
 
 p only_vowels?("aaoeee")  # => true
