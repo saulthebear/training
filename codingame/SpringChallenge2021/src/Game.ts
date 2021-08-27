@@ -88,6 +88,7 @@ export class Game {
 
     for (let i = 0; i < this.trees.length; i++) {
       const tree = this.trees[i];
+      const numSizeTrees = this.getNumSizeTrees();
 
       if (tree.isMine && !tree.isDormant) {
         const growAction = this.tryGrow(tree);
@@ -96,14 +97,16 @@ export class Game {
           return growAction;
         }
 
-        const completeAction = this.tryCompleteTree(tree);
-        if (completeAction) {
-          console.error(`Returning COMPLETE Action`);
-          return completeAction;
+        if (tree.size == 3 && numSizeTrees[3] > 1) {
+          const completeAction = this.tryCompleteTree(tree);
+          if (completeAction) {
+            console.error(`Returning COMPLETE Action`);
+            return completeAction;
+          }
         }
 
-        if (tree.size > 0) {
-          console.error(`Trying to seed from tree at ${tree.cellIndex}`);
+        if (tree.size > 0 && numSizeTrees[0] < 3 && numSizeTrees[3] > 0) {
+          // console.error(`Trying to seed from tree at ${tree.cellIndex}`);
           // const plantableCells = tree.getPlantableCells(this.cells);
           // console.error(`Plantable cells outside: ${plantableCells}`);
           const seedAction = this.trySeed(tree);
@@ -114,12 +117,13 @@ export class Game {
         }
       }
     }
+
     console.error(`Returning WAIT Action`);
     return new Action(WAIT);
   }
 
   tryCompleteTree(tree: Tree): Action {
-    console.error(`Trying to complete ${tree.cellIndex}`);
+    // console.error(`Trying to complete ${tree.cellIndex}`);
     const completeAction = new Action(COMPLETE, tree.cellIndex);
     // const isAffordable = this.mySun >= Action.getActionCost(completeAction);
     const cost = Action.getActionCost(completeAction);
@@ -130,27 +134,27 @@ export class Game {
       cell.isFree = true;
       return completeAction;
     }
-    let reason = 'Unknown reason!!';
-    if (!isAffordable) reason = 'Not enough sun';
-    if (tree.size < 3) reason = 'Tree too small';
-    if (tree.isDormant) reason = 'Tree is dormant';
-    console.error(`Unable to complete ${tree.cellIndex}: ${reason}`);
+    // let reason = 'Unknown reason!!';
+    // if (!isAffordable) reason = 'Not enough sun';
+    // if (tree.size < 3) reason = 'Tree too small';
+    // if (tree.isDormant) reason = 'Tree is dormant';
+    // console.error(`Unable to complete ${tree.cellIndex}: ${reason}`);
     return null;
   }
 
   tryGrow(tree: Tree): Action | null {
-    console.error(`Trying to grow ${tree.cellIndex}`);
+    // console.error(`Trying to grow ${tree.cellIndex}`);
     const growAction = new Action(GROW, tree.cellIndex);
     const cost = Action.getActionCost(growAction, this.getNumSizeTrees(), tree);
     const isAffordable = this.isAffordable(cost);
     if (tree.size < 3 && !tree.isDormant && isAffordable) {
       return growAction;
     }
-    let reason = 'Unknown reason!!';
-    if (!isAffordable) reason = 'Not enough sun';
-    if (tree.size == 3) reason = 'Tree already size 3';
-    if (tree.isDormant) reason = 'Tree is dormant';
-    console.error(`Unable to grow ${tree.cellIndex}: ${reason}`);
+    // let reason = 'Unknown reason!!';
+    // if (!isAffordable) reason = 'Not enough sun';
+    // if (tree.size == 3) reason = 'Tree already size 3';
+    // if (tree.isDormant) reason = 'Tree is dormant';
+    // console.error(`Unable to grow ${tree.cellIndex}: ${reason}`);
     return null;
   }
 
@@ -178,7 +182,7 @@ export class Game {
   trySeed(parent: Tree): Action | null {
     const cost = Action.getActionCost(SEED, this.getNumSizeTrees(), parent);
     const isAffordable = this.isAffordable(cost);
-      
+
     if (!isAffordable) {
       console.error('Unable to seed: Not enough sun.');
       return null;
@@ -223,6 +227,7 @@ export class Game {
 
   getReservedSunAmmount(): number {
     // Enough to commplete all level 3 trees
+    // console.error(`Tree sizes: ${this.getNumSizeTrees()}`);
     return 4 * this.getNumSizeTrees()[3];
   }
 
