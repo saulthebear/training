@@ -11,7 +11,40 @@
 
 
 def my_rotate!(array, amt)
+  return rotate_left(array, amt) if amt > 0
+  rotate_right(array, amt * -1)
+end
 
+def rotate_left(array, amt)
+  amt.times do
+    temp_first = array[0]
+    (0...array.length).each do |idx|
+      if idx == array.length - 1
+        array[idx] = temp_first
+      else
+        array[idx] = array[idx + 1]
+      end
+    end
+  end
+  array
+end
+
+def rotate_right(array, amt)
+  amt.times do
+    prev = nil
+    (0...array.length).each do |idx|
+      if idx.zero?
+        prev = array[0]
+        array[0] = array[-1]
+      else
+        tmp = array[idx]
+        array[idx] = prev
+        prev = tmp
+      end
+    end
+  end
+  
+  array
 end
 
 

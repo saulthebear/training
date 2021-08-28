@@ -7,7 +7,10 @@
 # to be the same before and after calling your method.
 
 def ele_replace!(array, hash)
-
+  (0...array.length).each do |idx|
+    array[idx] = hash[array[idx]] if hash.key?(array[idx])
+  end
+  array
 end
 
 
