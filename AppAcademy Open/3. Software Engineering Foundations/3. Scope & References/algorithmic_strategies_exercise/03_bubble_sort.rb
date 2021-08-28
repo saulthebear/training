@@ -5,15 +5,17 @@
 
 def bubble_sort(arr)
   sorted = false
-  while !sorted
+
+  until sorted
     sorted = true
-    (0...arr.length - 1).each do |i|
-      if arr[i] > arr[i + 1]
-        arr[i], arr[i + 1] = arr[i + 1], arr[i]
+    (0...arr.length - 1).each do |idx|
+      if arr[idx] > arr[idx + 1]
         sorted = false
+        arr[idx], arr[idx + 1] = arr[idx + 1], arr[idx]
       end
     end
   end
+  
   arr
 end
 
