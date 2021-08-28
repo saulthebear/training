@@ -3,14 +3,7 @@
 # Do not use the built-in Array#sort in your solution :)
 
 def is_sorted(arr)
-  sorted = true;
-  (0...arr.length - 1).each do |i|
-    if arr[i] > arr[i+1]
-      sorted = false
-      break
-    end
-  end
-  sorted
+  (0...arr.length - 1).all? { |idx| arr[idx] <= arr[idx + 1] }
 end
 
 p is_sorted([1, 4, 10, 13, 15])       # => true
