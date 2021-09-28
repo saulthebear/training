@@ -20,7 +20,6 @@ def vowel_counts(str)
 end
 
 def caesar_cipher(message, n)
-  new_message = []
   message.each_char.with_index do |char, idx|
     next unless isConvertable(char)
 
