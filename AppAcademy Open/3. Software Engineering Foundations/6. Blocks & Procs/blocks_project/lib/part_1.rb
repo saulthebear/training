@@ -1,5 +1,5 @@
 def select_even_nums(arr)
-  arr.select { |ele| (ele % 2).zero? }
+  arr.select(&:even?)
 end
 
 def reject_puppies(dogs)

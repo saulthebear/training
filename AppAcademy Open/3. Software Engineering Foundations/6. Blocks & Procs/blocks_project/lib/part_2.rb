@@ -1,8 +1,5 @@
 def all_words_capitalized?(words)
-  words.all? do |word|
-    word == word.capitalize
-    # true
-  end
+  words.all? { |word| word == word.capitalize }
 end
 
 def no_valid_url?(urls)
@@ -11,5 +8,5 @@ def no_valid_url?(urls)
 end
 
 def any_passing_students?(students)
-  students.any? { |student| (student[:grades].sum / student[:grades].length) >= 75 }
+  students.any? { |student| (student[:grades].sum / student[:grades].length.to_f) >= 75 }
 end
