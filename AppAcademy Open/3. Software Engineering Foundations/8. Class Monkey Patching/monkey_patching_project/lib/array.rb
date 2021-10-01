@@ -17,7 +17,7 @@ class Array
 
     sorted = self.sort
     if self.length.odd?
-      middle_index = (self.length / 2).ceil
+      middle_index = self.length / 2
       return sorted[middle_index]
     else
       middle_index_1 = self.length / 2
