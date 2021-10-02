@@ -15,8 +15,8 @@ class Startup
     @salaries.key?(title)
   end
 
-  def >(startup)
-    funding > startup.funding
+  def >(other)
+    funding > other.funding
   end
 
   def hire(employee_name, title)
@@ -46,9 +46,7 @@ class Startup
     employee_count = @employees.length
     return 0 if employee_count.zero?
 
-    @employees.each do |employee|
-      salaries_sum += @salaries[employee.title]
-    end
+    @employees.each { |employee| salaries_sum += @salaries[employee.title] }
     salaries_sum / employee_count
   end
 
@@ -57,15 +55,15 @@ class Startup
     @funding = 0
   end
 
-  def acquire(startup)
-    @funding += startup.funding
+  def acquire(other_startup)
+    @funding += other_startup.funding
 
-    startup.salaries.each do |title, salary|
+    other_startup.salaries.each do |title, salary|
       @salaries[title] = salary unless @salaries.key?(title)
     end
 
-    @employees += startup.employees
-    startup.close
+    @employees += other_startup.employees
+    other_startup.close
   end
 
 end
