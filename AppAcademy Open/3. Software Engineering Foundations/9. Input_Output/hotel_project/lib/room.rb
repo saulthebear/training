@@ -26,7 +26,7 @@ class Room
     if full?
       return false
     else
-      occupants << name
+      @occupants << name
       return true
     end
   end
