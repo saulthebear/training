@@ -40,4 +40,32 @@ class Startup
   def payday
     @employees.each { |employee| pay_employee(employee) }
   end
+
+  def average_salary
+    salaries_sum = 0
+    employee_count = @employees.length
+    return 0 if employee_count.zero?
+
+    @employees.each do |employee|
+      salaries_sum += @salaries[employee.title]
+    end
+    salaries_sum / employee_count
+  end
+
+  def close
+    @employees = []
+    @funding = 0
+  end
+
+  def acquire(startup)
+    @funding += startup.funding
+
+    startup.salaries.each do |title, salary|
+      @salaries[title] = salary unless @salaries.key?(title)
+    end
+
+    @employees += startup.employees
+    startup.close
+  end
+
 end
