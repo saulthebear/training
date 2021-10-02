@@ -23,14 +23,14 @@ class Hotel
   end
 
   def check_in(guest_name, room_name)
-    if self.room_exists?(room_name)
+    if room_exists?(room_name)
       if @rooms[room_name].add_occupant(guest_name)
-          puts "check in successful"
-        else
-          puts "sorry, room is full"
-        end
+        puts 'check in successful'
+      else
+        puts 'sorry, room is full'
+      end
     else
-      puts "sorry, room does not exist" 
+      puts 'sorry, room does not exist'
       return false
     end
   end
