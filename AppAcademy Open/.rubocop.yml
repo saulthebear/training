@@ -1,5 +1,10 @@
 AllCops:
   NewCops: enable
 
-Metrics/MethodLength:
-  Enabled: false
+# Metrics/MethodLength:
+#   # Enabled: false
+#   Max: 2
+
+# Metrics/AbcSize:
+#   Enabled: false
+#   # Max: 200
