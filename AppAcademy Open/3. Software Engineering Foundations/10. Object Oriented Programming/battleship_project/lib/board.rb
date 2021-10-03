@@ -7,12 +7,12 @@ class Board
     grid.each { |row| puts row.join(' ') }
   end
 
-  def initialize(n)
-    @size = n * n
+  def initialize(width)
+    @size = width * width
     @grid = []
-    n.times do
+    width.times do
       row = []
-      n.times { row << :N }
+      width.times { row << :N }
       @grid << row
     end
   end
