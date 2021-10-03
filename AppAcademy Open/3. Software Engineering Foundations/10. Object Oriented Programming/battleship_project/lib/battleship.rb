@@ -31,11 +31,13 @@ class Battleship
   end
 
   def game_over?
-    return lose? || win?
+    lose? || win?
   end
 
   def turn
-    @remaining_misses -= 1 unless @board.attack(@player.get_move)
+    target = @player.get_move
+    attack_success = @board.attack(target)
+    @remaining_misses -= 1 unless attack_success
     @board.print
     puts "You have #{@remaining_misses} guesses remaining."
   end

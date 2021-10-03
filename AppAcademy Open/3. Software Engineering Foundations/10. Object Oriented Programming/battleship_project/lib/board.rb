@@ -7,28 +7,21 @@ class Board
 
   def initialize(width)
     @size = width * width
-    @grid = []
-    width.times do
-      row = []
-      width.times { row << :N }
-      @grid << row
-    end
+    @grid = Array.new(width) { Array.new(width, :N) }
   end
 
   def [](position)
-    @grid[position[0]][position[1]]
+    row, col = position
+    @grid[row][col]
   end
 
   def []=(position, value)
-    @grid[position[0]][position[1]] = value
+    row, col = position
+    @grid[row][col] = value
   end
 
   def num_ships
-    count = 0
-    @grid.each do |row|
-      count += row.each.count { |val| val == :S }
-    end
-    count
+    @grid.flatten.count { |val| val == :S }
   end
 
   def attack(position)
@@ -43,28 +36,18 @@ class Board
   end
 
   def place_random_ships
-    num_ships = @size / 4
-    # { row_idx => [col_idx, col_idx ...] }
-    positions_set = Hash.new { |hash, key| hash[key] = [] }
-    num_ships.times do
-      open_position_found = false
-      row, col = nil
-      until open_position_found
-        row = rand(0...@grid.length)
-        col = rand(0...@grid.length)
-        open_position_found = !positions_set[row].include?(col)
-      end
-      positions_set[row] << col
-      @grid[row][col] = :S
+    total_ships = @size / 4
+    while num_ships < total_ships
+      row = rand(0...@grid.length)
+      col = rand(0...@grid.length)
+      self[[row, col]] = :S
     end
   end
 
   def hidden_ships_grid
-    hidden_grid = []
-    @grid.each do |row|
-      hidden_grid << row.map { |ele| ele == :S ? :N : ele }
+    @grid.map do |row|
+      row.map { |ele| ele == :S ? :N : ele }
     end
-    hidden_grid
   end
 
   def cheat
