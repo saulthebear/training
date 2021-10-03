@@ -1,5 +1,3 @@
-require 'byebug'
-
 # Write a method, pow(base, exponent), that takes in two numbers.
 # The method should calculate the base raised to the exponent power.
 # You can assume the exponent is always positive.
@@ -77,7 +75,6 @@ def reverse_string(str)
 
   str[-1] + reverse_string(str[0..-2])
 end
-
 
 # A 1-dimensional array is also known as a flattened array.
 # Write a method, flatten(data), that accepts a single argument. The
