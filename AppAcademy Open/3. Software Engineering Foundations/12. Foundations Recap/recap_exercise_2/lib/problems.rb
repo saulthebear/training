@@ -23,16 +23,8 @@ def most_frequent_bigram(str)
         bigram = str[idx] + str[idx + 1]
         bigram_counts[bigram] += 1
     end
-    max_count = 0
-    max_bigram = ''
-    bigram_counts.each do |curr_bigram, count|
-        if count > max_count
-            max_bigram = curr_bigram
-            max_count = count
-        end
-    end
-
-    max_bigram
+    
+    bigram_counts.sort_by { |k, v| v }[-1][0]
 end
 
 
@@ -52,7 +44,7 @@ class Array
         count = 0
 
         (0...self.length).each do |idx1|
-            (idx1...self.length).each do |idx2|
+            (idx1 + 1...self.length).each do |idx2|
                 count += 1 if self[idx1] + self[idx2] == target
             end
         end
@@ -73,7 +65,6 @@ class Array
     #
     # This should remind you of the spaceship operator! Convenient :)
     def bubble_sort(&prc)
-
         prc ||= proc { |a, b| a <=> b }
 
         sorted = false
