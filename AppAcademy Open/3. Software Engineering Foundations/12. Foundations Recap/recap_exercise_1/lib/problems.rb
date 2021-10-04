@@ -5,27 +5,22 @@
 # Example:
 #
 # all_vowel_pairs(["goat", "action", "tear", "impromptu", "tired", "europe"])   # => ["action europe", "tear impromptu"]
-ALL_VOWELS = 'aeiou'.chars
 def all_vowel_pairs(words)
 
-    word_pairs = []
+    vowels = ['a', 'e', 'i', 'o', 'u']
+    vowel_pairs = []
 
-    words.each.with_index do |word1, idx|
-        word1_vowels = []
-        word1.chars.each { |char1| word1_vowels << char1 if ALL_VOWELS.include?(char1) }
-
-        words[idx + 1..-1].each do |word2|
-            word2_vowels = []
-            word2.chars.each { |char2| word2_vowels << char2 if ALL_VOWELS.include?(char2) }
-            pair_vowels = (word1_vowels + word2_vowels).uniq.sort
-            word_pairs << "#{word1} #{word2}" if pair_vowels == ALL_VOWELS
+    (0...words.length).each do |word1_idx|
+        (word1_idx...words.length).each do |word2_idx|
+            word1 = words[word1_idx]
+            word2 = words[word2_idx]
+            pair = "#{word1} #{word2}"
+            vowel_pairs << pair if vowels.all? { |vowel| pair.include?(vowel) }
         end
     end
 
-    word_pairs
-
+    vowel_pairs
 end
-
 
 # Write a method, composite?, that takes in a number and returns a boolean indicating if the number
 # has factors besides 1 and itself
@@ -50,23 +45,7 @@ end
 # find_bigrams("the theater is empty", ["cy", "em", "ty", "ea", "oo"])  # => ["em", "ty", "ea"]
 # find_bigrams("to the moon and back", ["ck", "oo", "ha", "at"])        # => ["ck", "oo"]
 def find_bigrams(str, bigrams)
-    bigrams_found = []
-    bigrams_to_find = bigrams.clone
-
-    (0...str.length - 1).each do |idx|
-        candidate = str[idx] + str[idx + 1]
-        bigrams_to_find.each do |target|
-            if target == candidate
-                bigrams_found << target
-                bigrams_to_find.delete(target)
-            end
-        end
-    end
-
-    bigrams_found_sorted = []
-    bigrams.each { |b| bigrams_found_sorted << b if bigrams_found.include?(b) }
-    bigrams_found_sorted
-
+    bigrams.select { |bigram| str.include?(bigram) }
 end
 
 class Hash
@@ -102,13 +81,12 @@ class String
     # "cats".substrings(2)  # => ["ca", "at", "ts"]
     def substrings(length = nil)
         subs = []
-        self.each_char.with_index do |char, idx|
+        (0...self.length).each do |idx|
             (idx...self.length).each do |idx2|
                 subs << self[idx..idx2]
             end
         end
-        subs = subs.select { |sub| sub.length == length } if length
-        subs
+        length ? subs.select { |sub| sub.length == length } : subs
     end
 
 
@@ -123,6 +101,6 @@ class String
     # "zebra".caesar_cipher(4)    #=> "difve"
     def caesar_cipher(num)
         alpha = ('a'..'z').to_a
-        self.chars.map {|char| alpha[ (alpha.index(char) + num) % 26 ] }.join
+        self.chars.map { |char| alpha[(alpha.index(char) + num) % 26] }.join
     end
 end
