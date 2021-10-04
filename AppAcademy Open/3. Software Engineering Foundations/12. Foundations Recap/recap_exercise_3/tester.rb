@@ -44,3 +44,40 @@ p vowel_rotate('oranges')       # => "erongas"
 p vowel_rotate('headphones')    # => "heedphanos"
 p vowel_rotate('bootcamp')      # => "baotcomp"
 p vowel_rotate('awesome')       # => "ewasemo"
+
+puts 'Testing String#select'
+p "app academy".select { |ch| !"aeiou".include?(ch) }   # => "pp cdmy"
+p "HELLOworld".select { |ch| ch == ch.upcase }          # => "HELLO"
+p "HELLOworld".select          # => ""
+
+puts 'Testing String#map!'
+word_1 = "Lovelace"
+word_1.map! do |ch| 
+    if ch == 'e'
+        '3'
+    elsif ch == 'a'
+        '4'
+    else
+        ch
+    end
+end
+p word_1        # => "Lov3l4c3"
+
+word_2 = "Dijkstra"
+word_2.map! do |ch, i|
+    if i.even?
+        ch.upcase
+    else
+        ch.downcase
+    end
+end
+p word_2        # => "DiJkStRa"
+
+puts 'Testing multiply(a, b)'
+p multiply(3, 5)        # => 15
+p multiply(5, 3)        # => 15
+p multiply(2, 4)        # => 8
+p multiply(0, 10)       # => 0
+p multiply(-3, -6)      # => 18
+p multiply(3, -6)       # => -18
+p multiply(-3, 6)       # => -18

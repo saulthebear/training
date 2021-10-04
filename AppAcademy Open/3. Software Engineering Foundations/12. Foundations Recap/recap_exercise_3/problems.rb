@@ -120,15 +120,54 @@ end
 ## Part 2: Proc Problems
 
 class String
-  def select(&prc) end
+  def select(&prc)
+    return '' unless prc
 
-  def map!(&prc) end
+    new_str = ''
+    self.chars.each { |char| new_str += char if prc.call(char) }
+    new_str
+  end
+
+  def map!(&prc)
+    self.chars.each.with_index { |c, i| self[i] = prc.call(c, i) }
+  end
 end
 
 ## Part 3: Recursion Problems
 
-def multiply(a, b) end
+def multiply(a, b)
+  return a if b == 1
 
-def lucas_sequence(length) end
+  return -(-a + multiply(-a, b - 1)) if a.negative? && b.positive?
+  return -(a + multiply(a, -b - 1)) if a.positive? && b.negative?
+  return -a + multiply(-a, -b - 1) if a.negative? && b.negative?
 
-def prime_factorization(num) end
+  a + multiply(a, b - 1)
+end
+
+def lucas_sequence(length)
+  return [] if length.zero?
+  return [2] if length == 1
+  return [2, 1] if length == 2
+
+  prev = lucas_sequence(length - 1)
+  prev << (prev[-1] + prev[-2])
+  prev
+end
+
+def prime_factorization(num)
+  return [num] if prime?(num)
+
+  found = false
+  lowest_prime_factor = 2
+
+  until found
+    if prime?(lowest_prime_factor) && (num % lowest_prime_factor).zero?
+      found = true
+    else
+      lowest_prime_factor += 1
+    end
+  end
+
+  return prime_factorization(num / lowest_prime_factor).unshift(lowest_prime_factor)
+end
