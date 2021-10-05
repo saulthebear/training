@@ -1,5 +1,3 @@
-require 'byebug'
-
 ## Part 1: General problems
 
 def no_dupes?(arr)
@@ -7,10 +5,7 @@ def no_dupes?(arr)
 
   arr.each { |ele| ele_counts[ele] += 1 }
 
-  selected = []
-
-  ele_counts.each { |ele, count| selected << ele if count == 1 }
-  selected
+  ele_counts.keys.select { |el| ele_counts[el] == 1 }
 end
 
 def no_consecutive_repeats?(arr)
@@ -29,28 +24,23 @@ end
 
 def longest_streak(str)
   long_streak = ''
-  curr_streak_char = ''
-  curr_streak_count = 0
+  curr_streak = ''
 
-  str.chars.each do |char|
-    if curr_streak_char == ''
-      curr_streak_char = char
-      curr_streak_count = 1
-    elsif curr_streak_char == char
-      curr_streak_count += 1
+  (0...str.length).each do |idx|
+    if str[idx] == str[idx - 1] || idx.zero?
+      curr_streak += str[idx]
     else
-      curr_streak_char = char
-      curr_streak_count = 1
+      curr_streak = str[idx]
     end
 
-    if curr_streak_count >= long_streak.length
-      long_streak = curr_streak_char * curr_streak_count
-    end
+    long_streak = curr_streak if curr_streak.length >= long_streak.length
   end
   long_streak
 end
 
 def prime?(num)
+  return false if num < 2
+
   (2...num).each do |f|
     return false if (num % f).zero?
   end
@@ -138,9 +128,7 @@ end
 def multiply(a, b)
   return a if b == 1
 
-  return -(-a + multiply(-a, b - 1)) if a.negative? && b.positive?
-  return -(a + multiply(a, -b - 1)) if a.positive? && b.negative?
-  return -a + multiply(-a, -b - 1) if a.negative? && b.negative?
+  return -(a + multiply(a, -b - 1)) if b.negative?
 
   a + multiply(a, b - 1)
 end
@@ -150,9 +138,9 @@ def lucas_sequence(length)
   return [2] if length == 1
   return [2, 1] if length == 2
 
-  prev = lucas_sequence(length - 1)
-  prev << (prev[-1] + prev[-2])
-  prev
+  sequence = lucas_sequence(length - 1)
+  sequence << (prev[-1] + prev[-2])
+  sequence
 end
 
 def prime_factorization(num)
