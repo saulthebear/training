@@ -1,4 +1,3 @@
-require 'byebug'
 ## Phase 1
 
 def some?(arr, &prc)
@@ -266,28 +265,16 @@ end
 #     three_letters => 'o'
 # )   # "fooding gladingly rantingly dogo catlyo"
 
-class Array
-  def filter_out!(&prc)
-    removed = []
-    idx = 0
-    while idx < self.length
-      ele = self[idx]
-      if prc.call(ele)
-        removed << ele
-        self.delete_at(idx)
-      else
-        idx += 1
+def proctition_platinum(array, *prcs)
+  hash = {}
+  prcs.each_index { |i| hash[i + 1] = [] }
+  array.each do |el|
+    prcs.each_with_index do |prc, i|
+      if prc.call(el)
+        hash[i + 1] << el
+        break
       end
     end
-    removed
-  end
-end
-
-def proctition_platinum(arr, *prcs)
-  hash = {}
-
-  prcs.each_with_index do |prc, idx|
-    hash[idx + 1] = arr.filter_out! { |ele| prc.call(ele) }
   end
   hash
 end
@@ -372,12 +359,12 @@ def picky_procipher(sentence, hash)
   new_words.join(' ')
 end
 
-is_yelled = Proc.new { |s| s[-1] == '!' }
-is_upcase = Proc.new { |s| s.upcase == s }
-contains_a = Proc.new { |s| s.downcase.include?('a') }
-make_question = Proc.new { |s| s + '???' }
-reverse = Proc.new { |s| s.reverse }
-add_smile = Proc.new { |s| s + ':)' }
+# is_yelled = Proc.new { |s| s[-1] == '!' }
+# is_upcase = Proc.new { |s| s.upcase == s }
+# contains_a = Proc.new { |s| s.downcase.include?('a') }
+# make_question = Proc.new { |s| s + '???' }
+# reverse = Proc.new { |s| s.reverse }
+# add_smile = Proc.new { |s| s + ':)' }
 
 # p picky_procipher('he said what!',
 #     is_yelled => make_question,
