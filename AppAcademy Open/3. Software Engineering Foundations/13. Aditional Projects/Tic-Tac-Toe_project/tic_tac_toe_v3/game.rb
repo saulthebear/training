@@ -1,13 +1,22 @@
 require './board'
 require './human_player'
+require './computer_player'
 
 # The Game class will be the main class that houses the instances of Board and
 # HumanPlayer required for gameplay. It will be responsible for passing data
 # between the board and players. It will also serve to contain the main game loop.
 class Game
-  def initialize(size, *player_marks)
+  # @param size [Integer] the size (width) of the board. Eg. size 4 is a 4 x 4 board
+  # @param players [Hash] Key = player_mark, val = is_computer?
+  def initialize(size, players)
     @players = []
-    player_marks.each { |p_mark| @players << HumanPlayer.new(p_mark) }
+    players.each do |mark, is_computer|
+      @players << if is_computer
+                    ComputerPlayer.new(mark)
+                  else
+                    HumanPlayer.new(mark)
+                  end
+    end
     @current_player = @players[0]
     @board = Board.new(size)
   end
