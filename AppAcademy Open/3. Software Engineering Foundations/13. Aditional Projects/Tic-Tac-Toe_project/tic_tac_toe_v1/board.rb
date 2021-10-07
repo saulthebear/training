@@ -88,6 +88,10 @@ class Board
     win_diagonal_one?(mark) || win_diagonal_two?(mark)
   end
 
+  def win?(mark)
+    win_row?(mark) || win_col?(mark) || win_diagonal?(mark)
+  end
+
   # @return [Boolean] is there at least one empty position on the board?
   def empty_positions?
     @grid.any? { |row| row.any? { |mark| mark == '_' } }
