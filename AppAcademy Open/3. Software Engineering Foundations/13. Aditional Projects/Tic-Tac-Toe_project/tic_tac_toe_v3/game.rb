@@ -19,7 +19,7 @@ class Game
   def play
     while @board.empty_positions?
       @board.print
-      pos = @current_player.get_position
+      pos = @current_player.get_position(@board.legal_positions)
       @board.place_mark(pos, @current_player.mark)
       if @board.win?(@current_player.mark)
         puts "== YOU WON, Player #{@current_player.mark}! =="
