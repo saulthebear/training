@@ -12,14 +12,19 @@ class Board
     @board_width.times { @grid << Array.new(n) { EMPTY_MARK } }
   end
 
+  # @return [Boolean] is the given position within bounds?
   def valid?(position)
     position.all? { |pos| pos >= 0 && pos < @board_width }
   end
 
+  # @return [Boolean] is the given position not occupied by a mark?
   def empty?(position)
     @grid[position[0]][position[1]] == EMPTY_MARK
   end
 
+  # Places a mark on the board
+  # @param position [Array] where to place the mark. Format: [row, col]
+  # @param mark [String] the mark to place
   def place_mark(position, mark)
     raise "#{position} is an invalid position!" unless valid?(position)
     raise "#{position} is already occupied!" unless empty?(position)
@@ -27,6 +32,7 @@ class Board
     @grid[position[0]][position[1]] = mark
   end
 
+  # Prints the board
   def print
     margin = ' ' * 2
     top_border = "#{margin}* #{'* ' * @board_width}*"
@@ -48,6 +54,7 @@ class Board
     puts top_border
   end
 
+  # Checks if the given mark occupies any entire row
   def win_row?(mark)
     @grid.each do |row|
       return true if row.uniq == [mark]
@@ -55,6 +62,7 @@ class Board
     false
   end
 
+  # Checks if the given mark occupies any entire column
   def win_col?(mark)
     @grid.transpose.each do |row|
       return true if row.uniq == [mark]
@@ -62,6 +70,7 @@ class Board
     false
   end
 
+  # Checks if the given mark occupies the diagonal from top-left to bottom-right
   def win_diagonal_one?(mark)
     # Test top-left to bottom-right
     row_idx = 0
@@ -74,6 +83,7 @@ class Board
     true
   end
 
+  # Checks if the given mark occupies the diagonal from top-right to bottom-left
   def win_diagonal_two?(mark)
     # Test top-right to bottom-left
     row_idx = 0
@@ -91,6 +101,9 @@ class Board
     win_diagonal_one?(mark) || win_diagonal_two?(mark)
   end
 
+  # Checks if a mark occupies all positions in a vertical, horizontal, or diagonal line
+  # @param [String] Mark to check
+  # @return [Boolean] Did this mark win?
   def win?(mark)
     win_row?(mark) || win_col?(mark) || win_diagonal?(mark)
   end
