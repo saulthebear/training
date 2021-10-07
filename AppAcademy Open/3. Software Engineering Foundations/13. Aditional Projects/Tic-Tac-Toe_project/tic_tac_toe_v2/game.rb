@@ -5,19 +5,15 @@ require './human_player'
 # HumanPlayer required for gameplay. It will be responsible for passing data
 # between the board and players. It will also serve to contain the main game loop.
 class Game
-  def initialize(size, player1_mark, player2_mark)
-    @player1 = HumanPlayer.new(player1_mark)
-    @player2 = HumanPlayer.new(player2_mark)
-    @current_player = @player1
+  def initialize(size, *player_marks)
+    @players = []
+    player_marks.each { |p_mark| @players << HumanPlayer.new(p_mark) }
+    @current_player = @players[0]
     @board = Board.new(size)
   end
 
   def switch_turn
-    @current_player = if @current_player == @player1
-                        @player2
-                      else
-                        @player1
-                      end
+    @current_player = @players.rotate![0]
   end
 
   def play
