@@ -8,11 +8,14 @@ class HumanPlayer
   end
 
   # prompt and allow the user to enter a valid row col position.
-  def get_position
-    puts "Player #{@mark}, enter two numbers representing a position in the format `row col`"
-    pos = gets.chomp.split.map(&:to_i)
-    raise "Position entered incorrectly. I got #{pos}" unless pos.is_a?(Array) && pos.length == 2
-
+  def get_position(legal_positions)
+    legal = false
+    until legal
+      puts "Player #{@mark}, enter two numbers representing a position in the format `row col`"
+      pos = gets.chomp.split.map(&:to_i)
+      legal = legal_positions.include?(pos)
+      puts "Sorry, #{pos} is not a legal position! Try again." unless legal
+    end
     pos
   end
 end
