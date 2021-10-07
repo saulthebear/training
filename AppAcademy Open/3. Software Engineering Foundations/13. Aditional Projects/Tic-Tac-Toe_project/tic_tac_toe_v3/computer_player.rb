@@ -1,5 +1,7 @@
 # Naive AI-player that plays random positions on the board
 class ComputerPlayer
+  attr_reader :mark
+  
   def initialize(mark)
     @mark = mark
   end
