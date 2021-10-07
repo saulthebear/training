@@ -27,11 +27,13 @@ class Game
       @board.place_mark(pos, @current_player.mark)
       if @board.win?(@current_player.mark)
         puts "== YOU WON, Player #{@current_player.mark}! =="
+        @board.print
         return
       else
         switch_turn
       end
     end
     puts "== It's a DRAW =="
+    @board.print
   end
 end
