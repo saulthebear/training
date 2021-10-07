@@ -72,7 +72,6 @@ class Board
 
   # Checks if the given mark occupies the diagonal from top-left to bottom-right
   def win_diagonal_one?(mark)
-    # Test top-left to bottom-right
     row_idx = 0
     col_idx = 0
     while row_idx < @board_width
@@ -85,7 +84,6 @@ class Board
 
   # Checks if the given mark occupies the diagonal from top-right to bottom-left
   def win_diagonal_two?(mark)
-    # Test top-right to bottom-left
     row_idx = 0
     col_idx = @board_width - 1
     while row_idx < @board_width
