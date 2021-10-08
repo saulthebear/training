@@ -1,4 +1,5 @@
 require './item'
+require './print-utils'
 
 # A named collection of todo Items
 class List
@@ -50,15 +51,6 @@ class List
   # @return [Item] Item at the top of the list (Position 0)
   def priority
     @items[0]
-  end
-
-  # Used in printing to center justify a word
-  # @return [String] 
-  def center_justify(string, col_width, padding_str)
-    left_padding_width = (col_width / 2) - (string.length / 2)
-    right_padding_width = col_width - (string.length + left_padding_width)
-    return (padding_str * left_padding_width) + string + (padding_str * right_padding_width)
-
   end
 
   # Prints all the items on this List
