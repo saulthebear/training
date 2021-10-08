@@ -6,6 +6,7 @@ def center_justify(string, col_width, padding_str = ' ')
   return (padding_str * left_padding_width) + string + (padding_str * right_padding_width)
 end
 
+# Adds a given char before and after the string
 def add_border(string, border_char = '*')
   "#{border_char}#{string}#{border_char}"
 end
