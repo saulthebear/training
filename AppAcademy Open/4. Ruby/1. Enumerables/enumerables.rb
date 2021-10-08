@@ -47,40 +47,45 @@ class Array
   def my_zip(*args)
     zipped = []
     length.times do |index|
-      row = []
-      row << self[index]
+      row = [self[index]]
       args.each { |array| row << array[index] }
       zipped << row
     end
     zipped
   end
 
-  # [1, 2, 3, 4]
-  # [2, 3, 4, 1]
-  def rotate_forward_once
-    rotated = []
-    (1...length).each do |index|
-      rotated << self[index]
-    end
-    rotated << self[0]
-    rotated
-  end
+  # # [1, 2, 3, 4]
+  # # [2, 3, 4, 1]
+  # def rotate_forward_once
+  #   rotated = []
+  #   (1...length).each do |index|
+  #     rotated << self[index]
+  #   end
+  #   rotated << self[0]
+  #   rotated
+  # end
 
-  # [1, 2, 3, 4]
-  # [4, 1, 2, 3]
-  def rotate_backward_once
-    without_last = self[0...-1]
-    without_last.unshift(self[-1])
-  end
+  # # [1, 2, 3, 4]
+  # # [4, 1, 2, 3]
+  # def rotate_backward_once
+  #   without_last = self[0...-1]
+  #   without_last.unshift(self[-1])
+  # end
 
-  def my_rotate(iterations = 1)
-    rotated = self
-    if iterations.positive?
-      iterations.times { rotated = rotated.rotate_forward_once }
-    else
-      iterations.abs.times { rotated = rotated.rotate_backward_once }
-    end
-    rotated
+  # def my_rotate(iterations = 1)
+  #   rotated = self
+  #   if iterations.positive?
+  #     iterations.times { rotated = rotated.rotate_forward_once }
+  #   else
+  #     iterations.abs.times { rotated = rotated.rotate_backward_once }
+  #   end
+  #   rotated
+  # end
+
+  def my_rotate(positions = 1)
+    split_idx = positions % self.length
+
+    self.drop(split_idx) + self.take(split_idx)
   end
 
   def my_join(seperator = '')
@@ -95,7 +100,11 @@ class Array
   # [4, 3, 2, 1]
   def my_reverse
     reversed = []
-    each.with_index { |ele, index| reversed << self[-index - 1]}
+
+    self.my_each do |el|
+     reversed.unshift(el)
+    end
+
     reversed
   end
 
