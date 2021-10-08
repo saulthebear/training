@@ -63,18 +63,19 @@ class List
 
   # Prints all the items on this List
   def print
-    col_widths = [6, 22, 11]
+    col_widths = [6, 22, 11, 4]
     total_width = col_widths.sum + ((col_widths.length - 1) * 3) # includes vertical dividers
     horizontal_divider = '-' * total_width
 
     puts horizontal_divider
     puts center_justify(@label.upcase, total_width, ' ')
     puts horizontal_divider
-    puts "#{'Index'.ljust(col_widths[0])} | #{'Item'.ljust(col_widths[1])} | #{'Deadline'.ljust(col_widths[2])}"
+    puts "#{'Index'.ljust(col_widths[0])} | #{'Item'.ljust(col_widths[1])} | #{'Deadline'.ljust(col_widths[2])} | #{'Done'.ljust(col_widths[3])}"
     puts horizontal_divider
 
     @items.each.with_index do |item, idx|
-      puts "#{idx.to_s.ljust(col_widths[0])} | #{item.title.ljust(col_widths[1])} | #{item.deadline.ljust(col_widths[2])}"
+      done_mark = item.done ? '[✓]' : '[ ]'
+      puts "#{idx.to_s.ljust(col_widths[0])} | #{item.title.ljust(col_widths[1])} | #{item.deadline.ljust(col_widths[2])} | #{done_mark.ljust(col_widths[3])}"
     end
 
     puts horizontal_divider
@@ -89,8 +90,9 @@ class List
     item = @items[index]
     total_width = 42
     horizontal_divider = '-' * total_width
+    done_mark = item.done ? '[✓]' : '[ ]'
     puts horizontal_divider
-    puts "#{item.title.ljust(total_width - item.deadline.length)}#{item.deadline}"
+    puts "#{item.title.ljust(total_width - item.deadline.length - (done_mark.length + 1))}#{item.deadline} #{done_mark}"
     puts item.description
     puts horizontal_divider
   end
@@ -134,7 +136,24 @@ class List
 
   # Sort the items in the list according to their deadlines, mutating the list
   def sort_by_date!
-    # @items.sort_by! { |item| item.deadline }
     @items.sort_by!(&:deadline)
+  end
+
+  def toggle_item(index)
+    return false unless valid_index?(index)
+
+    @items[index].toggle
+    true
+  end
+
+  def remove_item(index)
+    return false unless valid_index?(index)
+    
+    @items.delete_at(index)
+    true
+  end
+
+  def purge
+    @items.reject!(&:done)
   end
 end

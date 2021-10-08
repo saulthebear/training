@@ -1,6 +1,6 @@
 # A single task item on a list
 class Item
-  attr_accessor :title, :description
+  attr_accessor :title, :description, :done
   attr_reader :deadline
 
   # This method should accept a string and return a boolean indicating if it is
@@ -34,10 +34,15 @@ class Item
     @title = title
     @deadline = deadline
     @description = description
+    @done = false
   end
 
   # Change item's deadline if it's a valid date
   def deadline=(new_deadline)
     @deadline = new_deadline if Item.check_date(new_deadline)
+  end
+
+  def toggle
+    @done = !@done
   end
 end
