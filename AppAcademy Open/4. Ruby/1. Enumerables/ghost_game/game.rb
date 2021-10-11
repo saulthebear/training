@@ -4,24 +4,43 @@ class Game
   def initialize(*player_names)
     @dictionary = File.read('dictionary.txt').split.to_set
     @fragment = ''
+    @round_number = 1
+    @losses = {}
     @players = []
-    player_names.each { |player_name| @players << Player.new(player_name) }
+    player_names.each do |player_name|
+      player = Player.new(player_name)
+      @players << player
+      @losses[player] = 0
+    end
+  end
+
+  def print_records
+    @players.each { |player| puts "#{player.name}, you have '#{record(player)}'" }
+  end
+
+  def record(player)
+    letters = ['G', 'H', 'O', 'S', 'T']
+    losses = @losses[player]
+    letters[0...losses].join
   end
 
   def play_round
-    game_status = 0
-    while game_status.zero?
-      game_status = take_turn(current_player)
+    round_outcome = 0
+    while round_outcome.zero?
+      round_outcome = take_turn(current_player)
       next_player!
     end
 
-    case game_status
+    case round_outcome
     when 1
-      puts "You won, #{previous_player.name}! You spelled #{@fragment}"
+      puts "You lost, #{previous_player.name}! You spelled #{@fragment}."
+      losers = @players.reject { |player| player == previous_player }
+      @losses[previous_player] += 1
     when -1
       puts "Uh-Oh. No word starts with '#{@fragment}'! You lost, #{previous_player.name}. :("
+      @losses[previous_player] += 1
     else
-      puts "ERROR. game_status is #{game_status}"
+      puts "ERROR. round_outcome is #{round_outcome}"
     end
 
     reset_round
@@ -29,6 +48,32 @@ class Game
 
   def reset_round
     @fragment = ''
+  end
+
+  def eliminate_player(player)
+    @players.delete(player)
+    @losses.delete(player)
+  end
+
+  def run
+    until @players.length == 1
+      until @losses.any? { |_, losses| losses == 5 }
+        puts "\n==ROUND #{@round_number}=="
+        puts 'Here are the standings, so far:'
+        print_records
+        puts "\n"
+        play_round
+        @round_number += 1
+      end
+      loser = @losses.select { |_, losses| losses == 5 }.keys[0]
+      puts "\n==SET OVER=="
+      puts "Sorry, #{loser.name}, you are a GHOST and have been eliminated!\n"
+      puts "===============\n"
+      eliminate_player(loser)
+      @round_number = 1
+    end
+    puts "\n\n==GAME OVER=="
+    puts "Congratulations, #{current_player.name}, you are the winner!"
   end
 
   def current_player

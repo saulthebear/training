@@ -7,7 +7,7 @@ class Player
 
   def guess(instruction)
     puts instruction
-    gets.chomp
+    gets.chomp.downcase
   end
 
   # def alert_invalid_guess(alert)
