@@ -62,6 +62,10 @@ class Board
     self[position].hide
   end
 
+  def revealed?(position)
+    self[position].revealed?
+  end
+
   def [](position)
     row, col = position
     @grid[row][col]

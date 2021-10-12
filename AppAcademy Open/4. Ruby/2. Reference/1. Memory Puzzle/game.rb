@@ -1,9 +1,11 @@
+require_relative './human_player'
 require_relative './board'
 require_relative './card'
 
 # Holds game loop for Memory Game
 class Game
   def initialize
+    @player = HumanPlayer.new
     @board_size = 4
     @board = Board.new(@board_size)
     @previous_guess = nil
@@ -54,12 +56,13 @@ class Game
   end
 
   def player_guess
+    
     valid = false
     until valid
-      puts "Please enter the position of the card you'd like to filp (e.g. '2,3')"
-      position = gets.chomp.delete(' ').split(',').map(&:to_i)
+      @player.prompt("Please enter the position of the card you'd like to filp (e.g. '2,3')")
+      position = @player.get_position
       valid = valid_position?(position)
-      puts 'That was an invalid guess. Please try again.' unless valid
+      @player.prompt('That was an invalid guess. Please try again.') unless valid
     end
     position
   end
@@ -69,6 +72,8 @@ class Game
     return false unless position.all? { |pos| pos.is_a?(Integer) }
     # Is it in range?
     return false unless position.all? { |pos| (0...@board_size).cover?(pos) }
+    # Has it been revealed already?
+    return false if @board.revealed?(position)
 
     true
   end
