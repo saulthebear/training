@@ -34,7 +34,7 @@ class Card
     @shown
   end
 
-  def ==(other_card)
-    @value == other_card.value
+  def ==(other)
+    @value == other.value
   end
 end
