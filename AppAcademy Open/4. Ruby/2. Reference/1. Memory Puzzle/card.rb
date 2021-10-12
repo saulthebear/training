@@ -6,32 +6,32 @@ class Card
     [Card.new(value), Card.new(value)]
   end
 
-  # attr_reader :value
+  attr_reader :value
 
   def initialize(value)
     @value = value
-    @shown = false
+    @revealed = false
   end
 
-  # Returns the value when card is shown, or empty string when not shown
+  # Returns the value when card is revealed, or ' ' when not revealed
   def display
-    if @shown
+    if @revealed
       @value
     else
-      ''
+      ' '
     end
   end
 
   def hide
-    @shown = false
+    @revealed = false
   end
 
   def reveal
-    @shown = true
+    @revealed = true
   end
 
   def revealed?
-    @shown
+    @revealed
   end
 
   def ==(other)

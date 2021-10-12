@@ -1,7 +1,6 @@
 require_relative './card'
 
 class Board
-  attr_reader :grid
 
   def initialize(size = 4)
     @size = size
@@ -62,11 +61,6 @@ class Board
   def hide(position)
     self[position].hide
   end
-
-  # def card_at(board_position)
-  #   row, col = board_position
-  #   @grid[row][col]
-  # end
 
   def [](position)
     row, col = position
