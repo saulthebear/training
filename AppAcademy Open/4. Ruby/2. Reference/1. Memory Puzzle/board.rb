@@ -1,4 +1,5 @@
 require_relative './card'
+require_relative './position'
 
 class Board
 
@@ -12,7 +13,7 @@ class Board
     return false if grid_full?
 
     loop do
-      position = [rand(0...@size), rand(0...@size)]
+      position = Position.new(rand(0...@size), rand(0...@size))
       unless self[position]
         self[position] = card
         return true
@@ -67,12 +68,10 @@ class Board
   end
 
   def [](position)
-    row, col = position
-    @grid[row][col]
+    @grid[position.row][position.col]
   end
 
   def []=(position, card)
-    row, col = position
-    @grid[row][col] = card
+    @grid[position.row][position.col] = card
   end
 end

@@ -1,6 +1,7 @@
 require_relative './human_player'
 require_relative './board'
 require_relative './card'
+require_relative './position'
 
 # Holds game loop for Memory Game
 class Game
@@ -61,17 +62,15 @@ class Game
     until valid
       @player.prompt("Please enter the position of the card you'd like to filp (e.g. '2,3')")
       position = @player.get_position
-      valid = valid_position?(position)
+      valid = valid_guess?(position)
       @player.prompt('That was an invalid guess. Please try again.') unless valid
     end
     position
   end
 
-  def valid_position?(position)
-    return false unless position.length == 2
-    return false unless position.all? { |pos| pos.is_a?(Integer) }
-    # Is it in range?
-    return false unless position.all? { |pos| (0...@board_size).cover?(pos) }
+  def valid_guess?(position)
+    return false unless position.is_a?(Position)
+    return false unless position.valid?(@board_size - 1)
     # Has it been revealed already?
     return false if @board.revealed?(position)
 
