@@ -2,7 +2,7 @@ require 'colorize'
 
 class Tile
 
-  attr_reader :value
+  attr_reader :value, :given
 
   def self.from_int(int)
     Tile.new(int, !int.zero?)

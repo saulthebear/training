@@ -1,4 +1,5 @@
-require_relative './tile'
+require_relative 'tile'
+require_relative 'position'
 
 class Board
   attr_reader :grid # Debugging only
@@ -18,8 +19,16 @@ class Board
   end
 
   def render
+    # Print column index numbers
+    col_index_row = '   '
+    9.times do |col|
+      col_index_row += ' ' if (col % 3).zero?
+
+      col_index_row += "#{col}  "
+    end
+    puts col_index_row
     @grid.each_with_index do |row, row_index|
-      row_str = '| '
+      row_str = "#{row_index} | "
       row.each_with_index do |num, col_index|
         row_str +=  if ((col_index + 1) % 3).zero?
                       "#{num} | "
@@ -27,10 +36,10 @@ class Board
                       "#{num}  "
                     end
       end
-      puts '-' * 31 if (row_index % 3).zero?
+      puts "  #{'-' * 31}" if (row_index % 3).zero?
       puts row_str
     end
-    puts '-' * 31
+    puts "  #{'-' * 31}"
   end
 
   def line_solved?(line)
@@ -78,5 +87,17 @@ class Board
 
   def solved?
     rows_solved? && cols_solved? && squares_solved?
+  end
+
+  def [](position)
+    @grid[position.row][position.col]
+  end
+
+  def []=(position, value)
+    @grid[position.row][position.col].value = value
+  end
+
+  def editable?(position)
+    !self[position].given
   end
 end
