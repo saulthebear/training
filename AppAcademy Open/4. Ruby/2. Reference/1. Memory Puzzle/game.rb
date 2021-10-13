@@ -1,13 +1,14 @@
 require_relative './human_player'
+require_relative './computer_player'
 require_relative './board'
 require_relative './card'
 require_relative './position'
 
 # Holds game loop for Memory Game
 class Game
-  def initialize
-    @player = HumanPlayer.new
-    @board_size = 4
+  def initialize(board_size = 4, player = HumanPlayer.new)
+    @board_size = board_size
+    @player = player
     @board = Board.new(@board_size)
     @previous_guess = nil
   end
@@ -30,19 +31,23 @@ class Game
     if @previous_guess
       if @board[current_guess] == @board[@previous_guess]
         @board.reveal(current_guess)
+        @player.receive_match(current_guess, @previous_guess)
       else
         show_then_hide(@previous_guess, current_guess)
       end
       @previous_guess = nil
     else
-      @board.reveal(current_guess)
+      value = @board.reveal(current_guess)
+      @player.receive_revealed_card(current_guess, value)
       @previous_guess = current_guess
     end
   end
 
   def show_then_hide(position1, position2)
-    @board.reveal(position1)
-    @board.reveal(position2)
+    value = @board.reveal(position1)
+    @player.receive_revealed_card(position1, value)
+    value = @board.reveal(position2)
+    @player.receive_revealed_card(position2, value)
     system('clear')
     display_board
     sleep(2)
@@ -57,7 +62,6 @@ class Game
   end
 
   def player_guess
-    
     valid = false
     until valid
       @player.prompt("Please enter the position of the card you'd like to filp (e.g. '2,3')")

@@ -28,6 +28,7 @@ class Card
 
   def reveal
     @revealed = true
+    self.value
   end
 
   def revealed?
