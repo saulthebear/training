@@ -8,7 +8,7 @@ class WordChainer
     @current_words = [source].to_set
     @all_seen_words = { source => nil }
 
-    until @current_words.empty?
+    until @all_seen_words.include?(target)
       new_current_words = explore_current_words
       @current_words = new_current_words
     end
