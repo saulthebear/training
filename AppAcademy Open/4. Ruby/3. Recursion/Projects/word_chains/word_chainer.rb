@@ -4,11 +4,24 @@ class WordChainer
     
   end
 
-  def dictionary_from_file(dictionary_file_name)
-    file = File.open(dictionary_file_name)
-    data = file.read
-    words = data.split
-    Set.new(words)
+  def run(source, target)
+    @current_words = [source].to_set
+    @all_seen_words = [source].to_set
+
+    until @current_words.empty?
+      new_current_words = [].to_set
+      @current_words.each do |current_word|
+        adjacent_to_current = adjacent_words(current_word)
+        adjacent_to_current.each do |adjacent_word|
+          unless @all_seen_words.include?(adjacent_word)
+            new_current_words << adjacent_word
+            @all_seen_words << adjacent_word
+          end
+        end
+      end
+      puts new_current_words
+      @current_words = new_current_words
+    end
   end
 
   def adjacent_words(word)
@@ -25,11 +38,18 @@ class WordChainer
       end
       all_adjacent_words += new_words
     end
-    all_adjacent_words
+    all_adjacent_words.to_set
   end
 
   def in_dictionary?(word)
     @dictionary.include?(word)
+  end
+
+  def dictionary_from_file(dictionary_file_name)
+    file = File.open(dictionary_file_name)
+    data = file.read
+    words = data.split
+    Set.new(words)
   end
 
   def inspect
