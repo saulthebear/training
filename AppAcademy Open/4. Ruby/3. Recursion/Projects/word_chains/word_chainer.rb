@@ -6,11 +6,10 @@ class WordChainer
 
   def run(source, target)
     @current_words = [source].to_set
-    @all_seen_words = [source].to_set
+    @all_seen_words = { source => nil }
 
     until @current_words.empty?
       new_current_words = explore_current_words
-      puts new_current_words
       @current_words = new_current_words
     end
   end
@@ -22,11 +21,33 @@ class WordChainer
       adjacent_to_current.each do |adjacent_word|
         unless @all_seen_words.include?(adjacent_word)
           new_current_words << adjacent_word
-          @all_seen_words << adjacent_word
+          @all_seen_words[adjacent_word] = current_word
         end
       end
     end
+    print_origins_pretty(new_current_words)
     new_current_words
+  end
+
+  def print_origins(words)
+    words.each do |word|
+      origin = @all_seen_words[word]
+      puts "#{origin} => #{word}"
+    end
+  end
+
+  def print_origins_pretty(words)
+    prev_origin = nil
+    words.each do |word|
+      origin = @all_seen_words[word]
+      if origin == prev_origin
+        blank_origin = ' ' * prev_origin.length
+        puts "#{blank_origin} => #{word}"
+      else
+        puts "#{origin} => #{word}"
+      end
+      prev_origin = origin
+    end
   end
 
   def adjacent_words(word)
