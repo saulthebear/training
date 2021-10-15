@@ -12,6 +12,8 @@ class WordChainer
       new_current_words = explore_current_words
       @current_words = new_current_words
     end
+
+    build_path(target)
   end
 
   def explore_current_words
@@ -25,7 +27,7 @@ class WordChainer
         end
       end
     end
-    print_origins_pretty(new_current_words)
+    # print_origins_pretty(new_current_words)
     new_current_words
   end
 
@@ -48,6 +50,16 @@ class WordChainer
       end
       prev_origin = origin
     end
+  end
+
+  def build_path(target)
+    prev_word = target
+    path = []
+    until prev_word.nil?
+      path.unshift(prev_word)
+      prev_word = @all_seen_words[prev_word]
+    end
+    path
   end
 
   def adjacent_words(word)
