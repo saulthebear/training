@@ -67,6 +67,18 @@ class Position
     Position.new(@row, @col + steps)
   end
 
+  def hash
+    [@row, @col].hash
+  end
+
+  def eql?(other)
+    @row == other.row && @col == other.col
+  end
+
+  def ==(other)
+    @row == other.row && @col == other.col
+  end
+
   def inspect
     "<Position [#{@row},#{@col}]>"
     # "<Position [#{@row},#{@col}] @row=#{@row} @col=#{@col}>"
