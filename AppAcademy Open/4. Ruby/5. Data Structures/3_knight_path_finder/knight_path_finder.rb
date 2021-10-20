@@ -13,10 +13,7 @@ class KnightPathFinder
   end
 
   def self.valid_position?(position)
-    return false if position.row.negative? || position.col.negative?
-    return false if position.row >= 8 || position.col >= 8
-
-    true
+    position.row.between?(0, 7) && position.col.between?(0, 7)
   end
   
   def initialize(starting_position)
