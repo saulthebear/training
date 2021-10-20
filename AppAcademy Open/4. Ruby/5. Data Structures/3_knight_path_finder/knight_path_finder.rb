@@ -124,6 +124,10 @@ class PolyTreeNode
   end
 
   def inspect
-    "<PolyTreeNode @value=#{@value} @parent=#{@parent.inspect}>"
+    if @parent
+      "<Node #{@value.inspect} @parent=#{@parent&.value&.inspect}>"
+    else
+      "<Node #{@value.inspect} @parent=nil>"
+    end
   end
 end
