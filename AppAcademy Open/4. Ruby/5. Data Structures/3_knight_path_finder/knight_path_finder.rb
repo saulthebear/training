@@ -1,18 +1,38 @@
 class KnightPathFinder
   def self.valid_moves(position)
+    positions = [ position.up(2).right(1),
+                  position.up(2).left(1),
+                  position.down(2).right(1),
+                  position.down(2).left(1),
+                  position.right(2).up(1),
+                  position.right(2).down(1),
+                  position.left(2).up(1),
+                  position.left(2).down(1)
+                ]
+    positions.select { |pos| valid_position?(pos) }
+  end
 
+  def self.valid_position?(position)
+    return false if position.row.negative? || position.col.negative?
+    return false if position.row >= 8 || position.col >= 8
+
+    true
   end
   
   def initialize(starting_position)
     @starting_position = PolyTreeNode.new(starting_position)
-    @starting_position.children = build_moveTree
+    build_moveTree
     @considered_positions = []
   end
 
   def build_moveTree
   end
 
-  def new_move_positions
+  def new_move_positions(position)
+    all_possible_moves = KnightPathFinder.valid_moves(position)
+    new_moves = all_possible_moves.reject { |pos| @considered_positions.include?(pos) }
+    @considered_positions.concat(new_moves)
+    new_moves
   end
 
   def find_path(target_position)
@@ -29,6 +49,27 @@ class Position
 
     @row = row
     @col = col
+  end
+
+  def up(steps)
+    Position.new(@row - steps, @col)
+  end
+
+  def down(steps)
+    Position.new(@row + steps, @col)
+  end
+
+  def left(steps)
+    Position.new(@row, @col - steps)
+  end
+
+  def right(steps)
+    Position.new(@row, @col + steps)
+  end
+
+  def inspect
+    "<Position [#{@row},#{@col}]>"
+    # "<Position [#{@row},#{@col}] @row=#{@row} @col=#{@col}>"
   end
 end
 
