@@ -20,12 +20,22 @@ class KnightPathFinder
   end
   
   def initialize(starting_position)
-    @starting_position = PolyTreeNode.new(starting_position)
-    build_moveTree
+    @starting_node = PolyTreeNode.new(starting_position)
     @considered_positions = []
+    build_move_tree
   end
 
-  def build_moveTree
+  def build_move_tree
+    queue = [@starting_node]
+    until queue.empty?
+      node = queue.shift
+      new_moves = new_move_positions(node.value)
+      new_moves_nodes = new_moves.map { |pos| PolyTreeNode.new(pos) }
+      new_moves_nodes.each do |new_node|
+        new_node.parent = node
+      end
+      queue.concat(node.children)
+    end
   end
 
   def new_move_positions(position)
