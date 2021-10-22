@@ -1,30 +1,50 @@
-# PHASE 2
-def convert_to_int(str)
-  Integer(str)
-end
-
 # PHASE 3
 FRUITS = ["apple", "banana", "orange"]
+
+class CoffeeError < StandardError
+  def message
+    "You gave me coffee, not fruit! Try again!"
+  end
+end
+
+class NotFruitError < StandardError
+  def message
+    "That wasn't fruit!"
+  end
+end
 
 def reaction(maybe_fruit)
   if FRUITS.include? maybe_fruit
     puts "OMG, thanks so much for the #{maybe_fruit}!"
-  else 
-    raise StandardError 
-  end 
+  elsif maybe_fruit == 'coffee'
+    raise CoffeeError
+  else
+    raise NotFruitError
+  end
 end
 
 def feed_me_a_fruit
   puts "Hello, I am a friendly monster. :)"
 
-  puts "Feed me a fruit! (Enter the name of a fruit:)"
-  maybe_fruit = gets.chomp
-  reaction(maybe_fruit) 
+  begin
+    puts "Feed me a fruit! (Enter the name of a fruit:)"
+    maybe_fruit = gets.chomp
+    reaction(maybe_fruit)
+  rescue CoffeeError => e
+    puts e.message
+    retry
+  rescue NotFruitError => e
+    puts e.message
+  end
 end  
 
 # PHASE 4
 class BestFriend
   def initialize(name, yrs_known, fav_pastime)
+    raise ArgumentError.new('Name must be provided') unless name.length >= 1
+    raise ArgumentError.new('Pastime must be provided') unless fav_pastime.length >= 1
+    raise ArgumentError.new('Best Friends must have known eachother for at least 5 years') unless yrs_known >= 5
+
     @name = name
     @yrs_known = yrs_known
     @fav_pastime = fav_pastime
