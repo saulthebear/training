@@ -126,14 +126,11 @@ def teachers_and_divisions
   SELECT
     teachers.name,
     CASE
-      WHEN depts.id = 1 OR depts.id = 2 THEN 'Sci'
+      WHEN teachers.dept_id IN (1, 2) THEN 'Sci'
       ELSE 'Art'
     END AS division
   FROM
     teachers
-    LEFT JOIN
-    depts
-    ON teachers.dept_id = depts.id
   SQL
 end
 
@@ -145,8 +142,8 @@ def teachers_and_divisions_two
     SELECT
       teachers.name,
       CASE
-        WHEN depts.id = 1 OR depts.id = 2 THEN 'Sci'
-        WHEN depts.id = 3 THEN 'Art'
+        WHEN teachers.dept_id IN (1, 2) THEN 'Sci'
+        WHEN teachers.dept_id = 3 THEN 'Art'
         ELSE 'None'
       END AS division
     FROM
