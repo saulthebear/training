@@ -65,9 +65,9 @@ INSERT INTO
 VALUES
   (1, "Ned Q1", "NED NED NED NED"),
   (1, "Ned Q2", "NED 222 NED 222"),
-  (1, "Kush Q1", "Kush Kush Kush Kush"),
-  (1, "Kush Q2", "Kush 222 Kush 222"),
-  (1, "Earl Q1", "EARL EARL EARL EARL");
+  (2, "Kush Q1", "Kush Kush Kush Kush"),
+  (2, "Kush Q2", "Kush 222 Kush 222"),
+  (3, "Earl Q1", "EARL EARL EARL EARL");
 
 INSERT INTO
   replies (question_id, parent_id, author_id, body)
