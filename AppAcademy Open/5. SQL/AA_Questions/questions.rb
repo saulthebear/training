@@ -38,6 +38,21 @@ class User
     @lname = options['lname']
   end
 
+  def save
+    return update if @id
+
+    QuestionsDatabase.instance.execute(<<-SQL, fname, lname)
+      INSERT
+        INTO users (fname, lname)
+      VALUES
+        (?, ?)
+    SQL
+
+    @id = QuestionsDatabase.instance.last_insert_row_id
+
+    self
+  end
+
   def authored_questions
     Question.find_by_author_id(@id)
   end
@@ -71,6 +86,23 @@ class User
         questions.author_id = ?
     SQL
     data.first['average_karma']
+  end
+
+  private
+
+  def update
+    raise 'This record does not exist' unless @id
+
+    QuestionsDatabase.instance.execute(<<-SQL, @fname, @lname, @id)
+      UPDATE users
+      SET
+        fname = ?,
+        lname = ?
+      WHERE
+        id = ?
+    SQL
+
+    self
   end
 end
 
@@ -106,6 +138,21 @@ class Question
     @body = options['body']
   end
 
+  def save
+    return update if @id
+
+    QuestionsDatabase.instance.execute(<<-SQL, @author_id, @title, @body)
+      INSERT
+        INTO questions (author_id, title, body)
+      VALUES
+        (?, ?, ?)
+    SQL
+
+    @id = QuestionsDatabase.instance.last_insert_row_id
+
+    self
+  end
+
   def author
     User.find_by_id(@author_id)
   end
@@ -124,6 +171,24 @@ class Question
 
   def num_likes
     QuestionLike.num_likes_for_question_id(@id)
+  end
+
+  private
+
+  def update
+    raise 'This record does not exist' unless @id
+
+    QuestionsDatabase.instance.execute(<<-SQL, @author_id, @title, @body, @id)
+      UPDATE questions
+      SET
+        author_id = ?,
+        title = ?,
+        body = ?
+      WHERE
+        id = ?
+    SQL
+
+    self
   end
 end
 
@@ -225,6 +290,21 @@ class Reply
     @body = options['body']
   end
 
+  def save
+    return update if @id
+
+    QuestionsDatabase.instance.execute(<<-SQL, @question_id, @parent_id, @author_id, @body)
+      INSERT
+        INTO replies (question_id, parent_id, author_id, body)
+      VALUES
+        (?, ?, ?, ?)
+    SQL
+
+    @id = QuestionsDatabase.instance.last_insert_row_id
+
+    self
+  end
+
   def author
     User.find_by_id(@author_id)
   end
@@ -251,6 +331,25 @@ class Reply
     return nil if data.length.zero?
 
     data.map { |datum| Reply.new(datum) }
+  end
+
+  private
+
+  def update
+    raise 'This record does not exist' unless @id
+
+    QuestionsDatabase.instance.execute(<<-SQL, @question_id, @parent_id, @author_id, @body, @id)
+      UPDATE replies
+      SET
+        question_id = ?,
+        parent_id = ?,
+        author_id = ?,
+        body = ?
+      WHERE
+        id = ?
+    SQL
+
+    self
   end
 end
 
