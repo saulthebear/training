@@ -12,6 +12,7 @@
 class ShortenedUrl < ApplicationRecord
   validates :long_url, presence: true, uniqueness: true
   validates :short_url, uniqueness: true
+  validate :no_spamming
 
   belongs_to :submitter, class_name: 'User', foreign_key: :submitter_id
   has_many :visits, class_name: :Visit, foreign_key: :url_id, primary_key: :id
@@ -46,5 +47,10 @@ class ShortenedUrl < ApplicationRecord
 
   def num_recent_uniques
     visitors.where("visits.created_at > ?", 10.minutes.ago).count
+  end
+
+  def no_spamming
+    num_recent_urls_added = ShortenedUrl.where('submitter_id = ?', submitter_id).where('created_at > ?', 10.minutes.ago).count
+    errors[:spam] << 'can\'t add more than 5 URLs in a minute' if num_recent_urls_added >= 5
   end
 end
