@@ -13,6 +13,7 @@ class ShortenedUrl < ApplicationRecord
   validates :long_url, presence: true, uniqueness: true
   validates :short_url, uniqueness: true
   validate :no_spamming
+  validate :nopremium_max
 
   belongs_to :submitter, class_name: 'User', foreign_key: :submitter_id
   has_many :visits, class_name: :Visit, foreign_key: :url_id, primary_key: :id
@@ -52,5 +53,11 @@ class ShortenedUrl < ApplicationRecord
   def no_spamming
     num_recent_urls_added = ShortenedUrl.where('submitter_id = ?', submitter_id).where('created_at > ?', 10.minutes.ago).count
     errors[:spam] << 'can\'t add more than 5 URLs in a minute' if num_recent_urls_added >= 5
+  end
+
+  def nopremium_max
+    return if User.find(submitter_id).premium
+    num_urls_added = ShortenedUrl.where('submitter_id = ?', submitter_id).count
+    errors[:nopremium_max] << 'can\'t add more than 5 URLs without Premium' if num_urls_added >= 5
   end
 end
