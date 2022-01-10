@@ -9,4 +9,6 @@
 #  updated_at :datetime         not null
 #
 class Poll < ApplicationRecord
+  validates :author_id, presence: true
+  validates :title, presence: true
 end

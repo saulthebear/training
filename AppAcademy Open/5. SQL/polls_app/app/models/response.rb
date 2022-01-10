@@ -10,4 +10,7 @@
 #  updated_at       :datetime         not null
 #
 class Response < ApplicationRecord
+  validates :user_id, presence: true
+  validates :question_id, presence: true
+  validates :answer_choice_id, presence: true
 end
