@@ -10,42 +10,42 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_10_170055) do
+ActiveRecord::Schema.define(version: 2022_01_10_182344) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "answer_choices", force: :cascade do |t|
-    t.integer "question_id"
+    t.integer "question_id", null: false
     t.string "text"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "polls", force: :cascade do |t|
-    t.integer "author_id"
-    t.string "title"
+    t.integer "author_id", null: false
+    t.string "title", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "questions", force: :cascade do |t|
-    t.integer "poll_id"
-    t.string "text"
+    t.integer "poll_id", null: false
+    t.string "text", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "responses", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "question_id"
-    t.integer "answer_choice_id"
+    t.integer "user_id", null: false
+    t.integer "question_id", null: false
+    t.integer "answer_choice_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "username"
+    t.string "username", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
