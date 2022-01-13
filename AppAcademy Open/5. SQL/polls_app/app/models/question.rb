@@ -34,8 +34,8 @@ class Question < ApplicationRecord
   
   def results
     results_hash = {}
-    answer_choices.each do |choice|
-      results_hash[choice.text] = choice.responses.count
+    answer_choices.includes(:responses).each do |choice|
+      results_hash[choice.text] = choice.responses.length
     end
     results_hash
   end
