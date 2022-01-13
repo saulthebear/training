@@ -1,0 +1,69 @@
+#!/usr/bin/env ruby
+
+def get_user
+  user = nil
+
+  until user
+    puts 'Input your email: '
+    print '> '
+    email_input = gets.chomp
+    user = User.find_by({ email: email_input })
+    puts 'Email not found. Try again.' unless user
+  end
+  print "\n"
+  user
+end
+
+def get_option
+  selected_option = nil
+  
+  until [0, 1].include?(selected_option)
+    puts 'What do you want to do?'
+    puts '0. Create shortened URL'
+    puts '1. Visit shortened URL'
+    print '> '
+    selected_option = gets.chomp.to_i
+  end
+
+  print "\n"
+
+  selected_option
+end
+
+def process_option(user, option)
+  case option
+  when 0
+    long_url = get_url('Enter the URL you want to shorten:')
+    create_url(user, long_url)
+  when 1
+    url = get_url('Enter the shortened URL you want to visit:')
+    visit_url(user, url)
+  end
+end
+
+def get_url(message)
+  puts message
+  print '> '
+  gets.chomp
+end
+
+def create_url(user, long_url)
+  short_url = ShortenedUrl.create_for_user_and_long_url!(user, long_url)
+  puts "Short URL is: #{short_url.short_url}"
+end
+
+def visit_url(user, url)
+  url_object = ShortenedUrl.find_by({ short_url: url })
+  Visit.record_visit!(user, url_object)
+  long_url = url_object.long_url
+  puts "Launching #{long_url}"
+  Launchy.open(long_url)
+end
+
+if __FILE__ == $PROGRAM_NAME
+  user = get_user
+  option = get_option
+  process_option(user, option)
+
+  puts "\nGoodbye!\n"
+end
