@@ -31,4 +31,12 @@ class Question < ApplicationRecord
     through: :answer_choices,
     source: :responses
   )
+  
+  def results
+    results_hash = {}
+    answer_choices.each do |choice|
+      results_hash[choice.text] = choice.responses.count
+    end
+    results_hash
+  end
 end
