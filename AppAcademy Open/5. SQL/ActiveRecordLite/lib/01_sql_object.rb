@@ -5,7 +5,16 @@ require 'active_support/inflector'
 
 class SQLObject
   def self.columns
-    # ...
+    return @columns unless @columns.nil?
+    results = DBConnection.execute2(<<-SQL)
+      SELECT
+        *
+      FROM
+        #{self.table_name}
+      LIMIT 1
+    SQL
+
+    @columns = results[0].map(&:to_sym)
   end
 
   def self.finalize!
