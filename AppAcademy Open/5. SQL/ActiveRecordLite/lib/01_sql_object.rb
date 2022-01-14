@@ -41,15 +41,31 @@ class SQLObject
   end
 
   def self.all
-    # ...
+    query = <<-SQL
+      SELECT *
+      FROM #{self.table_name}
+    SQL
+
+    results = DBConnection.execute(query)
+    self.parse_all(results)
   end
 
   def self.parse_all(results)
-    # ...
+    results.map do |result|
+      self.new(result)
+    end
   end
 
   def self.find(id)
-    # ...
+    # query = 
+    results = DBConnection.execute(<<-SQL, id)
+      SELECT *
+      FROM #{self.table_name}
+      WHERE #{self.table_name}.id == ?
+      LIMIT 1
+    SQL
+
+    results.length == 1 ? self.new(results[0]) : nil
   end
 
   def initialize(params = {})
