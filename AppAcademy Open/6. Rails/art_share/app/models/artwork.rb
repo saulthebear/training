@@ -7,5 +7,11 @@ class Artwork < ApplicationRecord
   belongs_to :artist,
     class_name: "User",
     primary_key: :id,
-    foreign_key: :artist_id
+    foreign_key: :artist_iod
+  
+  has_many :artwork_shares
+
+  has_many :shared_viewers,
+    through: :artwork_shares,
+    source: :viewer
 end
