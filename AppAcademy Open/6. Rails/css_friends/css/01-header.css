@@ -1,2 +1,49 @@
 /* PHASE 1: Header */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+body {
+  font-weight: 400;
+  font-family: Roboto, sans-serif;
+  box-sizing: border-box;
+  background-color: #eee;
+}
 
+.header a {
+  display: block;
+  padding: 10px 20px;
+}
+
+.header a:hover {
+  background-color: black;
+}
+
+.header {
+  background-color: red;
+  color: white;
+
+  width: 100%;
+}
+
+.header-nav {
+  display: flex;
+  justify-content: space-between;
+  width: 900px;
+  margin: auto;
+}
+
+.header-logo {
+  font-weight: 700;
+  /*padding: 10px 5px;*/
+  border-left: 1px solid white;
+  border-right: 1px solid white;
+}
+
+.header-list {
+  display: flex;
+  justify-content: space-between;
+  width: 315px;
+  border-right: 1px solid white;
+}
+
+.header-list li {
+  border-left: 1px solid white;
+}

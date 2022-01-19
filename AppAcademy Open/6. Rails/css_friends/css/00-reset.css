@@ -15,6 +15,7 @@ span, article, footer, time, small {
   text-decoration: none;
   
   box-sizing: inherit;
+  color: inherit;
 }
 
 ul {
