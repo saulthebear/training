@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: artworks
+#
+#  id         :bigint           not null, primary key
+#  title      :string           not null
+#  image_url  :string           not null
+#  artist_id  :integer
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
 class Artwork < ApplicationRecord
   validates :title, presence: true, uniqueness: { scope: :artist_id,
     message: "should be unique per artist" }
