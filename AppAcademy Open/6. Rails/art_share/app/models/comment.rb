@@ -10,14 +10,11 @@
 #  updated_at :datetime         not null
 #
 class Comment < ApplicationRecord
-  validates :author_id, presence: true
-  validates :artwork_id, presence: true
   validates :body, presence: true
 
   belongs_to :author,
     class_name: 'User',
     foreign_key: :author_id
 
-  belongs_to :artwork,
-    dependent: :destroy
+  belongs_to :artwork
 end
