@@ -17,4 +17,6 @@ class Comment < ApplicationRecord
     foreign_key: :author_id
 
   belongs_to :artwork
+
+  has_many :likes, as: :likeable
 end
