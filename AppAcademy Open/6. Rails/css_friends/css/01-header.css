@@ -7,6 +7,16 @@ body {
   background-color: #eee;
 }
 
+.header {
+  background-color: red;
+  color: white;
+
+  width: 100%;
+
+  position: relative;
+  z-index: 1;
+}
+
 .header a {
   display: block;
   padding: 10px 20px;
@@ -14,13 +24,6 @@ body {
 
 .header a:hover {
   background-color: black;
-}
-
-.header {
-  background-color: red;
-  color: white;
-
-  width: 100%;
 }
 
 .header-nav {
@@ -40,10 +43,135 @@ body {
 .header-list {
   display: flex;
   justify-content: space-between;
-  width: 315px;
+  min-width: 315px;
   border-right: 1px solid white;
 }
 
 .header-list li {
   border-left: 1px solid white;
 }
+
+
+.badge {
+  background-color: black;
+  border-radius: 100%;
+  /*padding: 0.2em;*/
+  font-size: 14px;
+  padding: 3px 7.5px;
+  margin-left: 5px;
+}
+
+.dropdown-trigger:hover .badge {
+  background-color: red;
+}
+
+.dropdown-trigger {
+  position: relative;
+}
+
+.dropdown {
+  position: absolute;
+  display: none;
+  background-color: white;
+  color: black;
+  white-space: nowrap;
+  font-size: 14px;
+}
+
+.dropdown-trigger:hover .dropdown{
+  display: block;
+}
+
+.dropdown a:hover {
+  background-color: #ccc;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 250px 650px;
+  justify-content: center;
+  min-height: 200px;
+}
+
+.content-header {
+  grid-column: 1 / span 2;
+  background-image: url("../images/cats.jpg");
+  background-size: cover;
+  height: 200px;
+  position: relative;
+}
+
+.content-header h1 {
+  color: white;
+  text-shadow: black 0 0 10px;
+
+  font-size: 2.5rem;
+  position: absolute;
+  bottom: 30px;
+  left: 80px;
+  line-height: 1;
+}
+
+.content-header button {
+  padding: 10px 20px;
+  border: 1px solid black;
+  border-radius: 5px;
+  font-weight: 700;
+
+  position: absolute;
+  bottom: 20px;
+  right: 30px;
+}
+
+.content-header button:hover {
+  background-color: #ccc;
+}
+
+.content section {
+  border-left: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  padding: 20px;
+
+  background-color: white;
+}
+
+.content .right-border {
+  border-right: 1px solid #ccc;
+}
+
+.content-sidebar {
+}
+
+.content-main {
+}
+
+footer {
+  display: flex;
+  justify-content: space-between;
+
+  width: 900px;
+  padding: 20px;
+  margin: auto;
+
+  color: #bbb;
+  background: white;
+
+  border-left: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.footer-nav ul {
+  display: flex;
+}
+
+.footer-nav a {
+  padding: 10px 10px;
+}
+
+.footer-nav a:hover {
+  color: black;
+}
+
