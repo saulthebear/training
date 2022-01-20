@@ -1,0 +1,21 @@
+# == Schema Information
+#
+# Table name: comments
+#
+#  id         :bigint           not null, primary key
+#  author_id  :string           not null
+#  artwork_id :string           not null
+#  body       :string           not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
+one:
+  commenter_id: MyString
+  artwork_id: MyString
+  body: MyString
+
+two:
+  commenter_id: MyString
+  artwork_id: MyString
+  body: MyString
