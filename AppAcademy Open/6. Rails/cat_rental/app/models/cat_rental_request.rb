@@ -42,6 +42,8 @@ class CatRentalRequest < ApplicationRecord
   end
   
   def does_not_overlap_approved_request
+    return if self.status != 'DENIED'
+    
     return unless overlapping_approved_requests.exists?
     
     errors.add :base, 
