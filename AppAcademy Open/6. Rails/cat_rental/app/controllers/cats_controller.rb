@@ -6,11 +6,16 @@ class CatsController < ApplicationController
 
   def show
     @cat = Cat.find_by(id: params[:id])
-    render :show
+    if @cat
+      render :show
+    else
+      redirect_to cats_url
+    end
   end
 
   def new
     @COLORS = Cat.COLORS
+    render :new
   end
 
   def update
@@ -27,6 +32,9 @@ class CatsController < ApplicationController
   
   def edit
     @cat = Cat.find_by(id: params[:id])
+    
+    redirect_to cats_url unless cat # Redirect if cat not found
+
     @COLORS = Cat.COLORS
   end
   
