@@ -33,9 +33,11 @@ class CatsController < ApplicationController
   def edit
     @cat = Cat.find_by(id: params[:id])
     
-    redirect_to cats_url unless cat # Redirect if cat not found
+    redirect_to cats_url unless @cat # Redirect if cat not found
 
     @COLORS = Cat.COLORS
+    
+    render :edit
   end
   
   def create
