@@ -16,6 +16,7 @@ class CatRentalRequest < ApplicationRecord
   validates :end_date, presence: true
   validates :status, presence: true, inclusion: { in: STATUSES }
   validate :does_not_overlap_approved_request
+  validate :start_date_before_end_date
 
   belongs_to :cat
   
@@ -30,10 +31,16 @@ class CatRentalRequest < ApplicationRecord
   end
   
   def does_not_overlap_approved_request
-    if overlapping_approved_requests.exists?
-      errors.add :base, 
-                 :invalid,
-                 message: "This request overlaps an existing approved request"
-    end
+    return unless overlapping_approved_requests.exists?
+    
+    errors.add :base, 
+               :invalid,
+               message: "This request overlaps an existing approved request"
+  end
+  
+  def start_date_before_end_date
+    return unless start_date >= end_date 
+    
+    errors.add :start_date, message: "must be before end date"
   end
 end
