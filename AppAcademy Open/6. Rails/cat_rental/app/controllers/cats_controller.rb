@@ -10,11 +10,13 @@ class CatsController < ApplicationController
   end
 
   def new
+    @COLORS = Cat.COLORS
   end
 
   def update
   end
   
   def create
+    render json: params
   end
 end
