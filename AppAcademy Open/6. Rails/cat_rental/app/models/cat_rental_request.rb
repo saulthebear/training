@@ -56,4 +56,21 @@ class CatRentalRequest < ApplicationRecord
     
     errors.add :start_date, message: "must be before end date"
   end
+
+  def overlapping_pending_requests
+    overlapping_requests.where(status: 'PENDING')
+  end
+  
+  def approve!
+    self.status = 'APPROVED'
+    CatRentalRequest.transaction do
+      save!
+      overlapping_pending_requests.update_all(status: 'DENIED')
+    end
+  end
+  
+  def deny!
+    self.status = 'DENIED'
+    save!
+  end
 end
