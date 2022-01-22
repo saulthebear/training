@@ -14,7 +14,15 @@ class CatsController < ApplicationController
   end
 
   def update
-    render json: params
+    cat = Cat.find_by(id: params[:id])
+
+    redirect_to cats_url unless cat # Redirect if cat not found
+
+    if cat.update(cat_params)
+      redirect_to cat_url(cat)
+    else
+      redirect_to edit_cat_url(cat)
+    end
   end
   
   def edit
