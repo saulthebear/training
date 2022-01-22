@@ -14,6 +14,12 @@ class CatsController < ApplicationController
   end
 
   def update
+    render json: params
+  end
+  
+  def edit
+    @cat = Cat.find_by(id: params[:id])
+    @COLORS = Cat.COLORS
   end
   
   def create
