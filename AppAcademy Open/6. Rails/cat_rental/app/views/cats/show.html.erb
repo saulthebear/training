@@ -29,3 +29,26 @@
     </tr>
   </tbody>
 </table>
+
+<% if @cat.rental_requests %>
+  <br>
+  <h2>Rental Requests</h2>
+  <br>
+  <table>
+    <thead>
+      <tr>
+        <td>Start Date</td>
+        <td>End Date</td>
+        <td>Status</td>
+      </tr>
+    </thead>
+    <% @cat.rental_requests.order(:start_date).each do |request| %>
+      <tr>
+        <td><%= request.start_date %></td>
+        <td><%= request.end_date %></td>
+        <td><%= request.status%></td>
+      </tr>
+    <% end %>
+  </table>
+  
+<% end %>
