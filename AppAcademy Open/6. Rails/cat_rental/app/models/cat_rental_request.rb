@@ -21,9 +21,20 @@ class CatRentalRequest < ApplicationRecord
   belongs_to :cat
   
   def overlapping_requests
-    my_start = start_date
-    my_end = end_date
-    CatRentalRequest.where('(start_date >= :my_start AND start_date <= :my_end) OR (start_date < :my_start AND end_date >= :my_start)', { my_start: my_start, my_end: my_end })
+    requests_ending_after_my_start = CatRentalRequest.where(
+      'end_date >= :my_start_date',
+      { my_start_date: self.start_date }
+    )
+    requests_starting_before_my_end = CatRentalRequest.where(
+      ':my_end_date >= start_date',
+      { my_end_date: self.end_date }
+    )
+    
+    requests_excluding_mine = CatRentalRequest.where.not(id: self.id)
+    
+    requests_ending_after_my_start
+      .and(requests_starting_before_my_end)
+      .and(requests_excluding_mine)
   end
 
   def overlapping_approved_requests
