@@ -34,9 +34,12 @@ class CatRentalRequest < ApplicationRecord
       { my_end_date: self.end_date }
     )
     
+    requests_for_same_cat = CatRentalRequest.where(cat_id: self.cat_id)
+    
     requests_excluding_mine = CatRentalRequest.where.not(id: self.id)
     
-    requests_ending_after_my_start
+    requests_for_same_cat
+      .and(requests_ending_after_my_start)
       .and(requests_starting_before_my_end)
       .and(requests_excluding_mine)
   end
