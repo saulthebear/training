@@ -14,6 +14,30 @@ class CatRentalRequestsController < ApplicationController
     end
   end
   
+  def approve
+    # render plain: "Approving #{params[:id]}"
+    request = CatRentalRequest.find_by(id: params[:id])
+    if request
+      request.approve!
+      redirect_to cat_url(request.cat)
+      return
+    end
+    
+    redirect_to :cats
+  end
+
+  def deny
+    # render plain: "Denying #{params[:id]}"
+    request = CatRentalRequest.find_by(id: params[:id])
+    if request
+      request.deny!
+      redirect_to cat_url(request.cat)
+      return
+    end
+
+    redirect_to :cats
+  end
+  
   private
 
   def request_params

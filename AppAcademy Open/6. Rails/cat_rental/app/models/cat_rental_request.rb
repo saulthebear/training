@@ -20,6 +20,10 @@ class CatRentalRequest < ApplicationRecord
 
   belongs_to :cat
   
+  def pending?
+    status == 'PENDING'
+  end
+  
   def overlapping_requests
     requests_ending_after_my_start = CatRentalRequest.where(
       'end_date >= :my_start_date',
