@@ -1,16 +1,16 @@
-<% action = (user.persosted? ? user_url(user) : users_url) %>
-<% method = (user.persosted? ? "patch" : "post") %>
-<% message = (user.persosted? ? "Update user" : "Create user") %>
+<% action = (user.persisted? ? user_url(user) : users_url) %>
+<% method = (user.persisted? ? "patch" : "post") %>
+<% message = (user.persisted? ? "Update user" : "Create user") %>
 
 <form action="<%= action %>" method="post">
   <input
     type="hidden"
     name="_method"
-    value="<%= method %>>
+    value="<%= method %>">
   <input
     type="hidden"
     name="authenticity_token"
-    value="<%= form_authenticity_token %>>
+    value="<%= form_authenticity_token %>">
   
   <label for="user_username">Username</label>
   <input
