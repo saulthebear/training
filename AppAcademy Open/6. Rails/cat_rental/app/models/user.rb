@@ -9,10 +9,11 @@
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #
+
 class User < ApplicationRecord
   attr_reader :password
   
-  validates :username, presence: true
+  validates :username, presence: true, uniqueness: true
   validates :password, length: { minimum: 6, allow_nil: true }
   validates :password_digest, presence: { message: "Password can't be blank" }
   
