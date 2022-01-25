@@ -11,11 +11,16 @@
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #
+
+require 'action_view'
+
 class Cat < ApplicationRecord
-  COLORS = %w[White Black Ginger Grey Cream Brown].freeze
+  include ActionView::Helpers::DateHelper
+
+  CAT_COLORS = %w[White Black Ginger Grey Cream Brown].freeze
   validates :birth_date, presence: true
   validates :color, presence: true,
-            inclusion: { in: COLORS, message: "%{value} is not a valid color."}
+            inclusion: { in: CAT_COLORS, message: "%{value} is not a valid color."}
   validates :name, presence: true
   validates :sex, presence: true, inclusion: { in: %w[M F] }
   validates :description, presence: true
@@ -24,7 +29,7 @@ class Cat < ApplicationRecord
            class_name: 'CatRentalRequest',
            dependent: :destroy
   
-  def self.COLORS
-    COLORS
+  def age
+    time_ago_in_words(birth_date)
   end
 end

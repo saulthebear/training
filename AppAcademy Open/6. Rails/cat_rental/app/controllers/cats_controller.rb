@@ -14,40 +14,42 @@ class CatsController < ApplicationController
   end
 
   def new
-    @COLORS = Cat.COLORS
+    @cat = Cat.new
     render :new
   end
 
-  def update
-    cat = Cat.find_by(id: params[:id])
-
-    redirect_to cats_url unless cat # Redirect if cat not found
-
-    if cat.update(cat_params)
-      redirect_to cat_url(cat)
+  def create
+    @cat = Cat.new(cat_params)
+    if @cat.save
+      redirect_to cat_url(@cat)
     else
-      redirect_to edit_cat_url(cat)
+      flash.now[:errors] = @cat.errors.full_messages
+      render :new
     end
   end
-  
+
   def edit
     @cat = Cat.find_by(id: params[:id])
     
     redirect_to cats_url unless @cat # Redirect if cat not found
-
-    @COLORS = Cat.COLORS
     
     render :edit
   end
-  
-  def create
-    cat = Cat.new(cat_params)
-    if cat.save
-      redirect_to cat_url(cat)
+
+  def update
+    @cat = Cat.find_by(id: params[:id])
+
+    redirect_to cats_url unless @cat # Redirect if cat not found
+
+    if @cat.update(cat_params)
+      redirect_to cat_url(@cat)
     else
-      render json: cat.errors.full_messages
+      flash.now[:errors] = @cat.errors.full_messages
+      render :edit
     end
   end
+  
+  private
   
   def cat_params
     params.require(:cat).permit(:name, :birth_date, :description, :color, :sex)
