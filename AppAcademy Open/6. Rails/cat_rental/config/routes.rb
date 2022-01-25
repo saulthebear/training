@@ -7,4 +7,5 @@ Rails.application.routes.draw do
       post 'deny'
     end
   end
+  resources :users, only: %i[new create]
 end
