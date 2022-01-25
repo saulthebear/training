@@ -1,12 +1,3 @@
 <h1>Sign Up</h1>
 
-<%= render "shared/errors" %>
-
-<form action="<%= users_url %>" method="post">
-  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-  <label for="user-username">Username:</label>
-  <input type="text" name="user[username]" id="user-username">
-  <label for="user-password">Password:</label>
-  <input type="password" name="user[password]" id="user-password">
-  <input type="submit" value="Sign Up">
-</form>
+<%= render "shared/credentials_form", action: :signup %>
