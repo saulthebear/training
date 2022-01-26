@@ -18,6 +18,8 @@ class User < ApplicationRecord
   validates :password_digest, presence: { message: "Password can't be blank" }
   
   after_initialize :ensure_session_token
+  
+  has_many :cats
 
   def self.find_by_credentials(username, password)
     user = self.find_by(username: username)
