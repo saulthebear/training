@@ -1,4 +1,7 @@
 class CatsController < ApplicationController
+  before_action :redirect_unless_loggedin, except: %i[index show]
+  before_action :redirect_unless_authorized, only: %i[edit update]
+
   def index
     @cats = Cat.all
     render :index
@@ -54,5 +57,14 @@ class CatsController < ApplicationController
   
   def cat_params
     params.require(:cat).permit(:name, :birth_date, :description, :color, :sex)
+  end
+  
+  # prevent creating/editing cats unless user is logged in
+  def redirect_unless_loggedin
+    redirect_to new_session_url unless logged_in?
+  end
+  
+  def redirect_unless_authorized
+    redirect_to cats_url unless cat_belongs_to_current_user?(params[:id])
   end
 end

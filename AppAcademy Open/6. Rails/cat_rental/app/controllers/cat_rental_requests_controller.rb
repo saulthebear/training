@@ -1,4 +1,5 @@
 class CatRentalRequestsController < ApplicationController
+  before_action :redirect_unless_authorized, only: %i[approve deny]
   def approve
     current_cat_rental_request.approve!
     redirect_to cat_url(current_cat)
@@ -36,6 +37,11 @@ class CatRentalRequestsController < ApplicationController
   end
 
   def cat_rental_request_params
-    params.require(:cat_rental_request).permit(:cat_id, :start_date, :end_date, :status)
+    params.require(:cat_rental_request)
+          .permit(:cat_id, :start_date, :end_date, :status)
+  end
+  
+  def redirect_unless_authorized
+    redirect_to cats_url unless cat_belongs_to_current_user?(params[:id])
   end
 end

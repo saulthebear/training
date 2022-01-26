@@ -1,5 +1,9 @@
 class ApplicationController < ActionController::Base
-  helper_method :current_user, :login_user!, :logged_in?, :redirect_if_loggedin
+  helper_method :current_user,
+                :login_user!,
+                :logged_in?,
+                :redirect_if_loggedin,
+                :cat_belongs_to_current_user?
   
   def current_user
     session_token = session[:session_token]
@@ -17,6 +21,10 @@ class ApplicationController < ActionController::Base
     return true if current_user
 
     return false
+  end
+  
+  def cat_belongs_to_current_user?(id)
+    !current_user.cats.find_by(id: id).nil?
   end
   
   def redirect_if_loggedin
