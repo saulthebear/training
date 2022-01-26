@@ -42,6 +42,6 @@ class CatRentalRequestsController < ApplicationController
   end
   
   def redirect_unless_authorized
-    redirect_to cats_url unless cat_belongs_to_current_user?(params[:id])
+    redirect_to cats_url unless cat_belongs_to_current_user?(current_cat.id)
   end
 end

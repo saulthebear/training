@@ -23,8 +23,8 @@ class ApplicationController < ActionController::Base
     return false
   end
   
-  def cat_belongs_to_current_user?(id)
-    !current_user.cats.find_by(id: id).nil?
+  def cat_belongs_to_current_user?(cat_id)
+    !current_user.cats.find_by(id: cat_id).nil?
   end
   
   def redirect_if_loggedin
