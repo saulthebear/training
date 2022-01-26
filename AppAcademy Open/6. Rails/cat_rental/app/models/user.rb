@@ -20,6 +20,10 @@ class User < ApplicationRecord
   after_initialize :ensure_session_token
   
   has_many :cats
+  
+  has_many :rental_requests,
+           class_name: 'CatRentalRequest',
+           foreign_key: :user_id
 
   def self.find_by_credentials(username, password)
     user = self.find_by(username: username)
