@@ -9,8 +9,7 @@ class SessionsController < ApplicationController
       session_params[:password]
     )
     if user
-      session_token = user.reset_session_token!
-      session[:session_token] = session_token
+      login_user!(user)
       redirect_to cats_url
     else
       flash.now[:errors] = ["Invalid login details"]
