@@ -95,6 +95,6 @@ class CatRentalRequest < ApplicationRecord
     return unless start_date >= end_date 
     
     errors.add :start_date, message: "must come before end date"
-    erros.add :end_date, message: "must come after start date"
+    errors.add :end_date, message: "must come after start date"
   end
 end
