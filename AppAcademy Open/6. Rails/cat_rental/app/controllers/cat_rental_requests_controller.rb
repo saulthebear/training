@@ -1,46 +1,48 @@
 class CatRentalRequestsController < ApplicationController
-  def new
-    @cats = Cat.all
-    render :new
-  end
-
-  def create
-    request = CatRentalRequest.new(request_params)
-    
-    if request.save
-      redirect_to cat_url(id: request.cat_id)
-    else
-      redirect_to new_cat_rental_request_url
-    end
+  before_action :redirect_unless_authorized, only: %i[approve deny]
+  def approve
+    current_cat_rental_request.approve!
+    redirect_to cat_url(current_cat)
   end
   
-  def approve
-    # render plain: "Approving #{params[:id]}"
-    request = CatRentalRequest.find_by(id: params[:id])
-    if request
-      request.approve!
-      redirect_to cat_url(request.cat)
-      return
-    end
+  def create
+    @rental_request = CatRentalRequest.new(cat_rental_request_params)
+    @rental_request.requester = current_user
     
-    redirect_to :cats
+    if @rental_request.save
+      redirect_to cat_url(@rental_request.cat)
+    else
+      flash.now[:errors] = @rental_request.errors.full_messages
+      render :new
+    end
   end
 
   def deny
-    # render plain: "Denying #{params[:id]}"
-    request = CatRentalRequest.find_by(id: params[:id])
-    if request
-      request.deny!
-      redirect_to cat_url(request.cat)
-      return
-    end
+    current_cat_rental_request.deny!
+    redirect_to cat_url(current_cat)
+  end
 
-    redirect_to :cats
+  def new
+    @rental_request = CatRentalRequest.new
   end
   
   private
+  
+  def current_cat_rental_request
+    @rental_request ||=
+      CatRentalRequest.includes(:cat).find(params[:id])
+  end
+  
+  def current_cat
+    current_cat_rental_request.cat
+  end
 
-  def request_params
-    params.require(:request).permit(:cat_id, :start_date, :end_date)
+  def cat_rental_request_params
+    params.require(:cat_rental_request)
+          .permit(:cat_id, :start_date, :end_date, :status)
+  end
+  
+  def redirect_unless_authorized
+    redirect_to cats_url unless cat_belongs_to_current_user?(current_cat.id)
   end
 end

@@ -11,6 +11,20 @@
   </head>
 
   <body>
+    <header>
+      <% if current_user %>
+        <h4><%= current_user.username %></h4>
+      <% end %>
+      <% action = current_user ? session_url : new_session_url %>
+      <% method = current_user ? 'post' : 'get' %>
+      <% btn_value = current_user ? 'Logout' : 'Login' %>
+      <form action="<%= action %>" method="<%= method %>">
+        <% if current_user %>
+          <input type="hidden" name="_method" value="delete">
+        <% end %>
+        <input type="submit" value="<%= btn_value %>">
+      </form>
+    </header>
     <%= yield %>
   </body>
 </html>

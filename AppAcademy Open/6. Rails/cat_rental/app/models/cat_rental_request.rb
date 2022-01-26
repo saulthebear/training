@@ -11,7 +11,7 @@
 #  updated_at :datetime         not null
 #
 class CatRentalRequest < ApplicationRecord
-  STATUSES = %w[PENDING APPROVED DENIED]
+  STATUSES = %w[PENDING APPROVED DENIED].freeze
   validates :start_date, presence: true
   validates :end_date, presence: true
   validates :status, presence: true, inclusion: { in: STATUSES }
@@ -20,8 +20,42 @@ class CatRentalRequest < ApplicationRecord
 
   belongs_to :cat
   
+  belongs_to :requester,
+             class_name: 'User',
+             foreign_key: :user_id,
+             primary_key: :id
+  
+  after_initialize :assign_pending_status
+
+  def approve!
+    self.status = 'APPROVED'
+    CatRentalRequest.transaction do
+      save!
+      overlapping_pending_requests.update_all(status: 'DENIED')
+    end
+  end
+
+  def approved?
+    self.status == 'APPROVED'
+  end
+
+  def denied?
+    self.status == 'DENIED'
+  end
+  
   def pending?
     status == 'PENDING'
+  end
+
+  def deny!
+    self.status = 'DENIED'
+    save!
+  end
+
+  private
+
+  def assign_pending_status
+    self.status ||= 'PENDING'
   end
   
   def overlapping_requests
@@ -47,37 +81,25 @@ class CatRentalRequest < ApplicationRecord
   def overlapping_approved_requests
     overlapping_requests.where(status: 'APPROVED')
   end
-  
-  def does_not_overlap_approved_request
-    return if self.status != 'DENIED'
-    
-    return unless overlapping_approved_requests.exists?
-    
-    errors.add :base, 
-               :invalid,
-               message: "This request overlaps an existing approved request"
-  end
-  
-  def start_date_before_end_date
-    return unless start_date >= end_date 
-    
-    errors.add :start_date, message: "must be before end date"
-  end
 
   def overlapping_pending_requests
     overlapping_requests.where(status: 'PENDING')
   end
   
-  def approve!
-    self.status = 'APPROVED'
-    CatRentalRequest.transaction do
-      save!
-      overlapping_pending_requests.update_all(status: 'DENIED')
-    end
+  def does_not_overlap_approved_request
+    return if self.denied?
+    
+    return unless overlapping_approved_requests.exists?
+    
+    errors.add :base, 
+               :invalid,
+               message: "Request conflicts with existing approved request"
   end
   
-  def deny!
-    self.status = 'DENIED'
-    save!
+  def start_date_before_end_date
+    return unless start_date >= end_date 
+    
+    errors.add :start_date, message: "must come before end date"
+    errors.add :end_date, message: "must come after start date"
   end
 end
