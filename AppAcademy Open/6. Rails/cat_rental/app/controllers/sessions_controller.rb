@@ -1,4 +1,6 @@
 class SessionsController < ApplicationController
+  before_action :redirect_if_loggedin, only: [:new]
+
   def new
     render :new
   end
