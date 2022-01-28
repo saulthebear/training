@@ -11,6 +11,14 @@
   </head>
 
   <body>
+    <nav>
+      <% if logged_in? %>
+        <div><%= current_user.email %></div>
+        <%= render "shared/auth_button", action: :logout %>
+      <% else %>
+        <%= render "shared/auth_button", action: :login %>
+      <% end %>
+    </nav>
     <%= yield %>
   </body>
 </html>

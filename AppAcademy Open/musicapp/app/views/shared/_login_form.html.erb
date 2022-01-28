@@ -1,0 +1,16 @@
+<% form_action = action == :login ? session_url : users_url %>
+<% submit_value = action == :login ? 'Login' : 'Sign up' %>
+
+
+<% if errors %>
+  <%= render "shared/errors", errors: errors %>
+<% end %>
+
+<form action=<%= form_action %> method="post">
+  <%= form_authenticity %>
+  <label for="user-email">Email:</label>
+  <input type="text" name="user[email]" id="user-email">
+  <label for="user-passowrd">Password:</label>
+  <input type="passowrd" name="user[password]" id="user-password">
+  <input type="submit" value=<%= submit_value %>>
+</form>

@@ -1,0 +1,9 @@
+<% if action == :login %>
+  <a href="<%= new_session_url %>">Login</a>
+<% else %>
+  <form action="<%= session_url %>" method="post">
+    <%= form_authenticity %>
+    <input type="hidden" name="_method" value="delete">
+    <input type="submit" value="Logout">
+  </form>
+<% end %>
