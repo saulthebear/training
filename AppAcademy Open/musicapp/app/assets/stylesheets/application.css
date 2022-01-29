@@ -79,3 +79,8 @@ ul.errors {
   padding: 0;
   font-size: 1.2rem;
 }
+
+#current-user {
+  color: #EAE2B7;
+  padding-right: 11px;
+}

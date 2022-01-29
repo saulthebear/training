@@ -15,7 +15,7 @@
       <nav class="main-nav">
       <h1 class="app-title">Music App</h1>
         <% if logged_in? %>
-          <div><%= current_user.email %></div>
+          <div id="current-user"><%= current_user.email %></div>
           <%= render "shared/auth_button", action: :logout %>
         <% else %>
           <%= render "shared/auth_button", action: :login %>
