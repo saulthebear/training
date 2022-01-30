@@ -1,9 +1,15 @@
-<h1>All the bands!</h1>
+<h1>Bands</h1>
 
-<ul>
+<ul class="btn-list">
   
   <% @bands.each do |band| %>
-    <li><%= band.name%></li>
+    <li ><a href="<%= band_url(band) %>" class="btn main-btn"><%= band.name%></a></li>
   <% end %>
   
 </ul>
+
+<nav class="page-nav">
+  <ul class="btn-list">
+    <li><a href="<%= new_band_url %>" class="btn nav-btn">Add Band</a></li>
+  </ul>
+</nav>

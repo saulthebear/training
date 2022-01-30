@@ -13,7 +13,7 @@ class SessionsController < ApplicationController
 
     if user
       login_user!(user)
-      redirect_to users_url
+      redirect_to root_url
     else
       flash.now[:errors] = ['Incorrect email or password']
       render :new
@@ -23,7 +23,7 @@ class SessionsController < ApplicationController
   # Logout
   def destroy
     logout!
-    redirect_to users_url
+    redirect_to new_session_url
   end
 
   private

@@ -1,13 +1,13 @@
 <h1><%= @album.title %></h1>
 
-<table>
+<table class="album-details">
   <tr>
     <th>Album Title</th>
     <td><%= @album.title %></td>
   </tr>
   <tr>
     <th>Artist</th>
-    <td><a href="<%= band_url(@album.band) %>"><%= @album.band_name %></a></td>
+    <td><%= @album.band_name %></td>
   </tr>
   <tr>
     <th>Year</th>
@@ -18,3 +18,10 @@
     <td><%= @album.album_type %></td>
   </tr>
 </table>
+
+<nav class="page-nav">
+  <ul class="btn-list">
+    <li><a href="<%= band_url(@album.band) %>" class="btn nav-btn"><%= @album.band_name %> Albums</a></li>
+    <li><a href="<%= edit_album_url(@album) %>" class="btn nav-btn">Edit Album</a></li>
+  </ul>
+</nav>

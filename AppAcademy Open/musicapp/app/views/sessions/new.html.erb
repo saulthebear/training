@@ -1,2 +1,4 @@
 <h1>Login!</h1>
 <%= render "shared/login_form", action: :login, errors: flash[:errors] %>
+
+<p>New user? <a href="<%= new_user_url %>" class="btn nav-btn">Sign Up</a>
