@@ -1,0 +1,47 @@
+<h1><%= @album.title %></h1>
+
+<table class="album-details">
+  <tr>
+    <th>Album Title</th>
+    <td><%= @album.title %></td>
+  </tr>
+  <tr>
+    <th>Artist</th>
+    <td><%= @album.band_name %></td>
+  </tr>
+  <tr>
+    <th>Year</th>
+    <td><%= @album.year %></td>
+  </tr>
+  <tr>
+    <th>Type</th>
+    <td><%= @album.album_type %></td>
+  </tr>
+</table>
+
+<h2>Tracks</h2>
+
+<table class="tracks-table">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Title</th>
+    </tr>
+  </thead>
+
+  <% @album.tracks.each do |track| %>
+    <tr>
+      <td><%= track.ord %></td>
+      <td><a href="<%= track_url(track) %>"><%= track.title %></a></td>
+    </tr>
+  <% end %>
+</table>
+
+
+<nav class="page-nav">
+  <ul class="btn-list">
+    <li><a href="<%= band_url(@album.band) %>" class="btn nav-btn"><%= @album.band_name %> Albums</a></li>
+    <li><a href="<%= edit_album_url(@album) %>" class="btn nav-btn">Edit Album</a></li>
+    <li><a href="<%= new_album_track_url(@album) %>" class="btn nav-btn">Add Track</a></li>
+  </ul>
+</nav>

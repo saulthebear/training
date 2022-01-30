@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Musicapp</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <header>
+      <nav class="main-nav">
+      <h1 class="app-title"><a href="<%= root_url %>">Music App</a></h1>
+        <% if logged_in? %>
+          <div id="current-user"><%= current_user.email %></div>
+          <%= render "shared/auth_button", action: :logout %>
+        <% else %>
+          <%= render "shared/auth_button", action: :login %>
+        <% end %>
+      </nav>
+    </header>
+    
+    <main>
+      <section class="main-content">
+        <%= yield %>
+      </section>
+    </main>
+  </body>
+</html>

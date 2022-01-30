@@ -1,0 +1,18 @@
+<h1>Albums by <%= @band.name %></h1>
+
+<section>
+  <ul class="btn-list">
+    <% @band.albums.each do |album| %>
+      <li><a href="<%= album_url(album) %>" class="btn main-btn"><%= album.title%></a></li>
+    <% end %>
+  </ul>
+</section>
+
+<nav class="page-nav">
+  <h4>Links</h4>
+  <ul class="btn-list">
+    <li><a href="<%= new_band_album_url(@band) %>" class="btn nav-btn">Add Album</a></li>
+    <li><a href="<%= edit_band_url(@band) %>" class="btn nav-btn">Edit Band</a></li>
+    <li><a href="<%= bands_url %>" class="btn nav-btn">All Bands</a></li>
+  </ul>
+</nav>

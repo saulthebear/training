@@ -1,0 +1,6 @@
+<h1>Sign Up!</h1>
+
+
+<%= render "shared/login_form", action: :signup, errors: flash[:errors] %>
+
+<p>Existing user? <a href="<%= new_session_url %>" class="btn nav-btn">Login</a>
