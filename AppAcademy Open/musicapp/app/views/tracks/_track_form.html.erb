@@ -1,0 +1,54 @@
+<% action = track.persisted? ? track_url(track) : tracks_url %>
+<% submit_value = track.persisted? ? 'Update' : 'Add track' %>
+
+
+<% if errors%>
+  <%= render 'shared/errors', errors: errors %>
+<% end %>
+
+<form action="<%= action %>" method="post">
+  <%= form_authenticity%>
+  
+  
+  <% if track.persisted? %>
+    <input type="hidden" name="_method" value="patch">
+  <% end %>
+  
+
+  <label for="track-album">Album: </label>
+  <select name="track[album_id]" id="track-album">
+    <% albums.each do |album| %>
+      <option value="<%= album.id %>" <%= 'selected' if album == track.album %>>
+        <%= album.title %>
+      </option>
+    <% end %>
+  </select>
+  
+  <label for="track-title">Title: </label>
+  <input type="text"
+         name="track[title]"
+         id="track-title"
+         value="<%= track.title %>">
+
+  <label for="track-number">Track number:</label>
+  <input type="number" name="track[ord]" id="track-number">
+  
+  <label>Type:</label>
+  <fieldset>
+    <legend>Track Type</legend>
+      <label for="regular-track">Regular Track:</label>
+      <input type="radio"
+             name="track[is_bonus]"
+             value="false"
+             <%= 'checked' unless track.is_bonus? %>
+             id="regular-track">
+      <label for="bonus-track">Bonus Track:</label>
+      <input type="radio"
+             name="track[is_bonus]"
+             value="true"
+             <%= 'checked' if track.is_bonus? %>
+             id="bonus-track">
+  </fieldset>
+
+  <input type="submit" value="<%= submit_value %>">
+</form>
