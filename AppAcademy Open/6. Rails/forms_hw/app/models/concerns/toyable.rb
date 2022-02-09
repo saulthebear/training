@@ -6,6 +6,6 @@ module Toyable
   end
   
   def receive_toy(name)
-    self.toys.append(Toy.find_or_create_by(name: name))
+    self.toys.finc_or_create_by(name: name)
   end
 end
