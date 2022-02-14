@@ -1,0 +1,26 @@
+<% form_method ||= :post %>
+
+<% if errors %>
+  <div>
+    <ul>
+      <% errors.each do |error| %>
+        <li><%= error %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+
+<form action="<%= form_action %>" method="POST">
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+  
+  <% if form_method == :patch %>
+    <input type="hidden" name="_method" value="PATCH">
+  <% end %>
+  
+  
+  <label for="user-username">Username:</label>
+  <input type="text" name="user[username]" id="user-username" required value="<%= user.username %>">
+  
+  <input type="submit" value="Sign Up">
+</form>
