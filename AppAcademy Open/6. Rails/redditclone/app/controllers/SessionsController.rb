@@ -9,7 +9,7 @@ class SessionsController < ApplicationController
     @user = User.find_by_credentials(username, password)
     if @user
       login!(@user)
-      redirect_to user_url(@user)
+      redirect_to :root
     else
       flash.now[:errors] = ['Incorrect username and password combination']
       @user = User.new(username: username)
@@ -19,6 +19,6 @@ class SessionsController < ApplicationController
 
   def destroy
     logout!
-    redirect_to users_url
+    redirect_to :root
   end
 end

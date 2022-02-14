@@ -1,13 +1,7 @@
 <% form_method ||= :post %>
 
 <% if errors %>
-  <div>
-    <ul>
-      <% errors.each do |error| %>
-        <li><%= error %></li>
-      <% end %>
-    </ul>
-  </div>
+  <%= render "shared/form_errors", errors: errors %>
 <% end %>
 
 

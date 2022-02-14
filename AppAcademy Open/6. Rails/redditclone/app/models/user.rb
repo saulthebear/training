@@ -7,6 +7,7 @@
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  password_digest :string           not null
+#  session_token   :string           not null
 #
 class User < ApplicationRecord
   attr_reader :password
@@ -17,6 +18,9 @@ class User < ApplicationRecord
   validates :password_digest, presence: { message: 'can\'t be blank' }
 
   after_initialize :ensure_session_token
+
+  has_many :subs,
+           foreign_key: :moderator_i
 
   def self.generate_session_token
     SecureRandom.urlsafe_base64(16)

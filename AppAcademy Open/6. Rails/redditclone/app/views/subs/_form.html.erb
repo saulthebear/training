@@ -1,0 +1,21 @@
+<% form_method ||= "post" %>
+
+<% if errors %>
+  <%= render "shared/form_errors", errors: errors %>
+<% end %>
+
+<form action="<%= form_action %>" method="post">
+  <% if form_method != "post" %>
+    <input type="hidden" name="_method" value="<%= form_method %>">
+  <% end %>
+
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+
+  <label for="sub-title">Title:</label>
+  <input type="text" name="sub[title]" id="sub-title" value="<%= sub.title %>">
+
+  <label for="sub-description">Description:</label>
+  <textarea name="sub[description]" id="sub-description" cols="30" rows="10"><%= sub.description %></textarea>
+  
+  <input type="submit" value="<%= submit_value %>">
+</form>
