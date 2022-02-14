@@ -2,15 +2,15 @@ class UsersController < ApplicationController
   def index
     render json: User.all
   end
-  
+
   def show
     render json: User.find(params[:id])
   end
-  
+
   def new
     @user = User.new
   end
-  
+
   def create
     @user = User.new(user_params)
 
@@ -21,13 +21,13 @@ class UsersController < ApplicationController
       render :new
     end
   end
-  
+
   def edit
     user_id = params[:id]
     @user = User.find(user_id)
     render :edit
   end
-  
+
   def update
     user_id = params[:id]
     @user = User.find(user_id)
@@ -39,10 +39,10 @@ class UsersController < ApplicationController
       render :edit
     end
   end
-  
+
   private
 
   def user_params
-    params.require(:user).permit(:username)
+    params.require(:user).permit(:username, :password)
   end
 end
