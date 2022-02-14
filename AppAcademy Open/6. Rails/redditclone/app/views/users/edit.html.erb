@@ -1,6 +1,6 @@
 <h1>Edit <%= "#{@user.username}'s" %> profile</h1>
 
-<%= render "form",
+<%= render "shared/user_form",
             user: @user,
             form_action: user_url(@user.id),
             errors: flash.now[:errors],
