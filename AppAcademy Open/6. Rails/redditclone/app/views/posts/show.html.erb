@@ -19,3 +19,12 @@
   <a href="<%= @post.url %>">Link</a>
 <% end %>
 
+<hr>
+<h2>Comments</h2>
+<hr>
+
+<% @comments.each do |comment| %>
+  <p><%= comment.content %></p>
+  commented by <%= comment.author.username %>
+  <hr><br>
+<% end %>
