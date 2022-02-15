@@ -1,0 +1,22 @@
+<h1>Comment Form</h1>
+
+<% form_method ||= "post" %>
+
+<% if errors %>
+  <%= render "shared/form_errors", errors: errors %>
+<% end %>
+
+<form action="<%= form_action %>" method="post">
+  <% if form_method != "post" %>
+    <input type="hidden" name="_method" value="<%= form_method %>">
+  <% end %>
+
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+  
+  <input type="hidden" name="comment[post_id]" value="<%= comment.post_id %>">
+
+  <label for="comment-content">Comment:</label>
+  <textarea name="comment[content]" id="comment-content" cols="30" rows="10"><%= comment.content %></textarea>
+  
+  <input type="submit" value="<%= submit_value %>">
+</form>
