@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_user,
                 :login!,
                 :logout!,
-                :require_authorization
+                :require_login
 
   def current_user
     token = session[:session_token]
@@ -24,19 +24,10 @@ class ApplicationController < ActionController::Base
     session[:session_token] = nil
   end
 
-  ##
-  # if no user is passed, this function returns true if any user is logged in.
-  # Otherwise, the specific user passed mused be logged_in for this function to
-  # return true.
-  #
-  # returns true if user is logged in
-  # redirects to login page and returns false if user is not logged in
-  def require_authorization(user = nil)
-    if current_user
-      return true if user.nil? || current_user == user
-    else
+  def require_login
+    unless current_user
+      flash[:errors] = ['You must be logged in to perform this action']
       redirect_to new_session_url
-      false
     end
   end
 end

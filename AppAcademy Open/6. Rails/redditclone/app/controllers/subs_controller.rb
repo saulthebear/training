@@ -1,4 +1,6 @@
 class SubsController < ApplicationController
+  before_action :require_login, only: %i[edit update]
+
   def index
     @subs = Sub.all
   end
@@ -13,15 +15,11 @@ class SubsController < ApplicationController
   end
 
   def new
-    return unless require_authorization
-
     @sub = Sub.new
     render :new
   end
 
   def create
-    return unless require_authorization
-
     @sub = Sub.new(sub_params)
     @sub.moderator = current_user
 
@@ -56,7 +54,10 @@ class SubsController < ApplicationController
     @sub = Sub.find_by(id: params[:id])
 
     # Only the sub's moderator can delete it
-    return unless require_authorization(@sub.moderator)
+    unless @sub.moderator == current_user
+      redirect_to sub_url(@sub)
+      return
+    end
 
     if @sub.moderator == current_user
       @sub.destroy!
