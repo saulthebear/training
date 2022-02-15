@@ -3,6 +3,11 @@
 
 <% if current_user == @post.author%>
   <a href="<%= edit_post_url(@post) %>">Edit this post</a>
+  <form action="<%= post_url(@post) %>" method="post">
+    <input type="hidden" name="authenticity_token" value=<%= form_authenticity_token %>>
+    <input type="hidden" name="_method" value="delete">
+    <button type="submit">Delete this post</button>
+  </form>
 <% end %>
 
 
