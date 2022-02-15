@@ -1,0 +1,32 @@
+<% form_method ||= "post" %>
+
+<% if errors %>
+  <%= render "shared/form_errors", errors: errors %>
+<% end %>
+
+<form action="<%= form_action %>" method="post">
+  <% if form_method != "post" %>
+    <input type="hidden" name="_method" value="<%= form_method %>">
+  <% end %>
+
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+
+  <label for="post-title">Title:</label>
+  <input type="text" name="post[title]" id="post-title" value="<%= post.title %>">
+
+  <label for="post-url">URL:</label>
+  <input type="text" name="post[url]" id="post-url" value="<%= post.url %>">
+
+  <label for="post-content">Content:</label>
+  <textarea name="post[content]" id="post-content" cols="30" rows="10"><%= post.content %></textarea>
+  
+  <label for="post-sub">Sub:</label>
+  <select name="post[sub]" id="post-sub">
+    <% subs.each do |sub| %>
+      <option value="<%= sub.id %>" <%= "selected" if post.sub == sub %>><%= sub.title %></option>
+    <% end %>
+  </select>
+
+  
+  <input type="submit" value="<%= submit_value %>">
+</form>

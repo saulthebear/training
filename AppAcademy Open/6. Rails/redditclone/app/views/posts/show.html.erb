@@ -1,0 +1,12 @@
+<h1><%= @post.title %></h1>
+<p>Posted by: <a href="<%= user_url(@post.author) %>"><%= @post.author.username %></a></p>
+
+
+<% if @post.content%>
+  <p><%= @post.content %></p>
+<% end %>
+
+<% if @post.url%>
+  <a href="<%= @post.url %>">Link</a>
+<% end %>
+

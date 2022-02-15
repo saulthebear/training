@@ -10,10 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_14_214439) do
+ActiveRecord::Schema.define(version: 2022_02_15_003437) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "posts", force: :cascade do |t|
+    t.string "title", null: false
+    t.string "url"
+    t.text "content"
+    t.integer "sub_id", null: false
+    t.integer "author_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "subs", force: :cascade do |t|
     t.string "title", null: false
@@ -33,5 +43,7 @@ ActiveRecord::Schema.define(version: 2022_02_14_214439) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
+  add_foreign_key "posts", "subs"
+  add_foreign_key "posts", "users", column: "author_id"
   add_foreign_key "subs", "users", column: "moderator_id"
 end

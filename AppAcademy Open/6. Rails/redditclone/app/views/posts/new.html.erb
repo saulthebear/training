@@ -1,0 +1,9 @@
+<h1>Create a post!</h1>
+
+<%= render "form",
+           post: @post,
+           form_action: posts_url,
+           subs: @subs,
+           submit_value: "Post",
+           errors: flash.now[:errors]
+           %>

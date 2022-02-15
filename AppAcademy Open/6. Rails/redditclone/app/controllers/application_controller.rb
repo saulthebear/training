@@ -30,4 +30,11 @@ class ApplicationController < ActionController::Base
       redirect_to new_session_url
     end
   end
+
+  def require_authorization(user)
+    unless current_user == user
+      flash[:errors] = ['You are not authorized to perform this action']
+      redirect_to :root
+    end
+  end
 end
