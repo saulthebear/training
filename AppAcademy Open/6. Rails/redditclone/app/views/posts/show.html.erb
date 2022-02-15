@@ -1,6 +1,10 @@
 <h1><%= @post.title %></h1>
 <p>Posted by: <a href="<%= user_url(@post.author) %>"><%= @post.author.username %></a></p>
 
+<% if current_user == @post.author%>
+  <a href="<%= edit_post_url(@post) %>">Edit this post</a>
+<% end %>
+
 
 <% if @post.content%>
   <p><%= @post.content %></p>
