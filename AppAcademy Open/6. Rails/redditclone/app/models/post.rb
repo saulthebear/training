@@ -13,8 +13,13 @@
 #
 class Post < ApplicationRecord
   validates :title, presence: true
+  validates :subs, presence: true
 
-  belongs_to :sub
+  has_many :post_subs,
+           dependent: :destroy
+
+  has_many :subs,
+           through: :post_subs
 
   belongs_to :author,
              class_name: :User,
