@@ -9,3 +9,11 @@
     <input type="submit" value="Delete this sub">
   <% end %>
 </form>
+
+<h2>Posts:</h2>
+<% @posts.each do |post| %>
+  <h3><a href="<%= post.url %>"><%= post.title %></a></h3>
+  <p><%= post.content %></p>
+  <a href="<%= post_url(post) %>">Comments</a>
+  <hr>
+<% end %>

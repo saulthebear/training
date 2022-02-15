@@ -6,8 +6,9 @@ class SubsController < ApplicationController
   end
 
   def show
-    @sub = Sub.find_by(id: params[:id])
+    @sub = Sub.includes(:posts).find_by(id: params[:id])
     if @sub
+      @posts = @sub.posts
       render :show
     else
       redirect_to :root
