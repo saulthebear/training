@@ -6,5 +6,5 @@ Rails.application.routes.draw do
   resources :posts, except: %i[index] do
     resources :comments, only: %i[new]
   end
-  resources :comments, only: %i[create]
+  resources :comments, only: %i[create show]
 end

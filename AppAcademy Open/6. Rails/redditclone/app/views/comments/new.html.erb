@@ -4,4 +4,6 @@
            form_action: comments_url,
            comment: @comment,
            submit_value: "Post comment",
-           errors: flash.now[:errors]%>
+           errors: flash.now[:errors] do%>
+  <input type="hidden" name="comment[post_id]" value="<%= comment.post_id %>">
+<% end %>

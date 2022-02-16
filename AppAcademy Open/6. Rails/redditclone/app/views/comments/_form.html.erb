@@ -8,10 +8,10 @@
   <% if form_method != "post" %>
     <input type="hidden" name="_method" value="<%= form_method %>">
   <% end %>
+  
+  <%= yield %>
 
   <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-  
-  <input type="hidden" name="comment[post_id]" value="<%= comment.post_id %>">
 
   <label for="comment-content">Comment:</label>
   <textarea name="comment[content]" id="comment-content" cols="30" rows="10"><%= comment.content %></textarea>
