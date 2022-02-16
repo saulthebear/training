@@ -1,0 +1,23 @@
+<% form_method ||= :post %>
+
+<% if errors %>
+  <%= render "shared/form_errors", errors: errors %>
+<% end %>
+
+
+<form action="<%= form_action %>" method="POST">
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+  
+  <% if form_method == :patch %>
+    <input type="hidden" name="_method" value="PATCH">
+  <% end %>
+  
+  
+  <label for="user-username">Username:</label>
+  <input type="text" name="user[username]" id="user-username" required value="<%= user.username %>">
+  
+  <label for="user-password">Password:</label>
+  <input type="password" name="user[password]" id="user-password" required>
+  
+  <input type="submit" value="Sign Up">
+</form>

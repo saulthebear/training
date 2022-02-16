@@ -1,0 +1,10 @@
+<h1>Edit your post</h1>
+
+<%= render 'form',
+            post: @post,
+            form_action: post_url(@post),
+            form_method: "patch",
+            subs: @subs,
+            submit_value: "Update",
+            errors: flash.now[:errors]
+            %>

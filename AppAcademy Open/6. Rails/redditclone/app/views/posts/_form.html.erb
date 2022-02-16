@@ -1,0 +1,37 @@
+<% form_method ||= "post" %>
+
+<% if errors %>
+  <%= render "shared/form_errors", errors: errors %>
+<% end %>
+
+<form action="<%= form_action %>" method="post">
+  <% if form_method != "post" %>
+    <input type="hidden" name="_method" value="<%= form_method %>">
+  <% end %>
+
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+
+  <label for="post-title">Title:</label>
+  <input type="text" name="post[title]" id="post-title" value="<%= post.title %>">
+
+  <label for="post-url">URL:</label>
+  <input type="text" name="post[url]" id="post-url" value="<%= post.url %>">
+
+  <label for="post-content">Content:</label>
+  <textarea name="post[content]" id="post-content" cols="30" rows="10"><%= post.content %></textarea>
+  
+  <h3>Sub:</h3>
+  <input type="hidden" name="post[sub_ids][]" value="">
+  <% subs.each do |sub| %>
+    <label for="sub-<%= sub.id %>">
+      <input type="checkbox"
+             name="post[sub_ids][]"
+             value="<%= sub.id %>"
+             id="sub-<%= sub.id %>"
+             <%= "checked" if post.sub_ids.include?(sub.id) %>>
+      <%= sub.title %>
+    </label>
+  <% end %>
+  
+  <input type="submit" value="<%= submit_value %>">
+</form>

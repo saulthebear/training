@@ -1,0 +1,9 @@
+<h1>Create a new Sub!</h1>
+
+<%= render 'form',
+            form_action: subs_url,
+            form_method: "post",
+            sub: @sub,
+            submit_value: "Create Sub",
+            errors: flash.now[:errors]
+            %>

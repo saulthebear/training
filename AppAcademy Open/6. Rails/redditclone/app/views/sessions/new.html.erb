@@ -1,0 +1,6 @@
+<h1>Login!</h1>
+
+<%= render 'shared/user_form',
+            user: @user,
+            form_action: session_url,
+            errors: flash.now[:errors] %>

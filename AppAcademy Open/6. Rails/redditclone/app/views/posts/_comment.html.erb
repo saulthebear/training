@@ -1,0 +1,18 @@
+<p><%= comment.content %></p>
+
+<p><a href="<%= user_url(comment.author) %>"><%= comment.author %></a> at <%= comment.created_at %>
+
+<p><a href="<%= comment_url(comment) %>">Reply</a></p>
+
+<% if child_comments.length > 0%>
+  <ul>
+    <li>
+      <% child_comments.each do |child_comment| %>
+       <%= render "comment",
+                   comment: child_comment,
+                   child_comments: comments_by_parent_id[child_comment.id],
+                   comments_by_parent_id: comments_by_parent_id %> 
+      <% end %>
+    </li>
+  </ul>
+<% end %>

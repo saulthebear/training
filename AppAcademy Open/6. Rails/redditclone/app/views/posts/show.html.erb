@@ -1,0 +1,37 @@
+<h1><%= @post.title %></h1>
+<p>Posted by: <a href="<%= user_url(@post.author) %>"><%= @post.author.username %></a></p>
+
+<% if current_user == @post.author%>
+  <a href="<%= edit_post_url(@post) %>">Edit this post</a>
+  <form action="<%= post_url(@post) %>" method="post">
+    <input type="hidden" name="authenticity_token" value=<%= form_authenticity_token %>>
+    <input type="hidden" name="_method" value="delete">
+    <button type="submit">Delete this post</button>
+  </form>
+<% end %>
+
+
+<% if @post.content%>
+  <p><%= @post.content %></p>
+<% end %>
+
+<% if @post.url%>
+  <a href="<%= @post.url %>">Link</a>
+<% end %>
+
+<hr>
+<h2>Comments</h2>
+<a href="<%= new_post_comment_url(@post) %>">Post a comment</a>
+<hr>
+
+<ul>
+  <% @comments_by_parent_id[nil].each do |comment| %>
+    <li>
+      <%= render "comment",
+                 comment: comment,
+                 child_comments: @comments_by_parent_id[comment.id],
+                 comments_by_parent_id: @comments_by_parent_id %>
+    <hr><br>
+    </li>
+  <% end %>
+</ul>

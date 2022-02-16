@@ -1,0 +1,9 @@
+<h1>Update <%= @sub.title %></h1>
+
+<%= render 'form',
+            form_action: sub_url(@sub),
+            form_method: "patch",
+            sub: @sub,
+            submit_value: "Update Sub",
+            errors: flash.now[:errors]
+            %>

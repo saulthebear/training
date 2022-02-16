@@ -1,0 +1,18 @@
+<h1>Comment by <%= @comment.author %></h1>
+
+<p><%= @comment.content %></p>
+
+
+<h2>Reply</h2>
+
+<%= render "form",
+            errors: flash[:errors],
+            form_action: comments_url,
+            comment: Comment.new,
+            submit_value: "Reply" do %>
+
+  <input type="hidden" name="comment[parent_comment_id]" value="<%= @comment.id %>">
+  <input type="hidden" name="comment[post_id]" value="<%= @comment.post_id %>">
+<% end %>
+
+
