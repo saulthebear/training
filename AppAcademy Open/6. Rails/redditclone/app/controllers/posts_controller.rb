@@ -1,13 +1,19 @@
 class PostsController < ApplicationController
   before_action :require_login, except: :show
+
   before_action only: %i[edit update destroy] do
     @post = Post.find_by(id: params[:id])
     require_authorization(@post.author)
   end
 
   def show
-    @post = Post.find_by(id: params[:id])
-    @comments = @post.comments.includes(:author)
+    @post = Post.includes(:comments).find_by(id: params[:id])
+    @all_comments = @post.comments.includes(:author)
+
+    @top_level_comments = @all_comments.filter do |comment|
+      comment.parent_comment_id.nil?
+    end
+
     render :show
   end
 

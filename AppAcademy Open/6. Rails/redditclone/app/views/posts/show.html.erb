@@ -25,9 +25,9 @@
 <hr>
 
 <ul>
-  <% @comments.each do |comment| %>
+  <% @top_level_comments.each do |comment| %>
     <li>
-      <%= render "comment", comment: comment %>
+      <%= render "comment", comment: comment, all_comments: @all_comments %>
     <hr><br>
     </li>
   <% end %>

@@ -1,14 +1,16 @@
+<% child_comments = all_comments.filter { |c| c.parent_comment_id == comment.id } %>
+
 <p><%= comment.content %></p>
 
-<p>commented by <%= comment.author %>
+<p><a href="<%= user_url(comment.author) %>"><%= comment.author %></a> at <%= comment.created_at %>
 
 <p><a href="<%= comment_url(comment) %>">Reply</a></p>
 
-<% if comment.child_comments.length > 0%>
+<% if child_comments.length > 0%>
   <ul>
     <li>
-      <% comment.child_comments.each do |child_comment| %>
-        <%= render "comment", comment: child_comment %>
+      <% child_comments.each do |child_comment| %>
+        <%= render "comment", comment: child_comment, all_comments: all_comments %>
       <% end %>
     </li>
   </ul>
