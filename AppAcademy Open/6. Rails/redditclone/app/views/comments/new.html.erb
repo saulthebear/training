@@ -5,5 +5,5 @@
            comment: @comment,
            submit_value: "Post comment",
            errors: flash.now[:errors] do%>
-  <input type="hidden" name="comment[post_id]" value="<%= comment.post_id %>">
+  <input type="hidden" name="comment[post_id]" value="<%= @comment.post_id %>">
 <% end %>
