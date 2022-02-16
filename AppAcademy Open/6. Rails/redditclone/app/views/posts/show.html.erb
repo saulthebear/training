@@ -25,9 +25,12 @@
 <hr>
 
 <ul>
-  <% @top_level_comments.each do |comment| %>
+  <% @comments_by_parent_id[nil].each do |comment| %>
     <li>
-      <%= render "comment", comment: comment, all_comments: @all_comments %>
+      <%= render "comment",
+                 comment: comment,
+                 child_comments: @comments_by_parent_id[comment.id],
+                 comments_by_parent_id: @comments_by_parent_id %>
     <hr><br>
     </li>
   <% end %>

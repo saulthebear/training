@@ -8,11 +8,7 @@ class PostsController < ApplicationController
 
   def show
     @post = Post.includes(:comments).find_by(id: params[:id])
-    @all_comments = @post.comments.includes(:author)
-
-    @top_level_comments = @all_comments.filter do |comment|
-      comment.parent_comment_id.nil?
-    end
+    @comments_by_parent_id = @post.comments_by_parent_id
 
     render :show
   end

@@ -26,4 +26,14 @@ class Post < ApplicationRecord
   belongs_to :author,
              class_name: :User,
              foreign_key: :author_id
+
+  def comments_by_parent_id
+    hash = Hash.new { |h, k| h[k] = [] }
+
+    comments.each do |comment|
+      hash[comment.parent_comment_id].append(comment)
+    end
+
+    hash
+  end
 end
