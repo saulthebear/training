@@ -1,0 +1,15 @@
+<p><%= comment.content %></p>
+
+<p>commented by <%= comment.author %>
+
+<p><a href="<%= comment_url(comment) %>">Reply</a></p>
+
+<% if comment.child_comments.length > 0%>
+  <ul>
+    <li>
+      <% comment.child_comments.each do |child_comment| %>
+        <%= render "comment", comment: child_comment %>
+      <% end %>
+    </li>
+  </ul>
+<% end %>
