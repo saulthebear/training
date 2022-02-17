@@ -5,7 +5,7 @@ function madLib(verb, adj, noun) {
   return `We shall ${upperVerb} the ${upperAdj} ${upperNoun}`;
 }
 
-console.log(madLib('make', 'best', 'guac'));
+// console.log(madLib('make', 'best', 'guac'));
 
 function isSubstring(searchString, subString) {
   const regex = new RegExp(subString);
@@ -13,8 +13,8 @@ function isSubstring(searchString, subString) {
   return searchString.search(regex) !== -1;
 }
 
-console.log(isSubstring('time to program', 'time'));
-console.log(isSubstring('Jump for joy', 'joys'));
+// console.log(isSubstring('time to program', 'time'));
+// console.log(isSubstring('Jump for joy', 'joys'));
 
 /**
  * Filters the passed in array so that it doesn't include numbers
@@ -33,11 +33,11 @@ function fizzBuzz(numbers) {
 }
 
 const arr = [];
-for (let i = 0; i < 20; i++) {
+for (let i = 0; i < 20; i += 1) {
   arr.push(i);
 }
 
-console.log(fizzBuzz(arr));
+// console.log(fizzBuzz(arr));
 
 /**
  * @param {number} number - A positive integer.
@@ -48,8 +48,8 @@ function isPrime(number) {
     return undefined;
   }
 
-  for (let i = 2; i < number; i++) {
-    if (number % i == 0) {
+  for (let i = 2; i < number; i += 1) {
+    if (number % i === 0) {
       return false;
     }
   }
@@ -57,10 +57,10 @@ function isPrime(number) {
   return true;
 }
 
-console.log(isPrime(2));
-console.log(isPrime(10));
-console.log(isPrime(15485863));
-console.log(isPrime(3548563));
+// console.log(isPrime(2));
+// console.log(isPrime(10));
+// console.log(isPrime(15485863));
+// console.log(isPrime(3548563));
 
 /**
  * @param {number} n - The number of primes to return
@@ -68,13 +68,13 @@ console.log(isPrime(3548563));
  */
 function firstNPrimes(n) {
   const primes = [];
-  candidate = 2;
+  let candidate = 2;
 
   while (primes.length < n) {
     if (isPrime(candidate)) {
       primes.push(candidate);
     }
-    candidate++;
+    candidate += 1;
   }
 
   return primes;
@@ -90,4 +90,4 @@ function sumOfNPrimes(n) {
   return primes.reduce((accumulator, element) => accumulator + element);
 }
 
-console.log(sumOfNPrimes(4));
+// console.log(sumOfNPrimes(4));
