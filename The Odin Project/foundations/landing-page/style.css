@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,700;0,900;&display=swap");
+
 :root {
   --bg-dark: #1f2937;
   --bg-medium: #e5e7eb;
@@ -56,7 +58,7 @@ nav ul {
 
 .hero__title {
   font-size: 48px;
-  font-weight: 800;
+  font-weight: 900;
 }
 
 .hero__img {
@@ -114,7 +116,7 @@ main {
 
 .illustrations-section h2 {
   font-size: 36px;
-  font-weight: 800;
+  font-weight: 900;
 }
 
 .illustrations {
