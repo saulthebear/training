@@ -130,6 +130,26 @@ main {
   border-radius: 0.5rem;
 }
 
+.quote-section {
+  background-color: #e5e7eb;
+  padding: 4rem var(--main-spacing-x);
+}
+
+.quote__text {
+  font-size: 36px;
+  font-weight: 300;
+  font-style: italic;
+}
+
+.quote__author {
+  text-align: end;
+  font-weight: 700;
+}
+
+.quote__author::before {
+  content: "— ";
+}
+
 footer {
   background-color: var(--bg-dark);
   color: var(--text-light);
