@@ -112,6 +112,11 @@ main {
   padding: 2rem var(--main-spacing-x) 4rem var(--main-spacing-x);
 }
 
+.illustrations-section h2 {
+  font-size: 36px;
+  font-weight: 800;
+}
+
 .illustrations {
   display: flex;
   gap: 2rem;
@@ -124,9 +129,9 @@ main {
 }
 
 .illustration {
-  width: 100px;
+  width: 150px;
   aspect-ratio: 1;
-  border: 2px solid var(--blue);
+  border: 3px solid var(--blue);
   border-radius: 0.5rem;
 }
 
