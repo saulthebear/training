@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 function sayHello(name) {
   console.log("Hi " + name);
 }
