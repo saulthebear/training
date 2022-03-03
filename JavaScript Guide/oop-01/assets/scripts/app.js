@@ -7,6 +7,20 @@ class Product {
   }
 }
 
+class ShoppingCart {
+  items = [];
+
+  toElement() {
+    const cartElement = document.createElement("section");
+    cartElement.innerHTML = `
+      <h2>Total: $${0}</h2>
+      <button>Order Now!</button>
+    `;
+    cartElement.className = "cart";
+    return cartElement;
+  }
+}
+
 class ProductItem {
   constructor(product) {
     this.product = product;
