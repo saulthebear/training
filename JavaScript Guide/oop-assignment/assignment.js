@@ -13,7 +13,24 @@
   Call these methods thereafter (and output the result to the console).
 */
 
+/*
+  Use getters and setters to ensure that the "price" property can only be set to
+  a positive value and is returned with a "$" in front of it.
+*/
+
 class Course {
+  get price() {
+    return `$${this._price.toFixed(2)}`;
+  }
+
+  set price(newPrice) {
+    if (newPrice < 0) {
+      this._price = 0;
+    } else {
+      this._price = newPrice;
+    }
+  }
+
   constructor(title, lengthInHours, price) {
     this.title = title;
     this.length = lengthInHours;
@@ -27,7 +44,7 @@ class Course {
   getSummary() {
     const titleString = `Title: ${this.title}`;
     const lengthString = `Length: ${this.length} hours`;
-    const priceString = `Price: $${this.price.toFixed(2)}`;
+    const priceString = `Price: ${this.price}`;
     const valueString = `Value: ${this.getValue().toFixed(0)} minutes/$`;
 
     return `
