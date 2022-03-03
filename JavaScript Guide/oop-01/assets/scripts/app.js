@@ -69,19 +69,31 @@ class ProductList {
 
   constructor() {}
 
-  render() {
-    const renderHook = document.getElementById("app");
-    const prodList = document.createElement("ul");
-    prodList.className = "product-list";
+  toElement() {
+    const productList = document.createElement("ul");
+    productList.className = "product-list";
     /* eslint-disable no-restricted-syntax */
     for (const product of this.products) {
       const productItem = new ProductItem(product);
       const productElement = productItem.toElement();
-      prodList.append(productElement);
+      productList.append(productElement);
     }
-    renderHook.append(prodList);
+    return productList;
   }
 }
 
-const productList = new ProductList();
-productList.render();
+class Shop {
+  render() {
+    const renderHook = document.getElementById("app");
+    const cart = new ShoppingCart();
+    const cartElement = cart.toElement();
+    const productList = new ProductList();
+    const productListElement = productList.toElement();
+
+    renderHook.append(cartElement);
+    renderHook.append(productListElement);
+  }
+}
+
+const shop = new Shop();
+shop.render();
