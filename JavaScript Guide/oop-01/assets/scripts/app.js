@@ -1,19 +1,26 @@
+class Product {
+  constructor(title, image, description, price) {
+    this.title = title;
+    this.imageUrl = image;
+    this.description = description;
+    this.price = price;
+  }
+}
+
 const ProductList = {
   products: [
-    {
-      title: "A pillow",
-      imageUrl:
-        "https://target.scene7.com/is/image/Target/GUEST_3d52ad7a-40b3-4a3f-ac4f-e10b19b17ccc?wid=488&hei=488&fmt=pjpeg",
-      price: 19.99,
-      description: "A soft pillow!",
-    },
-    {
-      title: "A carpet",
-      imageUrl:
-        "https://media.istockphoto.com/photos/turkish-carpet-picture-id486167735?k=20&m=486167735&s=612x612&w=0&h=C-hW6Mj4YpUwCLl9hp_n8IVqxf-By0X1RmT_xgsl3d8=",
-      price: 99.99,
-      description: "What a great pillow!",
-    },
+    new Product(
+      "A pillow",
+      "https://target.scene7.com/is/image/Target/GUEST_3d52ad7a-40b3-4a3f-ac4f-e10b19b17ccc?wid=488&hei=488&fmt=pjpeg",
+      "A soft pillow!",
+      19.99
+    ),
+    new Product(
+      "A carpet",
+      "https://media.istockphoto.com/photos/turkish-carpet-picture-id486167735?k=20&m=486167735&s=612x612&w=0&h=C-hW6Mj4YpUwCLl9hp_n8IVqxf-By0X1RmT_xgsl3d8=",
+      "What a great carpet!",
+      99.99
+    ),
   ],
 
   render() {
