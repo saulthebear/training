@@ -1,3 +1,5 @@
+/* eslint-disable max-classes-per-file */
+
 /*
   Create a "Course" class which has three properties: "title", "length" and
   "price" (all set up in the constructor). Instantiate the class twice (two
@@ -38,11 +40,43 @@ class Course {
   }
 }
 
+/*
+  Create two new, more specialized, classes: "PracticalCourse" and
+  "TheoreticalCourse". Both should be based on the "Course" class but
+  "PracticalCourse" should also have a "numOfExercises" property,
+  "TheoreticalCourse" should have a "publish()" method (which just prints
+  something to the console). Instantiate both and use the new AND old properties
+  and methods.
+*/
+
+class PracticalCourse extends Course {
+  constructor(title, lengthInHours, price, numberOfExercises) {
+    super(title, lengthInHours, price);
+    this.numberOfExercises = numberOfExercises;
+  }
+}
+
+class TheoreticalCourse extends Course {
+  publish() {
+    console.log(`Publishing "${this.title}"`);
+  }
+}
+
 const course1 = new Course("JS Complete Guide", 10, 11);
 const course2 = new Course("React", 5, 50);
+const course3 = new PracticalCourse("50 JS Projects", 20, 20, 50);
+const course4 = new TheoreticalCourse("Linear Algebra Theory", 100, 20);
 
 console.log(course1);
 console.log(course1.getSummary());
 
 console.log(course2);
 console.log(course2.getSummary());
+
+console.log(course3);
+console.log(course3.getSummary());
+console.log("Exercise count:", course3.numberOfExercises);
+
+console.log(course4);
+console.log(course4.getSummary());
+console.log(course4.publish());
