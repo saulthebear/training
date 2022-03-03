@@ -19,15 +19,17 @@
 */
 
 class Course {
+  #price = 0;
+
   get price() {
-    return `$${this._price.toFixed(2)}`;
+    return `$${this.#price.toFixed(2)}`;
   }
 
   set price(newPrice) {
     if (newPrice < 0) {
-      this._price = 0;
+      this.#price = 0;
     } else {
-      this._price = newPrice;
+      this.#price = newPrice;
     }
   }
 
