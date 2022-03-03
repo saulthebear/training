@@ -5,9 +5,9 @@
 */
 
 class Course {
-  constructor(title, length, price) {
+  constructor(title, lengthInHours, price) {
     this.title = title;
-    this.length = length;
+    this.length = lengthInHours;
     this.price = price;
   }
 }
