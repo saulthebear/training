@@ -15,9 +15,14 @@ class ElementAttribute {
 }
 
 class Component {
-  constructor(renderHookId) {
+  constructor(renderHookId, shouldRender = true) {
     this.hookId = renderHookId;
+    if (shouldRender) {
+      this.render();
+    }
   }
+
+  render() {}
 
   createRootElement(tag, cssClasses, attributes) {
     const rootElement = document.createElement(tag);
@@ -66,8 +71,9 @@ class ShoppingCart extends Component {
 
 class ProductItem extends Component {
   constructor(renderHookId, product) {
-    super(renderHookId);
+    super(renderHookId, false);
     this.product = product;
+    this.render();
   }
 
   addToCart() {
@@ -93,23 +99,36 @@ class ProductItem extends Component {
 }
 
 class ProductList extends Component {
-  products = [
-    new Product(
-      "A pillow",
-      "https://target.scene7.com/is/image/Target/GUEST_3d52ad7a-40b3-4a3f-ac4f-e10b19b17ccc?wid=488&hei=488&fmt=pjpeg",
-      "A soft pillow!",
-      19.99
-    ),
-    new Product(
-      "A carpet",
-      "https://media.istockphoto.com/photos/turkish-carpet-picture-id486167735?k=20&m=486167735&s=612x612&w=0&h=C-hW6Mj4YpUwCLl9hp_n8IVqxf-By0X1RmT_xgsl3d8=",
-      "What a great carpet!",
-      99.99
-    ),
-  ];
+  products = [];
 
   constructor(renderHookId) {
     super(renderHookId);
+    this.fetchProducts();
+  }
+
+  fetchProducts() {
+    this.products = [
+      new Product(
+        "A pillow",
+        "https://target.scene7.com/is/image/Target/GUEST_3d52ad7a-40b3-4a3f-ac4f-e10b19b17ccc?wid=488&hei=488&fmt=pjpeg",
+        "A soft pillow!",
+        19.99
+      ),
+      new Product(
+        "A carpet",
+        "https://media.istockphoto.com/photos/turkish-carpet-picture-id486167735?k=20&m=486167735&s=612x612&w=0&h=C-hW6Mj4YpUwCLl9hp_n8IVqxf-By0X1RmT_xgsl3d8=",
+        "What a great carpet!",
+        99.99
+      ),
+    ];
+    this.renderProducts();
+  }
+
+  renderProducts() {
+    /* eslint-disable no-restricted-syntax */
+    for (const product of this.products) {
+      new ProductItem("product-list", product);
+    }
   }
 
   render() {
@@ -117,10 +136,8 @@ class ProductList extends Component {
       new ElementAttribute("id", "product-list"),
     ]);
 
-    /* eslint-disable no-restricted-syntax */
-    for (const product of this.products) {
-      const productItem = new ProductItem("product-list", product);
-      productItem.render();
+    if (this.products && this.products.length > 0) {
+      this.renderProducts();
     }
   }
 }
@@ -128,12 +145,11 @@ class ProductList extends Component {
 class Shop {
   constructor() {
     this.cart = new ShoppingCart("app");
+    this.render();
   }
 
   render() {
-    this.cart.render();
-    const productList = new ProductList("app");
-    productList.render();
+    new ProductList("app");
   }
 }
 
@@ -143,7 +159,6 @@ class App {
   static init() {
     const shop = new Shop();
     this.cart = shop.cart;
-    shop.render();
   }
 
   static addProductToCart(product) {
