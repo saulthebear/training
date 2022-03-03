@@ -7,8 +7,31 @@ class Product {
   }
 }
 
-const ProductList = {
-  products: [
+class ProductItem {
+  constructor(product) {
+    this.product = product;
+  }
+
+  toElement() {
+    const productElement = document.createElement("li");
+    productElement.className = "product-item";
+    productElement.innerHTML = `
+        <div>
+          <img src="${this.product.imageUrl}" alt="${this.product.description}">
+          <div class="product-item__content">
+            <h2>${this.product.title}</h2>
+            <h3>$${this.product.price}</h3>
+            <p>${this.product.description}</p>
+            <button>Add to Cart</button>
+          </div>
+        </div>
+      `;
+    return productElement;
+  }
+}
+
+class ProductList {
+  products = [
     new Product(
       "A pillow",
       "https://target.scene7.com/is/image/Target/GUEST_3d52ad7a-40b3-4a3f-ac4f-e10b19b17ccc?wid=488&hei=488&fmt=pjpeg",
@@ -21,7 +44,9 @@ const ProductList = {
       "What a great carpet!",
       99.99
     ),
-  ],
+  ];
+
+  constructor() {}
 
   render() {
     const renderHook = document.getElementById("app");
@@ -29,23 +54,13 @@ const ProductList = {
     prodList.className = "product-list";
     /* eslint-disable no-restricted-syntax */
     for (const product of this.products) {
-      const prodEl = document.createElement("li");
-      prodEl.className = "product-item";
-      prodEl.innerHTML = `
-        <div>
-          <img src="${product.imageUrl}" alt="${product.description}">
-          <div class="product-item__content">
-            <h2>${product.title}</h2>
-            <h3>$${product.price}</h3>
-            <p>${product.description}</p>
-            <button>Add to Cart</button>
-          </div>
-        </div>
-      `;
-      prodList.append(prodEl);
+      const productItem = new ProductItem(product);
+      const productElement = productItem.toElement();
+      prodList.append(productElement);
     }
     renderHook.append(prodList);
-  },
-};
+  }
+}
 
-ProductList.render();
+const productList = new ProductList();
+productList.render();
