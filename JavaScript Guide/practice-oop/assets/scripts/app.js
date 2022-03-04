@@ -136,6 +136,7 @@ class App {
 
   static moveDomElement(element, newParent) {
     newParent.append(element);
+    element.scrollIntoView({ behavior: "smooth" });
   }
 
   static clearEventListners(element) {
