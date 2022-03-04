@@ -173,15 +173,34 @@ class ProjectList {
 
     list.addEventListener("dragenter", (event) => {
       if (event.dataTransfer.types[0] === "text/plain") {
-        event.preventdefault();
+        event.preventDefault();
+        list.parentElement.classList.add("droppable");
       }
-      list.parentElement.classList.add("droppable");
     });
 
     list.addEventListener("dragover", (event) => {
       if (event.dataTransfer.types[0] === "text/plain") {
-        event.preventdefault();
+        event.preventDefault();
       }
+    });
+
+    list.addEventListener("dragleave", (event) => {
+      if (event.relatedTarget.closest(`#${this.type}-projects ul`) !== list) {
+        list.parentElement.classList.remove("droppable");
+      }
+    });
+
+    list.addEventListener("drop", (event) => {
+      const projectId = event.dataTransfer.getData("text/plain");
+      if ((this.projects, find((p) => p.id === projectId))) {
+        return;
+      }
+
+      document
+        .getElementById(projectId)
+        .querySelector("button:last-of-type")
+        .click();
+      list.parentElement.classList.remove("droppable");
     });
   }
 }
