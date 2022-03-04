@@ -13,8 +13,8 @@ class Project {
   }
 
   connectSwitchButton() {
-    const button = this.element.querySelector("button:last-of-type");
-    button.addEventListener("click", this.switchHandler);
+    this.switchButton = this.element.querySelector("button:last-of-type");
+    this.switchButton.addEventListener("click", this.switchHandler);
   }
 
   connectMoreInfoButton() {
@@ -24,10 +24,14 @@ class Project {
 
   handleMoreInfo() {}
 
-  update(newSwitchHandler, type) {
+  update(newSwitchHandler, newType) {
     this.element = App.clearEventListners(this.element);
     this.switchHandler = newSwitchHandler;
     this.connectSwitchButton();
+
+    const newButtonText = newType === App.ACTIVE ? "Finish" : "Activate";
+
+    this.switchButton.innerText = newButtonText;
   }
 }
 
