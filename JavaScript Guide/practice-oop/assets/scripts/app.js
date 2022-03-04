@@ -1,6 +1,7 @@
 class Tooltip {
-  constructor(content, onCloseCallback) {
+  constructor(content, hostElement, onCloseCallback) {
     this.content = content;
+    this.hostElement = hostElement;
     this.onCloseCallback = onCloseCallback;
   }
 
@@ -14,7 +15,20 @@ class Tooltip {
     this.element.className = "card";
     this.element.textContent = this.content;
     this.element.addEventListener("click", this.remove.bind(this));
-    document.body.append(this.element);
+
+    const hostElementLeft = this.hostElement.offsetLeft;
+    const hostElementTop = this.hostElement.offsetTop;
+    const hostElementHeight = this.hostElement.clientHeight;
+    const hostScroll = this.hostElement.parentElement.scrollTop;
+
+    const x = hostElementLeft + 20;
+    const y = hostElementTop + hostElementHeight - hostScroll - 10;
+
+    this.hostElement.insertAdjacentElement("beforeend", this.element);
+
+    this.element.style.position = "absolute";
+    this.element.style.left = `${x}px`;
+    this.element.style.top = `${y}px`;
   }
 }
 
@@ -48,6 +62,7 @@ class Project {
       const extraInfo = this.element.dataset.extraInfo;
       const tooltip = new Tooltip(
         extraInfo,
+        this.element,
         () => (this.hasActiveTooltip = false)
       );
       tooltip.show();
