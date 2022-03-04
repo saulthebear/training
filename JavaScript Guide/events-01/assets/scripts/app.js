@@ -177,13 +177,6 @@ class App {
       clearTimeout(timerId);
     });
   }
-
-  static startAnalytics() {
-    const analyticsScript = document.createElement('script');
-    analyticsScript.src = 'assets/scripts/analytics.js';
-    analyticsScript.defer = true;
-    document.head.append(analyticsScript);
-  }
 }
 
 App.init();
