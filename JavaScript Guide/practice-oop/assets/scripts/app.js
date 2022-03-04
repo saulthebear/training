@@ -1,4 +1,20 @@
-class Tooltip {}
+class Tooltip {
+  constructor(content) {
+    this.content = content;
+  }
+
+  remove() {
+    this.element.remove();
+  }
+
+  show() {
+    this.element = document.createElement("div");
+    this.element.className = "card";
+    this.element.textContent = this.content;
+    this.element.addEventListener("click", this.remove.bind(this));
+    document.body.append(this.element);
+  }
+}
 
 class Project {
   constructor(id, switchHandler) {
@@ -10,6 +26,7 @@ class Project {
     this.description = this.element.querySelector("p").innerText;
 
     this.connectSwitchButton();
+    this.connectMoreInfoButton();
   }
 
   connectSwitchButton() {
@@ -22,7 +39,11 @@ class Project {
     button.addEventListener("click", this.handleMoreInfo.bind(this));
   }
 
-  handleMoreInfo() {}
+  handleMoreInfo() {
+    const extraInfo = this.element.dataset.extraInfo;
+    const tooltip = new Tooltip(extraInfo);
+    tooltip.show();
+  }
 
   update(newSwitchHandler, newType) {
     this.element = App.clearEventListners(this.element);
