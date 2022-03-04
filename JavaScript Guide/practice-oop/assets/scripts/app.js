@@ -31,7 +31,7 @@ class Project {
 
     const newButtonText = newType === App.ACTIVE ? "Finish" : "Activate";
 
-    this.switchButton.innerText = newButtonText;
+    this.switchButton.textContent = newButtonText;
   }
 }
 
