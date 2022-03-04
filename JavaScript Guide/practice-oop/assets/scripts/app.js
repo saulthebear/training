@@ -23,6 +23,12 @@ class Project {
   }
 
   handleMoreInfo() {}
+
+  update(newSwitchHandler, type) {
+    this.element = App.clearEventListners(this.element);
+    this.switchHandler = newSwitchHandler;
+    this.connectSwitchButton();
+  }
 }
 
 class ProjectList {
@@ -52,6 +58,11 @@ class ProjectList {
     this.projects.push(project);
     const ul = this.sectionElement.querySelector("ul");
     App.moveDomElement(project.element, ul);
+
+    project.update(
+      this.switchProject.bind(this, project.id),
+      this.projectsType
+    );
   }
 }
 
@@ -75,6 +86,12 @@ class App {
 
   static moveDomElement(element, newParent) {
     newParent.append(element);
+  }
+
+  static clearEventListners(element) {
+    const clonedElement = element.cloneNode(true);
+    element.replaceWith(clonedElement);
+    return clonedElement;
   }
 }
 
