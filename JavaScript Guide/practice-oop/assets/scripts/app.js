@@ -30,8 +30,8 @@ class ProjectList {
   constructor(projectsType) {
     this.projectsType = projectsType;
 
-    const sectionElement = document.getElementById(projectsType);
-    const projectElements = sectionElement.querySelectorAll("li");
+    this.sectionElement = document.getElementById(projectsType);
+    const projectElements = this.sectionElement.querySelectorAll("li");
 
     for (let i = 0; i < projectElements.length; i += 1) {
       const id = projectElements[i].id;
@@ -46,10 +46,18 @@ class ProjectList {
   switchProject(projectId) {
     this.switchHandler(this.projects.find((p) => p.id === projectId));
     this.projects = this.projects.filter((p) => p.id !== projectId);
+    this.render();
   }
 
   addProject(project) {
     this.projects.push(project);
+    this.render();
+  }
+
+  render() {
+    const children = this.projects.map((p) => p.element);
+    const ul = this.sectionElement.querySelector("ul");
+    ul.replaceChildren(...children);
   }
 }
 
