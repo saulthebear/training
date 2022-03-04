@@ -1,10 +1,12 @@
 class Tooltip {
-  constructor(content) {
+  constructor(content, onCloseCallback) {
     this.content = content;
+    this.onCloseCallback = onCloseCallback;
   }
 
   remove() {
     this.element.remove();
+    this.onCloseCallback();
   }
 
   show() {
@@ -17,6 +19,8 @@ class Tooltip {
 }
 
 class Project {
+  hasActiveTooltip = false;
+
   constructor(id, switchHandler) {
     this.id = id;
     this.switchHandler = switchHandler;
@@ -40,9 +44,15 @@ class Project {
   }
 
   handleMoreInfo() {
-    const extraInfo = this.element.dataset.extraInfo;
-    const tooltip = new Tooltip(extraInfo);
-    tooltip.show();
+    if (!this.hasActiveTooltip) {
+      const extraInfo = this.element.dataset.extraInfo;
+      const tooltip = new Tooltip(
+        extraInfo,
+        () => (this.hasActiveTooltip = false)
+      );
+      tooltip.show();
+      this.hasActiveTooltip = true;
+    }
   }
 
   update(newSwitchHandler, newType) {
