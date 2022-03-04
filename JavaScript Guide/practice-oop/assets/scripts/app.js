@@ -46,18 +46,12 @@ class ProjectList {
   switchProject(projectId) {
     this.switchHandler(this.projects.find((p) => p.id === projectId));
     this.projects = this.projects.filter((p) => p.id !== projectId);
-    this.render();
   }
 
   addProject(project) {
     this.projects.push(project);
-    this.render();
-  }
-
-  render() {
-    const children = this.projects.map((p) => p.element);
     const ul = this.sectionElement.querySelector("ul");
-    ul.replaceChildren(...children);
+    App.moveDomElement(project.element, ul);
   }
 }
 
@@ -77,6 +71,10 @@ class App {
 
     console.log(this.activeProjects);
     console.log(this.finishedProjects);
+  }
+
+  static moveDomElement(element, newParent) {
+    newParent.append(element);
   }
 }
 
