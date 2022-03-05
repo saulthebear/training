@@ -15,20 +15,21 @@ function sendHttpRequest(method, url) {
   return promise;
 }
 
-function fetchPosts() {
-  sendHttpRequest("GET", "https://jsonplaceholder.typicode.com/posts").then(
-    (responseData) => {
-      const listOfPosts = responseData;
-
-      /* eslint-disable no-restricted-syntax */
-      for (const post of listOfPosts) {
-        const postElement = document.importNode(postTemplate.content, true);
-        postElement.querySelector("h2").textContent = post.title.toUpperCase();
-        postElement.querySelector("p").textContent = post.body;
-        listElement.append(postElement);
-      }
-    }
+async function fetchPosts() {
+  const responseData = await sendHttpRequest(
+    "GET",
+    "https://jsonplaceholder.typicode.com/posts"
   );
+
+  const listOfPosts = responseData;
+
+  /* eslint-disable no-restricted-syntax */
+  for (const post of listOfPosts) {
+    const postElement = document.importNode(postTemplate.content, true);
+    postElement.querySelector("h2").textContent = post.title.toUpperCase();
+    postElement.querySelector("p").textContent = post.body;
+    listElement.append(postElement);
+  }
 }
 
 fetchPosts();
