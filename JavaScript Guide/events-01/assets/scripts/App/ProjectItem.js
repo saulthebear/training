@@ -1,5 +1,5 @@
 import DOMHelper from "../Utilities/DOMHelper.js";
-import Tooltip from "./Tooltip.js";
+// import Tooltip from "./Tooltip.js";
 
 export default class ProjectItem {
   hasActiveTooltip = false;
@@ -16,17 +16,22 @@ export default class ProjectItem {
     if (this.hasActiveTooltip) {
       return;
     }
+
     const projectElement = document.getElementById(this.id);
     const tooltipText = projectElement.dataset.extraInfo;
-    const tooltip = new Tooltip(
-      () => {
-        this.hasActiveTooltip = false;
-      },
-      tooltipText,
-      this.id
-    );
-    tooltip.attach();
-    this.hasActiveTooltip = true;
+
+    import("./Tooltip.js").then((module) => {
+      const Tooltip = module.default;
+      const tooltip = new Tooltip(
+        () => {
+          this.hasActiveTooltip = false;
+        },
+        tooltipText,
+        this.id
+      );
+      tooltip.attach();
+      this.hasActiveTooltip = true;
+    });
   }
 
   connectMoreInfoButton() {
