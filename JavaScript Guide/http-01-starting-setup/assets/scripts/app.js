@@ -10,7 +10,17 @@ function sendHttpRequest(method, url, data) {
     xhr.open(method, url);
     xhr.responseType = "json";
 
-    xhr.onload = () => resolve(xhr.response);
+    xhr.onload = () => {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        resolve(xhr.response);
+      } else {
+        reject(new Error("Something went wrong!"));
+      }
+    };
+
+    xhr.onerror = () => {
+      reject(new Error("Failed to send request"));
+    };
 
     xhr.send(JSON.stringify(data));
   });
@@ -19,22 +29,26 @@ function sendHttpRequest(method, url, data) {
 }
 
 async function fetchPosts() {
-  const responseData = await sendHttpRequest(
-    "GET",
-    "https://jsonplaceholder.typicode.com/posts"
-  );
+  try {
+    const responseData = await sendHttpRequest(
+      "GET",
+      "https://jsonplaceholder.typicode.com/posts"
+    );
 
-  const listOfPosts = responseData;
-  // Clear existing posts
-  listElement.innerHTML = "";
+    const listOfPosts = responseData;
+    // Clear existing posts
+    listElement.innerHTML = "";
 
-  /* eslint-disable no-restricted-syntax */
-  for (const post of listOfPosts) {
-    const postElement = document.importNode(postTemplate.content, true);
-    postElement.querySelector("h2").textContent = post.title.toUpperCase();
-    postElement.querySelector("p").textContent = post.body;
-    postElement.querySelector("li").id = post.id;
-    listElement.append(postElement);
+    /* eslint-disable no-restricted-syntax */
+    for (const post of listOfPosts) {
+      const postElement = document.importNode(postTemplate.content, true);
+      postElement.querySelector("h2").textContent = post.title.toUpperCase();
+      postElement.querySelector("p").textContent = post.body;
+      postElement.querySelector("li").id = post.id;
+      listElement.append(postElement);
+    }
+  } catch (error) {
+    alert(error);
   }
 }
 
