@@ -1,5 +1,6 @@
 const listElement = document.querySelector(".posts");
 const postTemplate = document.getElementById("single-post");
+const fetchButton = document.querySelector("#available-posts button");
 
 function sendHttpRequest(method, url) {
   const promise = new Promise((resolve, reject) => {
@@ -22,6 +23,8 @@ async function fetchPosts() {
   );
 
   const listOfPosts = responseData;
+  // Clear existing posts
+  listElement.innerHTML = "";
 
   /* eslint-disable no-restricted-syntax */
   for (const post of listOfPosts) {
@@ -32,4 +35,4 @@ async function fetchPosts() {
   }
 }
 
-fetchPosts();
+fetchButton.addEventListener("click", fetchPosts);
