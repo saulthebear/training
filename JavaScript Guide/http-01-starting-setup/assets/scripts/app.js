@@ -11,14 +11,19 @@ function sendHttpRequest(method, url, data) {
     headers: {
       "Content-Type": "application/json",
     },
-  }).then((response) => response.json());
+  }).then((response) => {
+    if (response.status >= 200 && response.status < 300) {
+      return response.json();
+    }
+    throw new Error("Something went wrong server side.");
+  });
 }
 
 async function fetchPosts() {
   try {
     const responseData = await sendHttpRequest(
       "GET",
-      "https://jsonplaceholder.typicode.com/posts"
+      "https://jsonplaceholder.typicode.com/pos"
     );
 
     const listOfPosts = responseData;
