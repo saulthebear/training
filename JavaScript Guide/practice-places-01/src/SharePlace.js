@@ -1,36 +1,49 @@
 import Map from "./UI/Map";
 import Modal from "./UI/Modal";
-import getCoordinatesFromAddress from "./Utility/Location";
+import {
+  getCoordinatesFromAddress,
+  getAddressFromCoordinates,
+} from "./Utility/Location";
 
 class PlaceFinder {
   constructor() {
     const addressForm = document.querySelector("form");
     const locateUserBtn = document.getElementById("locate-btn");
+    this.shareBtn = document.getElementById("share-btn");
 
     locateUserBtn.addEventListener("click", this.#locateUserHandler.bind(this));
     addressForm.addEventListener("submit", this.#findAddressHandler.bind(this));
+    // this.shareBtn.addEventListener("click", () => {});
   }
 
-  #selectPlace(coordiantes) {
+  #selectPlace(coordinates, address) {
     if (this.map) {
-      this.map.render(coordiantes);
+      this.map.render(coordinates);
     }
 
-    this.map = new Map(coordiantes);
-    this.map.render(coordiantes);
+    this.map = new Map(coordinates);
+    this.map.render(coordinates);
+
+    this.shareBtn.disabled = false;
+    const shareLinkInput = document.getElementById("share-link");
+    shareLinkInput.value = `${location.origin}/my-place?address=${encodeURI(
+      address
+    )}&lat=${coordinates.lat}&lng=${coordinates.lng}`;
   }
 
   #locateUserHandler() {
     const modal = PlaceFinder.getLoadingModal();
     modal.show();
     navigator.geolocation.getCurrentPosition(
-      (successResult) => {
-        modal.hide();
+      async (successResult) => {
         const coordinates = {
           lat: successResult.coords.latitude,
           lng: successResult.coords.longitude,
         };
-        this.#selectPlace(coordinates);
+
+        const address = await getAddressFromCoordinates(coordinates);
+        modal.hide();
+        this.#selectPlace(coordinates, address);
       },
       () => {
         modal.hide();
@@ -52,7 +65,7 @@ class PlaceFinder {
     modal.show();
     try {
       const coordinates = await getCoordinatesFromAddress(address);
-      this.#selectPlace(coordinates);
+      this.#selectPlace(coordinates, address);
     } catch (error) {
       alert(error.message);
     }
