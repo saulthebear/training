@@ -13,7 +13,24 @@ class PlaceFinder {
 
     locateUserBtn.addEventListener("click", this.#locateUserHandler.bind(this));
     addressForm.addEventListener("submit", this.#findAddressHandler.bind(this));
-    // this.shareBtn.addEventListener("click", () => {});
+    this.shareBtn.addEventListener(
+      "click",
+      PlaceFinder.#sharePlaceHandler.bind(this)
+    );
+  }
+
+  static #sharePlaceHandler() {
+    const sharedLinkInputElement = document.getElementById("share-link");
+    if (!navigator.clipboard) {
+      sharedLinkInputElement.ariaSelected();
+      return;
+    }
+    navigator.clipboard
+      .writeText(sharedLinkInputElement.value)
+      .then(() => {
+        alert("Copied into clipboard");
+      })
+      .catch((error) => console.error(error));
   }
 
   #selectPlace(coordinates, address) {
