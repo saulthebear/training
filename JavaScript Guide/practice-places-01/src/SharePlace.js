@@ -1,5 +1,6 @@
 import Map from "./UI/Map";
 import Modal from "./UI/Modal";
+import getCoordinatesFromAddress from "./Utility/Location";
 
 class PlaceFinder {
   constructor() {
@@ -20,7 +21,7 @@ class PlaceFinder {
   }
 
   #locateUserHandler() {
-    const modal = new Modal("loading-modal-content", "Loading location...");
+    const modal = PlaceFinder.getLoadingModal();
     modal.show();
     navigator.geolocation.getCurrentPosition(
       (successResult) => {
@@ -31,14 +32,36 @@ class PlaceFinder {
         };
         this.#selectPlace(coordinates);
       },
-      (error) => {
+      () => {
         modal.hide();
         alert("Courld not locate you. Please enter an address manually.");
       }
     );
   }
 
-  #findAddressHandler() {}
+  async #findAddressHandler(event) {
+    console.log(event);
+    event.preventDefault();
+    const address = event.target.querySelector("input").value.trim();
+    if (!address) {
+      alert("Invalid address entered - please try again");
+      return;
+    }
+
+    const modal = PlaceFinder.getLoadingModal();
+    modal.show();
+    try {
+      const coordinates = await getCoordinatesFromAddress(address);
+      this.#selectPlace(coordinates);
+    } catch (error) {
+      alert(error.message);
+    }
+    modal.hide();
+  }
+
+  static getLoadingModal() {
+    return new Modal("loading-modal-content", "Loading location...");
+  }
 }
 
 const placeFinder = new PlaceFinder();

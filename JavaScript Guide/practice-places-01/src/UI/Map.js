@@ -15,9 +15,9 @@ export default class Map {
       zoom: 16,
     });
 
-    new google.maps.Marker({
+    const marker = new google.maps.Marker({
       position: coordinates,
-      map: map,
+      map,
     });
   }
 }
