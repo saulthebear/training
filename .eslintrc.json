@@ -1,0 +1,29 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "extends": [
+        "airbnb",
+        "prettier",
+        "plugin:tailwindcss/recommended",
+        "plugin:react/recommended"
+    ],
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": "latest",
+        "sourceType": "module"
+    },
+    "plugins": [
+        "prettier",
+        "tailwindcss",
+        "react"
+    ],
+    "rules": {
+        "prettier/prettier": [
+            "error"
+        ]
+    }
+}
