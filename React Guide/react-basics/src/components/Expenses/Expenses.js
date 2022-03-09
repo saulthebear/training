@@ -9,11 +9,13 @@ import './Expenses.css';
 function Expenses(props) {
   const [filterYear, setFilterYear] = useState('2019');
 
-  const expenses = props.items;
+  const expenses = props.items.filter((expense) => {
+    const expenseYear = expense.date.getFullYear().toString();
+    return expenseYear === filterYear;
+  });
 
   const filterChangeHandler = (year) => {
     setFilterYear(year);
-    console.log(year);
   };
 
   return (
