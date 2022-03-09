@@ -6,8 +6,8 @@
     "extends": [
         "airbnb",
         "prettier",
-        "plugin:tailwindcss/recommended",
-        "plugin:react/recommended"
+        "plugin:react/recommended",
+        "react/jsx-runtime"
     ],
     "parserOptions": {
         "ecmaFeatures": {
@@ -24,6 +24,9 @@
     "rules": {
         "prettier/prettier": [
             "error"
+        ],
+        "react/jsx-filename-extension": [
+            "off"
         ]
     }
 }
