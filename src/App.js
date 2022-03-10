@@ -1,5 +1,12 @@
+import Form from './components/Form';
 function App() {
-  return <h1 className="text-3xl font-bold underline">Hello World!</h1>;
+  return (
+    <div className="flex h-full justify-center bg-slate-800">
+      <div className="mt-10 h-fit w-8/12">
+        <Form />
+      </div>
+    </div>
+  );
 }
 
 export default App;
