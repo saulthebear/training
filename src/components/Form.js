@@ -1,3 +1,4 @@
+import Button from './UI/Button';
 import Card from './UI/Card';
 
 function Form(props) {
@@ -30,13 +31,7 @@ function Form(props) {
           min="0"
           step="1"
         />
-
-        <button
-          className="w-fit rounded bg-purple-900 py-2 px-4 text-white"
-          type="submit"
-        >
-          Add User
-        </button>
+        <Button type="submit">Add User</Button>
       </form>
     </Card>
   );
