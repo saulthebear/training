@@ -1,6 +1,6 @@
 function Card(props) {
   return (
-    <div className="overflow-scroll rounded-lg">
+    <div className="overflow-scroll rounded-lg drop-shadow-xl">
       {props.header && (
         <div className="bg-purple-700 px-4 py-5 font-bold text-white">
           {props.header}
