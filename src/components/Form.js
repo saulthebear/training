@@ -2,12 +2,35 @@ import Button from './UI/Button';
 import Card from './UI/Card';
 
 function Form(props) {
+  const ERROR_AGE = 'ERROR_AGE';
+  const ERROR_GENERAL = 'ERROR_GENERAL';
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const form = event.target;
-    const username = form.querySelector('#username').value;
-    const age = +form.querySelector('#age').value;
-    props.onSubmit({ username, age });
+
+    const usernameInput = form.querySelector('#username').value.trim();
+    const ageInput = form.querySelector('#age').value.trim();
+
+    const validUsername = usernameInput != '';
+    const validAge = ageInput && +ageInput > 0;
+
+    if (validUsername && validAge) {
+      props.onSubmit({ username: usernameInput, age: +ageInput });
+      return;
+    }
+
+    let errorType = validAge ? ERROR_GENERAL : ERROR_AGE;
+    handleError(errorType);
+  };
+
+  const handleError = (errorType) => {
+    let title = 'Invalid input';
+    let content =
+      errorType === ERROR_AGE
+        ? 'Age must be greater than 0.'
+        : 'Please enter a valid name and age.';
+    props.onError(title, content);
   };
   return (
     <Card>

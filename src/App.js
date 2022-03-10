@@ -1,6 +1,8 @@
 import { useState } from 'react';
 
 import Form from './components/Form';
+import Button from './components/UI/Button';
+import Modal from './components/UI/Modal';
 import Users from './components/Users';
 
 function App() {
@@ -13,13 +15,32 @@ function App() {
     setUsers((prevState) => [{ id: Math.random(), ...user }, ...prevState]);
   };
 
-  // setUsers([{ name: 'user1' }, { name: 'User 2' }]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modal, setModal] = useState();
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const configureModal = (header, body, onClose) => {
+    return (
+      <Modal onClose={onClose} header={header}>
+        {body}
+      </Modal>
+    );
+  };
+
+  const openModal = (header, content) => {
+    setModal(configureModal(header, content, closeModal));
+    setIsModalOpen(true);
+  };
 
   return (
     <div className="flex h-full justify-center bg-slate-800">
       <div className="mt-10 flex h-fit w-8/12 flex-col gap-5">
-        <Form onSubmit={addUserHandler} />
+        <Form onSubmit={addUserHandler} onError={openModal} />
         <Users users={users} />
+        {isModalOpen && modal}
       </div>
     </div>
   );
