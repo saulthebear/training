@@ -4,7 +4,7 @@ function Button(props) {
   const combinedClasses = defaultClasses + passedClasses;
   return (
     <button
-      type={props.type}
+      type={props.type || 'button'}
       className={combinedClasses}
       onClick={props.onClick}
     >
