@@ -1,9 +1,16 @@
 import Card from './UI/Card';
 
-function Form() {
+function Form(props) {
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const form = event.target;
+    const username = form.querySelector('#username').value;
+    const age = +form.querySelector('#age').value;
+    props.onSubmit({ username, age });
+  };
   return (
     <Card>
-      <form className="flex flex-col">
+      <form className="flex flex-col" onSubmit={handleSubmit}>
         <label className="mb-1 font-bold" htmlFor="username">
           Username
         </label>
