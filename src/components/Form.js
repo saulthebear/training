@@ -12,7 +12,7 @@ function Form(props) {
     const usernameInput = form.querySelector('#username').value.trim();
     const ageInput = form.querySelector('#age').value.trim();
 
-    const validUsername = usernameInput != '';
+    const validUsername = usernameInput !== '';
     const validAge = ageInput && +ageInput > 0;
 
     if (validUsername && validAge) {

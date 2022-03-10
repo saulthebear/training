@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
 import Form from './components/Form';
-import Button from './components/UI/Button';
 import Modal from './components/UI/Modal';
 import Users from './components/Users';
 
