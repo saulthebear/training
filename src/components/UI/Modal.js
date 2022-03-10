@@ -3,8 +3,9 @@ import Button from './Button';
 import Card from './Card';
 
 function Modal(props) {
-  const closeHandler = () => {
-    props.onClose();
+  const closeHandler = (event) => {
+    // Prevent closing when clicking inside the card
+    if (event.target === event.currentTarget) props.onClose();
   };
 
   return (
@@ -13,6 +14,7 @@ function Modal(props) {
         className={
           'absolute inset-0 flex h-full w-full justify-center bg-slate-900/50'
         }
+        onClick={closeHandler}
       >
         <div className="mt-20 w-8/12">
           <Card header={props.header}>
