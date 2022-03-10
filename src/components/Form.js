@@ -1,6 +1,8 @@
+import Card from './UI/Card';
+
 function Form() {
   return (
-    <div className="rounded-lg bg-slate-100 p-3">
+    <Card>
       <form className="flex flex-col">
         <label className="mb-1 font-bold" htmlFor="username">
           Username
@@ -29,7 +31,7 @@ function Form() {
           Add User
         </button>
       </form>
-    </div>
+    </Card>
   );
 }
 
