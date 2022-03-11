@@ -7,3 +7,7 @@ body,
 #root {
   height: 100%;
 }
+
+.clip-header-img {
+  clip-path: polygon(100% 0, 100% 75%, 0 100%, 0% 0%);
+}

@@ -1,3 +1,5 @@
+import buffet from './buffet.jpg';
+
 function App() {
   return (
     <div className="h-full bg-zinc-800 text-white">
@@ -8,6 +10,12 @@ function App() {
           <span className="ml-5 rounded-full bg-orange-700 px-3 py-1">2</span>
         </button>
       </nav>
+      <div className="h-96 overflow-hidden">
+        <div
+          style={{ backgroundImage: `url(${buffet})` }}
+          className="clip-header-img h-full bg-cover bg-center bg-no-repeat"
+        ></div>
+      </div>
     </div>
   );
 }
