@@ -1,9 +1,9 @@
 import { useState } from 'react';
 
-import Cart from './Components/Cart/Cart';
-import Header from './Components/Header';
-import Menu from './Components/Menu/Menu';
-import Card from './Components/UI/Card';
+import Cart from './components/Cart/Cart';
+import Header from './components/Header';
+import Menu from './components/Menu/Menu';
+import Card from './components/UI/Card';
 
 function App() {
   const [isCartOpen, setIsCartOpen] = useState(false);
