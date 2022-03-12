@@ -13,16 +13,17 @@ function MenuItem(props) {
       </div>
       <form className="flex flex-col items-center" onSubmit={submitHandler}>
         <div className="mb-3">
-          <label htmlFor="amount" className="mr-3 font-bold">
+          <label htmlFor={`amount_${props.id}`} className="mr-3 font-bold">
             Amount
           </label>
           <input
             type="number"
             name="amount"
-            id="amount"
-            min="0"
+            id={`amount_${props.id}`}
+            min="1"
             step="1"
-            className=" w-12 rounded-md border-2 border-zinc-300  text-center"
+            defaultValue={1}
+            className="w-12 rounded-md border-2 border-zinc-300  text-center"
           />
         </div>
         <button
