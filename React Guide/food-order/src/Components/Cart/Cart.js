@@ -23,7 +23,7 @@ function Cart(props) {
   ];
 
   return (
-    <Modal>
+    <Modal onClose={props.hideCart}>
       {cartItems.map((item) => (
         <CartItem
           name={item.name}
