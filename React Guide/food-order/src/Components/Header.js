@@ -2,7 +2,7 @@ import { Fragment } from 'react';
 
 import CartButton from './Cart/CartButton';
 
-import buffet from '../buffet.jpg';
+import buffet from '../assets/buffet.jpg';
 
 function Header(props) {
   return (
