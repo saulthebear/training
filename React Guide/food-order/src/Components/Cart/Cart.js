@@ -14,14 +14,22 @@ function Cart(props) {
   const totalPrice = (cartContext.totalPrice / 100).toFixed(2);
   const hasItems = cartContext.items.length > 0;
 
+  const itemSubtractHandler = (id) => {
+    cartContext.removeItem(id);
+  };
+  const itemAddHandler = (item) => {
+    const singleQuantityItem = { ...item, quantity: 1 };
+    cartContext.addItem(singleQuantityItem);
+  };
+
   return (
     <Modal onClose={props.hideCart}>
       {cartItems.map((item) => (
         <CartItem
-          name={item.name}
-          unitPrice={item.unitPrice}
-          quantity={item.quantity}
           key={item.id}
+          onSubtract={itemSubtractHandler.bind(null, item.id)}
+          onAdd={itemAddHandler.bind(null, item)}
+          item={item}
         />
       ))}
 
