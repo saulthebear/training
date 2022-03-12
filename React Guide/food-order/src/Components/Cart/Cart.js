@@ -1,4 +1,3 @@
-import Card from '../UI/Card';
 import Modal from '../UI/Modal';
 import CartItem from './CartItem';
 
