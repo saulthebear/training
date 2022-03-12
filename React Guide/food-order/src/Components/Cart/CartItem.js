@@ -8,7 +8,7 @@ function CartItem(props) {
             ${(props.unitPrice / 100).toFixed(2)}
           </div>
           <div className="rounded-md  border-2 px-3 py-1 text-sm font-bold">
-            x{props.amount}
+            x{props.quantity}
           </div>
         </div>
       </div>

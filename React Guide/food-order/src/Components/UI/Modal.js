@@ -12,7 +12,7 @@ function Modal(props) {
             className="absolute inset-0 z-40 bg-slate-900/70 backdrop-blur-sm"
             onClick={props.onClose}
           ></div>
-          <Card className="relative top-1/3 z-50 m-auto w-[90%] max-w-5xl">
+          <Card className="relative top-32 z-50 m-auto max-h-[80%]  w-[90%] max-w-5xl overflow-x-auto">
             {props.children}
           </Card>
         </div>,
