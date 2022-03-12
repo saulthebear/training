@@ -1,7 +1,33 @@
+import { useRef, useContext } from 'react';
+
+import CartContext from '../../store/cart-context';
+
 function MenuItem(props) {
+  const cartContext = useContext(CartContext);
+
+  const amountInputRef = useRef();
+
   const submitHandler = (event) => {
     event.preventDefault();
+    const enteredAmount = amountInputRef.current.value;
+    const enteredAmountAsNumber = +enteredAmount;
+
+    const isEmpty = enteredAmount.trim().length === 0;
+    const isTooSmall = enteredAmountAsNumber < 1;
+    const isTooBig = enteredAmountAsNumber > 5;
+
+    if (isEmpty || isTooSmall || isTooBig) {
+      return;
+    }
+
+    cartContext.addItem({
+      id: props.id,
+      name: props.name,
+      amount: enteredAmountAsNumber,
+      unitPrice: props.priceInCents,
+    });
   };
+
   return (
     <div className="mb-3 flex justify-between border-b-2 pb-5 last:mb-0">
       <div className="flex flex-col">
@@ -17,6 +43,7 @@ function MenuItem(props) {
             Amount
           </label>
           <input
+            ref={amountInputRef}
             type="number"
             name="amount"
             id={`amount_${props.id}`}
