@@ -1,6 +1,5 @@
 import { useState } from 'react';
 
-import buffet from './buffet.jpg';
 import Cart from './Components/Cart/Cart';
 import Header from './Components/Header';
 import Menu from './Components/Menu/Menu';
@@ -14,11 +13,6 @@ function App() {
       {showCart && <Cart />}
 
       <Header />
-
-      <div
-        className="clip-slant z-0 h-72 w-full bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url(${buffet})` }}
-      ></div>
 
       <Card
         className="relative mx-auto -mt-40 mb-10 flex w-3/4 max-w-3xl flex-col items-center text-center"
