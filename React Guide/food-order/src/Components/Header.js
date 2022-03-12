@@ -9,7 +9,7 @@ function Header(props) {
     <Fragment>
       <header className="flex items-center justify-between bg-orange-700 py-7 px-20">
         <h1 className=" text-3xl font-bold">ReactMeals</h1>
-        <CartButton itemCount={2} showCart={props.showCart} />
+        <CartButton showCart={props.showCart} />
       </header>
 
       <div
