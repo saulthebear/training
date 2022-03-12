@@ -2,7 +2,10 @@ import CartIcon from '../Icons/CartIcon';
 
 function Cart(props) {
   return (
-    <button className="flex  items-center rounded-full bg-orange-900 px-8  py-3 font-bold">
+    <button
+      className="flex  items-center rounded-full bg-orange-900 px-8  py-3 font-bold"
+      onClick={props.showCart}
+    >
       <CartIcon />
 
       <span className="mx-3">Your Cart</span>

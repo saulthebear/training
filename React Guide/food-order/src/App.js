@@ -6,13 +6,16 @@ import Menu from './Components/Menu/Menu';
 import Card from './Components/UI/Card';
 
 function App() {
-  const [showCart, setShowCart] = useState(false);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+
+  const showCart = () => setIsCartOpen(true);
+  const hideCart = () => setIsCartOpen(false);
 
   return (
     <div className="min-h-full bg-zinc-800 pb-10 text-lg text-white">
-      {showCart && <Cart />}
+      {isCartOpen && <Cart hideCart={hideCart} />}
 
-      <Header />
+      <Header showCart={showCart} />
 
       <main>
         <Card

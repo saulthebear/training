@@ -2,6 +2,9 @@ import Modal from '../UI/Modal';
 import CartItem from './CartItem';
 
 function Cart(props) {
+  const handleOrder = () => {
+    console.log('Ordering...');
+  };
   const cartItems = [
     {
       name: 'Sushi',
@@ -37,11 +40,13 @@ function Cart(props) {
 
       <div className="flex justify-end text-xl">
         <button
+          onClick={props.hideCart}
           className="mr-5 rounded-full border-2 border-orange-900 px-8 py-1 text-orange-900 shadow-orange-900 last:mr-0"
         >
           Close
         </button>
         <button
+          onClick={handleOrder}
           className="mr-5 rounded-full bg-orange-900 px-8 py-1 text-white shadow-orange-900 last:mr-0"
         >
           Order
