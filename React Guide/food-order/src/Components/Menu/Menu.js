@@ -41,7 +41,7 @@ function Menu() {
   ));
 
   return (
-    <Card className="max-w-5x mx-auto w-[90%]">
+    <Card className="mx-auto w-[90%] max-w-5xl">
       <ul>{menuItems}</ul>
     </Card>
   );
