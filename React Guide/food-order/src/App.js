@@ -14,25 +14,27 @@ function App() {
 
       <Header />
 
-      <Card
-        className="relative mx-auto -mt-40 mb-10 flex w-3/4 max-w-3xl flex-col items-center text-center"
-        bgColor="bg-zinc-700"
-        textColor="text-white"
-      >
-        <h2 className="mb-5 text-2xl font-bold">
-          Delicious Food, Delivered To You
-        </h2>
-        <p className="mb-4 max-w-prose">
-          Choose your favorite meal from our broad selection of available meals
-          and enjoy delicious lunch or dinner at home.
-        </p>
-        <p className=" max-w-prose">
-          All our meals are cooked with high quality ingredients, just-in-time
-          and of course by expereinced chefs!
-        </p>
-      </Card>
+      <main>
+        <Card
+          className="relative mx-auto -mt-40 mb-10 flex w-3/4 max-w-3xl flex-col items-center text-center"
+          bgColor="bg-zinc-700"
+          textColor="text-white"
+        >
+          <h2 className="mb-5 text-2xl font-bold">
+            Delicious Food, Delivered To You
+          </h2>
+          <p className="mb-4 max-w-prose">
+            Choose your favorite meal from our broad selection of available
+            meals and enjoy delicious lunch or dinner at home.
+          </p>
+          <p className=" max-w-prose">
+            All our meals are cooked with high quality ingredients, just-in-time
+            and of course by expereinced chefs!
+          </p>
+        </Card>
 
-      <Menu />
+        <Menu />
+      </main>
     </div>
   );
 }
