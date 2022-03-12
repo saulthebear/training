@@ -43,16 +43,8 @@ const cartReducer = (state, action) => {
     const updatedTotalPrice = state.totalPrice - existingCartItem.unitPrice;
 
     if (newQuantity < 1) {
-      // Remove item
-      updatedItems = [
-        ...state.items.slice(0, existingCartItemIndex),
-        ...state.items.slice(existingCartItemIndex + 1),
-      ];
-
-      const removedTotalPrice =
-        existingCartItem.unitPrice * existingCartItem.quantity;
+      updatedItems = state.items.filter((item) => item.id !== action.itemId);
     } else {
-      // Subtract one from quantity
       const updatedItem = {
         ...existingCartItem,
         quantity: newQuantity,
