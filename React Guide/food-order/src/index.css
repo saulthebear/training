@@ -11,3 +11,9 @@ body,
 .clip-slant {
   clip-path: polygon(100% 0, 100% 75%, 0 100%, 0% 0%);
 }
+
+#overlays {
+  z-index: 100;
+  position: fixed;
+  height: 100vh;
+}
