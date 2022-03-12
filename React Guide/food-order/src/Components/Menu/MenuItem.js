@@ -5,16 +5,16 @@ import CartContext from '../../store/cart-context';
 function MenuItem(props) {
   const cartContext = useContext(CartContext);
 
-  const amountInputRef = useRef();
+  const quantityInputRef = useRef();
 
   const submitHandler = (event) => {
     event.preventDefault();
-    const enteredAmount = amountInputRef.current.value;
-    const enteredAmountAsNumber = +enteredAmount;
+    const enteredQuantity = quantityInputRef.current.value;
+    const enteredQuantityAsNumber = +enteredQuantity;
 
-    const isEmpty = enteredAmount.trim().length === 0;
-    const isTooSmall = enteredAmountAsNumber < 1;
-    const isTooBig = enteredAmountAsNumber > 5;
+    const isEmpty = enteredQuantity.trim().length === 0;
+    const isTooSmall = enteredQuantityAsNumber < 1;
+    const isTooBig = enteredQuantityAsNumber > 5;
 
     if (isEmpty || isTooSmall || isTooBig) {
       return;
@@ -23,7 +23,7 @@ function MenuItem(props) {
     cartContext.addItem({
       id: props.id,
       name: props.name,
-      amount: enteredAmountAsNumber,
+      quantity: enteredQuantityAsNumber,
       unitPrice: props.priceInCents,
     });
   };
@@ -39,14 +39,14 @@ function MenuItem(props) {
       </div>
       <form className="flex flex-col items-center" onSubmit={submitHandler}>
         <div className="mb-3">
-          <label htmlFor={`amount_${props.id}`} className="mr-3 font-bold">
-            Amount
+          <label htmlFor={`quantity_${props.id}`} className="mr-3 font-bold">
+            Quantity
           </label>
           <input
-            ref={amountInputRef}
+            ref={quantityInputRef}
             type="number"
-            name="amount"
-            id={`amount_${props.id}`}
+            name="quantity"
+            id={`quantity_${props.id}`}
             min="1"
             step="1"
             defaultValue={1}

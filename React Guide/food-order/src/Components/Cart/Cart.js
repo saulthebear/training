@@ -1,41 +1,32 @@
+import { useContext } from 'react';
+
 import Modal from '../UI/Modal';
 import CartItem from './CartItem';
+import CartContext from '../../store/cart-context';
+
+const handleOrder = () => {
+  console.log('Ordering...');
+};
 
 function Cart(props) {
-  const handleOrder = () => {
-    console.log('Ordering...');
-  };
-  const cartItems = [
-    {
-      name: 'Sushi',
-      description: 'Finest fish and veggies',
-      priceInCents: 2999,
-      amount: 2,
-      id: Math.random(),
-    },
-    {
-      name: 'Schnitzel',
-      description: 'A German specialty!',
-      priceInCents: 1650,
-      amount: 1,
-      id: Math.random(),
-    },
-  ];
+  const cartContext = useContext(CartContext);
+  const cartItems = cartContext.items;
+  const totalPrice = (cartContext.totalPrice / 100).toFixed(2);
 
   return (
     <Modal onClose={props.hideCart}>
       {cartItems.map((item) => (
         <CartItem
           name={item.name}
-          unitPrice={item.priceInCents}
-          amount={item.amount}
+          unitPrice={item.unitPrice}
+          quantity={item.quantity}
           key={item.id}
         />
       ))}
 
       <div className="mb-6 flex justify-between border-t-2 border-orange-900 pt-3 text-3xl font-bold">
-        <div>Total Amount</div>
-        <div>$33.00</div>
+        <div>Total Price</div>
+        <div>${totalPrice}</div>
       </div>
 
       <div className="flex justify-end text-xl">

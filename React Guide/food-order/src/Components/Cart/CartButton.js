@@ -6,7 +6,7 @@ import CartIcon from '../Icons/CartIcon';
 function Cart(props) {
   const cartContext = useContext(CartContext);
   const numberOfItems = cartContext.items.reduce(
-    (currNumber, item) => currNumber + item.amount,
+    (currNumber, item) => currNumber + item.quantity,
     0
   );
 
