@@ -1,34 +1,34 @@
+import { useEffect, useState } from 'react';
+
 import Card from '../UI/Card';
 import MenuItem from './MenuItem';
 
-const menu = [
-  {
-    name: 'Sushi',
-    description: 'Finest fish and veggies',
-    priceInCents: 2999,
-    id: Math.random(),
-  },
-  {
-    name: 'Schnitzel',
-    description: 'A German specialty!',
-    priceInCents: 1650,
-    id: Math.random(),
-  },
-  {
-    name: 'BBQ Burger',
-    description: 'American and meaty',
-    priceInCents: 1299,
-    id: Math.random(),
-  },
-  {
-    name: 'Green Bowl',
-    description: 'Healthy... and green...',
-    priceInCents: 1899,
-    id: Math.random(),
-  },
-];
-
 function Menu() {
+  const [menu, setMenu] = useState([]);
+
+  useEffect(() => {
+    const fetchMeals = async () => {
+      const response = await fetch(
+        'https://reactguide-49a53-default-rtdb.firebaseio.com/meals.json'
+      );
+      const responseData = await response.json();
+
+      const loadedMeals = [];
+      for (const key in responseData) {
+        loadedMeals.push({
+          id: key,
+          name: responseData[key].name,
+          description: responseData[key].description,
+          priceInCents: responseData[key].priceInCents,
+        });
+      }
+
+      setMenu(loadedMeals);
+    };
+
+    fetchMeals();
+  }, []);
+
   const menuItems = menu.map((item) => (
     <li key={item.id} className="pb-5 last:pb-0">
       <MenuItem
