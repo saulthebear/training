@@ -12,6 +12,8 @@ function Cart(props) {
   const hasItems = cartContext.items.length > 0;
 
   const [showOrderForm, setShowOrderForm] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [didSubmit, setDidSubmit] = useState(false);
 
   const handleOrder = () => {
     setShowOrderForm(true);
@@ -24,16 +26,22 @@ function Cart(props) {
     cartContext.addItem(singleQuantityItem);
   };
 
-  const submitOrderHandler = (userData) => {
-    console.log('Submitting....');
-    console.log(userData);
-    fetch('https://reactguide-49a53-default-rtdb.firebaseio.com/orders.json', {
-      method: 'POST',
-      body: JSON.stringify({
-        user: userData,
-        orderedItems: cartContext.items,
-      }),
-    });
+  const submitOrderHandler = async (userData) => {
+    setIsSubmitting('true');
+
+    await fetch(
+      'https://reactguide-49a53-default-rtdb.firebaseio.com/orders.json',
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          user: userData,
+          orderedItems: cartContext.items,
+        }),
+      }
+    );
+
+    setIsSubmitting(false);
+    setDidSubmit(true);
   };
 
   const modalActions = (
@@ -55,8 +63,8 @@ function Cart(props) {
     </footer>
   );
 
-  return (
-    <Modal onClose={props.hideCart}>
+  const cartModalContent = (
+    <Fragment>
       {cartItems.map((item) => (
         <CartItem
           key={item.id}
@@ -81,6 +89,30 @@ function Cart(props) {
       )}
 
       {!showOrderForm && modalActions}
+    </Fragment>
+  );
+
+  const isSubmittingModalContent = <p>Submitting order...</p>;
+
+  const didSubmitModalContent = (
+    <Fragment>
+      <p>Order submitted.</p>
+      <footer className="flex justify-end text-xl">
+        <button
+          onClick={props.hideCart}
+          className="mr-5 rounded-full border-2 border-orange-900 px-8 py-1 text-orange-900 shadow-orange-900 last:mr-0"
+        >
+          Close
+        </button>
+      </footer>
+    </Fragment>
+  );
+
+  return (
+    <Modal onClose={props.hideCart}>
+      {!isSubmitting && !didSubmit && cartModalContent}
+      {isSubmitting && isSubmittingModalContent}
+      {didSubmit && didSubmitModalContent}
     </Modal>
   );
 }
