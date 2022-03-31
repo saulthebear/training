@@ -1,12 +1,9 @@
-import { useContext, Fragment } from 'react';
+import { useContext, useState, Fragment } from 'react';
 
 import Modal from '../UI/Modal';
 import CartItem from './CartItem';
 import CartContext from '../../store/cart-context';
-
-const handleOrder = () => {
-  console.log('Ordering...');
-};
+import Checkout from './Checkout';
 
 function Cart(props) {
   const cartContext = useContext(CartContext);
@@ -14,6 +11,11 @@ function Cart(props) {
   const totalPrice = (cartContext.totalPrice / 100).toFixed(2);
   const hasItems = cartContext.items.length > 0;
 
+  const [showOrderForm, setShowOrderForm] = useState(false);
+
+  const handleOrder = () => {
+    setShowOrderForm(true);
+  };
   const itemSubtractHandler = (id) => {
     cartContext.removeItem(id);
   };
@@ -21,6 +23,25 @@ function Cart(props) {
     const singleQuantityItem = { ...item, quantity: 1 };
     cartContext.addItem(singleQuantityItem);
   };
+
+  const modalActions = (
+    <footer className="flex justify-end text-xl">
+      <button
+        onClick={props.hideCart}
+        className="mr-5 rounded-full border-2 border-orange-900 px-8 py-1 text-orange-900 shadow-orange-900 last:mr-0"
+      >
+        Close
+      </button>
+      {hasItems && (
+        <button
+          onClick={handleOrder}
+          className="mr-5 rounded-full bg-orange-900 px-8 py-1 text-white shadow-orange-900 last:mr-0"
+        >
+          Order
+        </button>
+      )}
+    </footer>
+  );
 
   return (
     <Modal onClose={props.hideCart}>
@@ -43,22 +64,9 @@ function Cart(props) {
         {!hasItems && <p>No items in cart.</p>}
       </div>
 
-      <footer className="flex justify-end text-xl">
-        <button
-          onClick={props.hideCart}
-          className="mr-5 rounded-full border-2 border-orange-900 px-8 py-1 text-orange-900 shadow-orange-900 last:mr-0"
-        >
-          Close
-        </button>
-        {hasItems && (
-          <button
-            onClick={handleOrder}
-            className="mr-5 rounded-full bg-orange-900 px-8 py-1 text-white shadow-orange-900 last:mr-0"
-          >
-            Order
-          </button>
-        )}
-      </footer>
+      {showOrderForm && <Checkout onCancel={props.hideCart} />}
+
+      {!showOrderForm && modalActions}
     </Modal>
   );
 }
