@@ -42,6 +42,7 @@ function Cart(props) {
 
     setIsSubmitting(false);
     setDidSubmit(true);
+    cartContext.clearCart();
   };
 
   const modalActions = (
