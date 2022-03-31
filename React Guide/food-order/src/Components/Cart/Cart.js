@@ -24,6 +24,18 @@ function Cart(props) {
     cartContext.addItem(singleQuantityItem);
   };
 
+  const submitOrderHandler = (userData) => {
+    console.log('Submitting....');
+    console.log(userData);
+    fetch('https://reactguide-49a53-default-rtdb.firebaseio.com/orders.json', {
+      method: 'POST',
+      body: JSON.stringify({
+        user: userData,
+        orderedItems: cartContext.items,
+      }),
+    });
+  };
+
   const modalActions = (
     <footer className="flex justify-end text-xl">
       <button
@@ -64,7 +76,9 @@ function Cart(props) {
         {!hasItems && <p>No items in cart.</p>}
       </div>
 
-      {showOrderForm && <Checkout onCancel={props.hideCart} />}
+      {showOrderForm && (
+        <Checkout onCancel={props.hideCart} onConfirm={submitOrderHandler} />
+      )}
 
       {!showOrderForm && modalActions}
     </Modal>

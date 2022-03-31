@@ -40,7 +40,12 @@ function Checkout(props) {
     });
 
     if (formIsValid) {
-      console.log('Form is valid');
+      props.onConfirm({
+        name: enteredName,
+        street: enteredStreet,
+        postalCode: enteredPostalCode,
+        city: enteredCity,
+      });
     }
   };
 
