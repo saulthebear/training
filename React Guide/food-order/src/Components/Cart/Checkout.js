@@ -1,47 +1,122 @@
+import { useRef, useState } from 'react';
+
+const isNotEmpty = (value) => value.trim() !== '';
+const isFiveChars = (value) => value.trim().length === 5;
+
 function Checkout(props) {
+  const nameInputRef = useRef();
+  const streetInputRef = useRef();
+  const postalCodeInputRef = useRef();
+  const cityInputRef = useRef();
+
+  const [formValidation, setFormValidation] = useState({
+    name: true,
+    street: true,
+    postalCode: true,
+    city: true,
+  });
+
   const confirmHandler = (event) => {
     event.preventDefault();
+
+    const enteredName = nameInputRef.current.value;
+    const enteredStreet = streetInputRef.current.value;
+    const enteredPostalCode = postalCodeInputRef.current.value;
+    const enteredCity = cityInputRef.current.value;
+
+    const nameIsValid = isNotEmpty(enteredName);
+    const streetIsValid = isNotEmpty(enteredStreet);
+    const postalCodeIsValid = isFiveChars(enteredPostalCode);
+    const cityIsValid = isNotEmpty(enteredCity);
+
+    const formIsValid =
+      nameIsValid && streetIsValid && postalCodeIsValid && cityIsValid;
+
+    setFormValidation({
+      name: nameIsValid,
+      street: streetIsValid,
+      postalCode: postalCodeIsValid,
+      city: cityIsValid,
+    });
+
+    if (formIsValid) {
+      console.log('Form is valid');
+    }
   };
+
+  const validInputClasses = 'w-full rounded-md border-2';
+  const invalidInputClasses =
+    'w-full rounded-md border-2 border-red-700 bg-red-50';
+  const formControlClasses = 'mb-5 flex flex-col';
+  const labelClasses = 'mr-4 text-lg font-bold';
 
   return (
     <form onSubmit={confirmHandler}>
-      <div className="mb-5 flex flex-col">
-        <label htmlFor="name" className="mr-4 text-lg font-bold">
+      <div className={formControlClasses}>
+        <label htmlFor="name" className={labelClasses}>
           Name
         </label>
-        <input type="text" id="name" className="w-full rounded-md border-2" />
+        <input
+          ref={nameInputRef}
+          type="text"
+          id="name"
+          className={
+            formValidation.name ? validInputClasses : invalidInputClasses
+          }
+        />
+        {!formValidation.name && (
+          <p className=" text-red-700">Name is invalid</p>
+        )}
       </div>
-      <div className="mb-5 flex flex-col">
-        <label htmlFor="street" className="mr-4 text-lg font-bold">
+      <div className={formControlClasses}>
+        <label htmlFor="street" className={labelClasses}>
           Street
         </label>
         <input
+          ref={streetInputRef}
           type="text"
           name="street"
           id="street"
-          className="w-full rounded-md border-2"
+          className={
+            formValidation.street ? validInputClasses : invalidInputClasses
+          }
         />
+        {!formValidation.street && (
+          <p className=" text-red-700">Street is invalid</p>
+        )}
       </div>
-      <div className="mb-5 flex flex-col">
-        <label htmlFor="postalCode" className="mr-4 text-lg font-bold">
+      <div className={formControlClasses}>
+        <label htmlFor="postalCode" className={labelClasses}>
           Postal Code
         </label>
         <input
+          ref={postalCodeInputRef}
           type="text"
           id="postalCode"
-          className="w-full rounded-md border-2"
+          className={
+            formValidation.postalCode ? validInputClasses : invalidInputClasses
+          }
         />
+        {!formValidation.postalCode && (
+          <p className=" text-red-700">Postal Code is not five digits</p>
+        )}
       </div>
-      <div className="mb-5 flex flex-col">
-        <label htmlFor="city" className="mr-4 text-lg font-bold">
+      <div className={formControlClasses}>
+        <label htmlFor="city" className={labelClasses}>
           City
         </label>
         <input
+          ref={cityInputRef}
           type="text"
           name="city"
           id="city"
-          className="w-full rounded-md border-2"
+          className={
+            formValidation.city ? validInputClasses : invalidInputClasses
+          }
         />
+        {!formValidation.city && (
+          <p className=" text-red-700">City is invalid</p>
+        )}
       </div>
       <footer className="flex justify-end text-xl">
         <button
