@@ -8,7 +8,7 @@ function Quote() {
     <section>
       <h1>Quote details...</h1>
       <p>{params.quoteId}</p>
-      <Route path="/quote/:quoteId/comments">
+      <Route path={`/quotes/${params.quoteId}/comments`}>
         <Comments />
       </Route>
     </section>
