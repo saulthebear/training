@@ -1,3 +1,4 @@
+import { Redirect } from 'react-router-dom';
 import { Route, Switch } from 'react-router-dom';
 
 import MainHeader from './components/MainHeader';
@@ -10,6 +11,9 @@ function App() {
       <MainHeader />
       <main>
         <Switch>
+          <Route path="/" exact>
+            <Redirect to="/welcome" />
+          </Route>
           <Route path="/welcome">
             <Welcome />
           </Route>
