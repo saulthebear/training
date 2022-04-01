@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { useParams, Route } from 'react-router-dom';
 
 import Comments from '../components/comments/Comments';
@@ -24,10 +25,19 @@ function Quote() {
     return <p>Quote not found</p>;
   }
 
+  const quoteUrl = `/quotes/${params.quoteId}`;
+
   return (
     <section>
       <HighlightedQuote text={quote.text} author={quote.author} />
-      <Route path={`/quotes/${params.quoteId}/comments`}>
+      <Route path={quoteUrl} exact>
+        <div className="centered">
+          <Link className="btn--flat" to={`${quoteUrl}/comments`}>
+            Load Comments
+          </Link>
+        </div>
+      </Route>
+      <Route path={`${quoteUrl}/comments`}>
         <Comments />
       </Route>
     </section>
