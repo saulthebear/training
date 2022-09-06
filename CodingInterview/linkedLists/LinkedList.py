@@ -5,6 +5,15 @@ class Node:
 
     def __str__(self):
         return f'[{self.val}]'
+    
+    def as_list(self):
+        s = ''
+        curr = self
+        while curr:
+            s += f'{curr} => '
+            curr = curr.next
+        s += 'None'
+        return s
 
 class LinkedList:
     def __init__(self):
