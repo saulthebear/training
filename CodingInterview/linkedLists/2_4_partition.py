@@ -22,11 +22,10 @@ def partition(input_head, p_val):
                 l_head = curr
                 l_tail = curr
                 curr.next = None
-                # If left list already started
             else:
+                # If left list already started
                 l_tail.next = curr
                 l_tail = curr
-                l_tail.next = None
 
             if prev:
                 prev.next = next
@@ -53,7 +52,7 @@ def partition(input_head, p_val):
     return l_head
 
 ll = LinkedList.from_arr([3, 5, 8, 5, 10, 2, 1])
-ll2 = LinkedList.from_arr([6, 5, 8])
+ll2 = LinkedList.from_arr([6, 5, 8, 1])
 
 print (ll2)
 new_list = partition(ll2.head, 5)
