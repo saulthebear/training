@@ -3,6 +3,9 @@ class Node:
         self.val = val
         self.next = None
 
+    def __str__(self):
+        return f'[{self.val}]'
+
 class LinkedList:
     def __init__(self):
         self.head = None
@@ -31,7 +34,7 @@ class LinkedList:
         curr = self.head
 
         while curr:
-            s += f'{curr.val} => '
+            s += f'{curr} => '
             curr = curr.next
         s += 'None'
         return s 
