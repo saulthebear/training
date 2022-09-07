@@ -1,4 +1,4 @@
-# Cehck if a linked list is a palindrome
+# Check if a linked list is a palindrome
 
 from LinkedList import LinkedList
 
