@@ -51,6 +51,9 @@ def sum_lists(num1_head, num2_head):
 
         remaining = remaining.next
 
+    if carry == 1:
+        sum_tail.next = Node(1)
+
     return sum_head
 
 num_one = LinkedList.from_arr([7, 1, 6])
@@ -74,5 +77,10 @@ num_six = LinkedList.from_arr([2, 9, 3])
 result = sum_lists(num_five.head, num_six.head)
 print(result.as_list())
 
+num_seven = LinkedList.from_arr([9, 7, 8])
+num_eight = LinkedList.from_arr([6, 8, 5])
+
+result = sum_lists(num_seven.head, num_eight.head)
+print(result.as_list())
 
 
